@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function ImageUploadForm() {
+export default function Register() {
   const [firstname, setFirst] = useState("");
   const [lastname, setLast] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export default function ImageUploadForm() {
   };
 
   return (
-    <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+    <div>
       <form
         className="flex flex-col border border-black justify-center items-center w-fit p-4"
         onSubmit={handleUpload}
@@ -58,6 +58,7 @@ export default function ImageUploadForm() {
             id="firstname"
             value={firstname}
             onChange={(e) => setFirst(e.target.value)}
+            autoComplete="on"
           />
         </label>
         <label htmlFor="lastname" className="w-full">
@@ -69,6 +70,7 @@ export default function ImageUploadForm() {
             id="lastname"
             onChange={(e) => setLast(e.target.value)}
             value={lastname}
+            autoComplete="on"
           />
         </label>
         <label htmlFor="email" className="w-full">
@@ -80,6 +82,7 @@ export default function ImageUploadForm() {
             id="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            autoComplete="on"
           />
         </label>
         <label htmlFor="password" className="w-full">
@@ -91,6 +94,7 @@ export default function ImageUploadForm() {
             id="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            autoComplete="on"
           />
         </label>
         <label htmlFor="phone" className="w-full">
@@ -102,6 +106,7 @@ export default function ImageUploadForm() {
             id="phone"
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
+            autoComplete="on"
           />
         </label>
         <input
@@ -112,7 +117,6 @@ export default function ImageUploadForm() {
         />
         {image && <img src={URL.createObjectURL(image)} alt="avatar" />}
         <button type="submit">Submit</button>
-        {/* <button type="submit">submit</button> */}
       </form>
     </div>
   );

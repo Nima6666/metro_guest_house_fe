@@ -6,24 +6,36 @@ import Login from "./pages/login";
 import Navbar from "./pages/components/navbar";
 import Dashboard from "./pages/Dashboard";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getLoggedInUser, loginActions } from "./store/slices/loginSlice";
+
+import { BounceLoader } from "react-spinners";
 
 function App() {
   const dispatch = useDispatch();
+
+  const token = localStorage.getItem("token");
 
   const loggedIn = useSelector((state) => state.loginReducer.loggedIn);
 
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
+  const [userResolved, setUserResolved] = useState(false);
+
   useEffect(() => {
+    console.log("a");
     async function userHandler() {
       const userFound = getLoggedInUser();
       dispatch(loginActions.setUser(await userFound));
+      setUserResolved(true);
     }
     userHandler();
   }, [loggedIn]);
 
+  if (token && !userResolved) {
+    console.log("loading");
+    return <BounceLoader />;
+  }
   console.log(loggedInUser);
 
   if (Object.keys(loggedInUser).length === 0) {

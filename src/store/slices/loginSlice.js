@@ -14,11 +14,18 @@ export const getLoggedInUser = async () => {
           },
         }
       );
+      // if (!res.data.success) {
+      //   return localStorage.removeItem("token");
+      // }
       return res.data;
     } catch (err) {
       console.log(err);
     }
   }
+};
+
+export const logOut = () => {
+  localStorage.removeItem("token");
 };
 
 export const loginSlice = createSlice({

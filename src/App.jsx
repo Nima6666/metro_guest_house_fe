@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { getLoggedInUser, loginActions } from "./store/slices/loginSlice";
 
 import { BounceLoader } from "react-spinners";
+import VisitorForm from "./pages/visitorForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ function App() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
   const [userResolved, setUserResolved] = useState(false);
+
+  const [render, setRender] = useState(true);
 
   useEffect(() => {
     console.log("a");
@@ -34,7 +37,11 @@ function App() {
 
   if (token && !userResolved) {
     console.log("loading");
-    return <BounceLoader />;
+    return (
+      <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+        <BounceLoader />
+      </div>
+    );
   }
   console.log(loggedInUser);
 
@@ -47,9 +54,10 @@ function App() {
       <Header />
       <div className="flex">
         <Navbar />
-        <div>
+        <div className="flex justify-center items-center w-full h-fit pt-4">
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/visitor" element={<VisitorForm />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>

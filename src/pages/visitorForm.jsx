@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
-export default function Register() {
+export default function VisitorForm() {
   const [firstname, setFirst] = useState("");
   const [lastname, setLast] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [image, setImage] = useState("");
 
@@ -42,12 +40,32 @@ export default function Register() {
   };
 
   return (
+    // <div>
+    //   <h1>Visitor Form</h1>
+    //   <form>
+    //     <label htmlFor="firstname">
+    //       Firstname
+    //       <input type="text" name="firstname" id="firstname" />
+    //     </label>
+    //     <label htmlFor="lastname">
+    //       Lastname
+    //       <input type="text" name="lastname" id="lastname" />
+    //     </label>
+    //     <label htmlFor="docType">Document Type</label>
+    //     <select name="docType" id="docType">
+    //       <option value="citizenship">Citizenship</option>
+    //       <option value="liscence">Liscence</option>
+    //       <option value="passport">Passport</option>
+    //     </select>
+    //     <input type="file" name="image" id="image" />
+    //   </form>
+    // </div>
     <div>
       <form
         className="flex flex-col rounded-md shadow-lg shadow-black justify-center items-center w-fit p-4"
-        onSubmit={handleUpload}
+        // onSubmit={handleUpload}
       >
-        <h1 className="text-xl font-semibold">Account Creation Form</h1>
+        <h1 className="text-xl font-semibold">Visitor Form</h1>
 
         <label htmlFor="firstname" className="w-full">
           Firstname
@@ -85,18 +103,6 @@ export default function Register() {
             autoComplete="on"
           />
         </label>
-        <label htmlFor="password" className="w-full">
-          Password
-          <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-            type="password"
-            name="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            autoComplete="on"
-          />
-        </label>
         <label htmlFor="phone" className="w-full">
           Phone Number
           <input
@@ -115,6 +121,12 @@ export default function Register() {
           id="image"
           onChange={handleImageChange}
         />
+        <label htmlFor="docType">Document Type</label>
+        <select name="docType" id="docType">
+          <option value="citizenship">Citizenship</option>
+          <option value="liscence">Liscence</option>
+          <option value="passport">Passport</option>
+        </select>
         {image && (
           <img
             src={URL.createObjectURL(image)}

@@ -1,4 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function VisitorForm() {
   const [firstname, setFirst] = useState("");
@@ -6,6 +9,9 @@ export default function VisitorForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [image, setImage] = useState("");
+  const [documentType, setDocumentType] = useState("citizenship");
+
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     console.log(e.target.files);
@@ -13,57 +19,44 @@ export default function VisitorForm() {
   };
 
   const handleUpload = async (e) => {
+    e.preventDefault();
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
     formData.append("email", email);
-    formData.append("password", password);
     formData.append("phone", phone);
+    formData.append("documentType", documentType);
 
     console.log(formData);
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER}/users/register`,
+        `${import.meta.env.VITE_SERVER}/users/visitor`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       console.log("Image uploaded successfully:", response.data);
+      if (response.data.success) {
+        toast(response.data.message);
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
 
   return (
-    // <div>
-    //   <h1>Visitor Form</h1>
-    //   <form>
-    //     <label htmlFor="firstname">
-    //       Firstname
-    //       <input type="text" name="firstname" id="firstname" />
-    //     </label>
-    //     <label htmlFor="lastname">
-    //       Lastname
-    //       <input type="text" name="lastname" id="lastname" />
-    //     </label>
-    //     <label htmlFor="docType">Document Type</label>
-    //     <select name="docType" id="docType">
-    //       <option value="citizenship">Citizenship</option>
-    //       <option value="liscence">Liscence</option>
-    //       <option value="passport">Passport</option>
-    //     </select>
-    //     <input type="file" name="image" id="image" />
-    //   </form>
-    // </div>
     <div>
       <form
         className="flex flex-col rounded-md shadow-lg shadow-black justify-center items-center w-fit p-4"
-        // onSubmit={handleUpload}
+        onSubmit={handleUpload}
       >
         <h1 className="text-xl font-semibold">Visitor Form</h1>
 
@@ -122,7 +115,12 @@ export default function VisitorForm() {
           onChange={handleImageChange}
         />
         <label htmlFor="docType">Document Type</label>
-        <select name="docType" id="docType">
+        <select
+          name="docType"
+          id="docType"
+          value={documentType}
+          onChange={(e) => setDocumentType(e.target.value)}
+        >
           <option value="citizenship">Citizenship</option>
           <option value="liscence">Liscence</option>
           <option value="passport">Passport</option>

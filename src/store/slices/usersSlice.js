@@ -9,6 +9,12 @@ export const getUser = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+
+    // if (!res.success) {
+    //   localStorage.removeItem("token");
+    //   window.location.reload();
+    // }
+
     return res.data;
   } catch (err) {
     console.log(err);

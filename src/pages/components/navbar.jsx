@@ -16,7 +16,7 @@ export default function Navbar() {
         Register
       </Link>
       <Link
-        to="/visitor"
+        to="/visitorForm"
         className="px-16 py-1 transition-all duration-300 hover:bg-slate-600 w-[70%] flex justify-center items-center rounded-md"
       >
         Visitor

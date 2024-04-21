@@ -5,7 +5,7 @@ import Header from "./pages/components/header";
 import Login from "./pages/login";
 import Navbar from "./pages/components/navbar";
 import Dashboard from "./pages/Dashboard";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getLoggedInUser, loginActions } from "./store/slices/loginSlice";
 
@@ -57,7 +57,7 @@ function App() {
         <div className="flex justify-center items-center w-full h-fit pt-4">
           <Routes>
             <Route path="/register" element={<Register />} />
-            <Route path="/visitor" element={<VisitorForm />} />
+            <Route path="/visitorForm" element={<VisitorForm />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>

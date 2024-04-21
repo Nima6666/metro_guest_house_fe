@@ -15,6 +15,8 @@ export default function Register() {
   };
 
   const handleUpload = async (e) => {
+    e.preventDefault();
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("firstname", firstname);

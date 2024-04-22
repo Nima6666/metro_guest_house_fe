@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Form from "./pages/home";
 import Register from "./pages/register";
 import Header from "./pages/components/header";
 import Login from "./pages/login";
@@ -11,6 +10,8 @@ import { getLoggedInUser, loginActions } from "./store/slices/loginSlice";
 
 import { BounceLoader } from "react-spinners";
 import VisitorForm from "./pages/visitorForm";
+import VisitorTable from "./pages/visitorTable";
+import UserTable from "./pages/userTable";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,8 @@ function App() {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/visitorForm" element={<VisitorForm />} />
+            <Route path="/visitor" element={<VisitorTable />} />
+            <Route path="/users" element={<UserTable />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>

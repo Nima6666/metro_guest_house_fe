@@ -1,25 +1,34 @@
 import { Link } from "react-router-dom";
 
+import { LuLayoutDashboard } from "react-icons/lu";
+import { IoIosPersonAdd } from "react-icons/io";
+import { FaPersonWalkingLuggage } from "react-icons/fa6";
+
 export default function Navbar() {
   return (
-    <aside className="flex flex-col items-center h-screen bg-blue-800 text-l text-white pt-2">
+    <aside className="flex flex-col items-center p-4 h-screen bg-blue-800 text-l text-white pt-2 sticky top-0">
       <Link
         to="/"
-        className="px-16 py-1 transition-all duration-300 hover:bg-slate-600 w-[70%] flex justify-center items-center rounded-md"
+        className="transition-all duration-300 hover:bg-slate-600 rounded-md m-2 w-full flex items-center p-2"
       >
-        Dashboard
+        <LuLayoutDashboard size={25} />
+        <p className="text-left p-1">Dashboard</p>
       </Link>
       <Link
         to="/register"
-        className="px-16 py-1 transition-all duration-300 hover:bg-slate-600 w-[70%] flex justify-center items-center rounded-md"
+        className="transition-all duration-300 hover:bg-slate-600 rounded-md m-2 w-full flex items-center p-2"
       >
-        Register
+        <IoIosPersonAdd size={25} />
+
+        <p className="text-left p-1">Register</p>
       </Link>
       <Link
         to="/visitorForm"
-        className="px-16 py-1 transition-all duration-300 hover:bg-slate-600 w-[70%] flex justify-center items-center rounded-md"
+        className="transition-all duration-300 hover:bg-slate-600 rounded-md m-2 w-full flex items-center p-2"
       >
-        Visitor
+        <FaPersonWalkingLuggage size={25} />
+
+        <p className="text-left p-1">Visitor</p>
       </Link>
     </aside>
   );

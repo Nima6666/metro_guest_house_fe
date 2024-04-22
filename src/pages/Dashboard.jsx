@@ -24,7 +24,7 @@ export default function Dashboard() {
     <div className="flex flex-wrap">
       <Link to="/users">
         <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black flex justify-center items-center flex-col m-3">
-          <h2 className="font-bold text-xl">total users</h2>
+          <h2 className="font-bold text-xl">Total Staff</h2>
           <p>{users.length}</p>
         </div>
       </Link>

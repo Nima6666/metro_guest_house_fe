@@ -25,4 +25,20 @@ export default function UserDetails() {
     }, []);
 
     console.log(selectedUser);
+
+    return (
+        <div id="userDetails">
+            <img src={selectedUser.imageURL} alt="" />
+            <div>
+                <h1>Name</h1>
+                <div>
+                    {selectedUser.firstname} {selectedUser.lastname}
+                </div>
+                <h1>Email</h1>
+                <div>{selectedUser.email}</div>
+                <h1>Phone</h1>
+                <div>{selectedUser.phone}</div>
+            </div>
+        </div>
+    );
 }

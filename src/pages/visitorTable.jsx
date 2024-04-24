@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react";
 import { mockData } from "../assets/MOCK_DATA";
 
 import "../pages/components/table.css";
 import TableComponent from "./components/Table";
+import { useSelector } from "react-redux";
+import { getVisitors } from "../store/slices/visitorSlice";
 
 export default function VisitorTable() {
+    const visitors = useSelector((state) => state.visitorReducer.visitor);
+
+    useEffect(() => {
+        async function getVisitorsHandler() {
+            await getVisitors();
+        }
+        getVisitorsHandler();
+    });
+
     const COLUMNS = [
         {
             Header: "ID",
@@ -34,6 +46,8 @@ export default function VisitorTable() {
             accessor: "enteredAt",
         },
     ];
+
+    console.log(visitors);
 
     return (
         <div className="flex flex-col w-full p-2">

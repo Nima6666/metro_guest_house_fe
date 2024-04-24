@@ -10,7 +10,9 @@ export const getUser = async () => {
             },
         });
 
-        return res.data;
+        console.log(res.data.allusers);
+
+        return res.data.allusers;
     } catch (err) {
         console.log(err);
     }
@@ -31,6 +33,10 @@ export const getSelectedUser = async (userId) => {
             }
         );
 
+        if (res.data.success) {
+            return res.data.user;
+        }
+
         return res.data;
     } catch (err) {
         console.log(err);
@@ -42,7 +48,7 @@ export const usersSlice = createSlice({
     initialState: { users: [], selectedUserDetails: {} },
     reducers: {
         setUsers(state, action) {
-            state.users = action.payload.allusers;
+            state.users = action.payload;
         },
         setSelectedUserDetails(state, action) {
             state.selectedUserDetails = { ...action.payload };

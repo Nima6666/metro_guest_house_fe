@@ -17,10 +17,10 @@ export default function Dashboard() {
         getUsersHandler();
     }, []);
 
-    if (!users) {
-        localStorage.removeItem("token");
-        window.location.reload();
-    }
+    // if (!users) {
+    //     localStorage.removeItem("token");
+    //     window.location.reload();
+    // }
 
     return (
         <div className="flex flex-wrap">

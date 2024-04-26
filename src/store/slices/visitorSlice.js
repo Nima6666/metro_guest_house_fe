@@ -9,7 +9,13 @@ export const getVisitors = async () => {
             },
         });
 
-        console.log(res.data.visitors);
+        if (res.data.success ) {
+            console.log(res.data.visitors)
+            return res.data.visitors
+        }
+
+        else return Error
+
 
         // return res.data.allusers;
     } catch (err) {
@@ -21,10 +27,10 @@ export const getSelectedVisitor = async (visitorId) => {
     try {
         console.log(
             "getting",
-            `${import.meta.env.VITE_SERVER}/visitor/${userId}`
+            `${import.meta.env.VITE_SERVER}/visitor/${visitorId}`
         );
         const res = await axios.get(
-            `${import.meta.env.VITE_SERVER}/visitor/${userId}`,
+            `${import.meta.env.VITE_SERVER}/visitor/${visitorId}`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -32,11 +38,12 @@ export const getSelectedVisitor = async (visitorId) => {
             }
         );
 
+        console.log(res.data)
         if (res.data.success) {
-            return res.data.user;
-        }
 
-        return res.data;
+            console.log(res.data)
+            return res.data.selectedVisitor;
+        }
     } catch (err) {
         console.log(err);
     }
@@ -45,7 +52,7 @@ export const getSelectedVisitor = async (visitorId) => {
 export const visitorSlice = createSlice({
     name: "visitor",
     initialState: { visitor: [], selectedVisitor: {} },
-    reducer: {
+    reducers: {
         setVisitor(state, action) {
             state.visitor = action.payload;
         },
@@ -55,4 +62,4 @@ export const visitorSlice = createSlice({
     },
 });
 
-const visitorActions = visitorSlice.actions;
+export const visitorActions = visitorSlice.actions;

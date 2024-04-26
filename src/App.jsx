@@ -13,6 +13,7 @@ import VisitorForm from "./pages/visitorForm";
 import VisitorTable from "./pages/visitorTable";
 import UserTable from "./pages/userTable";
 import UserDetails from "./pages/userDetails";
+import VisitorDetails from "./pages/visitorDetails";
 
 function App() {
     const dispatch = useDispatch();
@@ -63,6 +64,7 @@ function App() {
                         <Route path="/register" element={<Register />} />
                         <Route path="/visitorForm" element={<VisitorForm />} />
                         <Route path="/visitor" element={<VisitorTable />} />
+                        <Route path="/visitor/:id" element={<VisitorDetails />} />
                         <Route path="/users" element={<UserTable />} />
                         <Route path="/users/:id" element={<UserDetails />} />
                         <Route path="/" element={<Dashboard />} />

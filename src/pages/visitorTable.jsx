@@ -42,6 +42,16 @@ export default function VisitorTable() {
         {
             Header: "Entered At",
             accessor: "enteredAt",
+            Cell: ({ value }) => {
+                return new Date(value).toLocaleString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: '2-digit',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                }); // Format date as per locale
+            },
         },
     ];
 

@@ -1,71 +1,132 @@
 import { useEffect, useState } from "react";
-import { mockData } from "../assets/MOCK_DATA";
-
-import "../pages/components/table.css";
-import TableComponent from "./components/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { getVisitors, visitorActions } from "../store/slices/visitorSlice";
+import { Link } from "react-router-dom";
+import TableComponent from "./components/Table";
+import {
+  getVisitorWithNumber,
+  getVisitors,
+  visitorActions,
+} from "../store/slices/visitorSlice";
+import "../pages/components/table.css";
+import { BounceLoader } from "react-spinners";
+import Register from "./register";
+import VisitorForm from "./visitorForm";
 
 export default function VisitorTable() {
-    const visitors = useSelector((state) => state.visitorReducer.visitor);
+  const visitors = useSelector((state) => state.visitorReducer.visitor);
 
-    const dispatch = useDispatch()
+  const searchedVisitor = useSelector(
+    (state) => state.visitorReducer.searchedVisitor
+  );
 
-    useEffect(() => {
-        async function getVisitorsHandler() {
-            dispatch(visitorActions.setVisitor(await getVisitors()))
-        }
-        getVisitorsHandler();
-    }, []);
+  const [search, setSearch] = useState(false);
 
-    const COLUMNS = [
-        {
-            Header: "First Name",
-            accessor: "firstname",
-        },
-        {
-            Header: "Last Name",
-            accessor: "lastname",
-        },
-        {
-            Header: "Phone Number",
-            accessor: "phone",
-        },
-        {
-            Header: "ID Type",
-            accessor: "documentType",
-        },
-        {
-            Header: "Entered By",
-            accessor: "enteredBy",
-        },
-        {
-            Header: "Entered At",
-            accessor: "enteredAt",
-            Cell: ({ value }) => {
-                return new Date(value).toLocaleString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: '2-digit',
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    hour12: true
-                }); // Format date as per locale
-            },
-        },
-    ];
+  const [loading, setLoading] = useState(true);
 
-    console.log("visitors", visitors)
+  const [number, setNumber] = useState("");
 
-    return (
-        <div className="flex flex-col w-full p-2">
-            <h1 className="text-xl font-semibold text-center p-4">
-                All Visitors
-            </h1>
-            {visitors && visitors.length && (
+  const [addVisitorForm, setAddVisitorForm] = useState(false);
 
-                <TableComponent COLUMNS={COLUMNS} Data={visitors} />
-            )}
-        </div>
-    );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getVisitorsHandler() {
+      const visitorsData = await getVisitors();
+      dispatch(visitorActions.setVisitor(visitorsData));
+      setLoading(false);
+    }
+
+    getVisitorsHandler();
+  }, [search, dispatch]);
+
+  const COLUMNS = [
+    { Header: "First Name", accessor: "firstname" },
+    { Header: "Last Name", accessor: "lastname" },
+    { Header: "Phone Number", accessor: "phone" },
+    { Header: "ID Type", accessor: "documentType" },
+    {
+      Header: "Entered By",
+      accessor: "enteredBy",
+      Cell: ({ value }) => {
+        return <Link to={`/users/${value._id}`}>{value.firstname}</Link>;
+      },
+    },
+    {
+      Header: "Entered At",
+      accessor: "enteredAt",
+      Cell: ({ value }) => {
+        return new Date(value).toLocaleString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        });
+      },
+    },
+  ];
+
+  async function checkNumberInDatabase(e) {
+    const inputNumber = e.target.value;
+    setAddVisitorForm(false);
+    setSearch(true);
+    setLoading(true);
+    setNumber(inputNumber);
+
+    console.log("found visitors", searchedVisitor);
+
+    if (inputNumber) {
+      const visitorsData = await getVisitorWithNumber(inputNumber);
+      dispatch(visitorActions.setSearchedVisitor(visitorsData));
+      setLoading(false);
+    } else {
+      setSearch(false);
+    }
+
+    console.log(inputNumber);
+  }
+  return (
+    <div className="flex flex-col w-full p-2">
+      <div className="self-center flex flex-col">
+        <label htmlFor="phone">Phone Number</label>
+        <input
+          type="number"
+          name="phone"
+          id="phone"
+          className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+          onChange={checkNumberInDatabase}
+          value={number}
+        />
+      </div>
+      <h1 className="text-xl font-semibold text-center p-4">All Visitors</h1>
+      {loading ? (
+        <BounceLoader />
+      ) : search && searchedVisitor ? (
+        searchedVisitor.length < 1 ? (
+          <>
+            <p className="self-center">
+              No visitors found with provided number
+            </p>
+            <button
+              className="rounded-md bg-black text-white mt-2 p-2 self-center"
+              onClick={() => setAddVisitorForm(true)}
+            >
+              Add New
+            </button>
+            {addVisitorForm && <VisitorForm number={number} />}
+          </>
+        ) : (
+          <>
+            <TableComponent COLUMNS={COLUMNS} Data={searchedVisitor} />
+            {addVisitorForm && <Register />}
+          </>
+        )
+      ) : visitors && visitors.length > 0 ? (
+        <TableComponent COLUMNS={COLUMNS} Data={visitors} />
+      ) : (
+        <p className="text-center">No visitors found</p>
+      )}
+    </div>
+  );
 }

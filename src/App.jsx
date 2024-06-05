@@ -27,7 +27,6 @@ function App() {
   const [userResolved, setUserResolved] = useState(false);
 
   useEffect(() => {
-    console.log("a");
     async function userHandler() {
       const userFound = getLoggedInUser();
       dispatch(loginActions.setUser(await userFound));
@@ -44,7 +43,6 @@ function App() {
       </div>
     );
   }
-  console.log(loggedInUser);
 
   if (Object.keys(loggedInUser).length === 0) {
     return <Login />;
@@ -57,12 +55,16 @@ function App() {
         <Navbar />
         <div className="flex justify-center items-center w-full h-fit pt-4">
           <Routes>
-            <Route path="/register" element={<Register />} />
             <Route path="/visitorForm" element={<VisitorForm />} />
             <Route path="/visitor" element={<VisitorTable />} />
             <Route path="/visitor/:id" element={<VisitorDetails />} />
-            <Route path="/users" element={<UserTable />} />
-            <Route path="/users/:id" element={<UserDetails />} />
+            {loggedInUser.role == "admin" && (
+              <>
+                <Route path="/register" element={<Register />} />
+                <Route path="/users" element={<UserTable />} />
+                <Route path="/users/:id" element={<UserDetails />} />
+              </>
+            )}
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>

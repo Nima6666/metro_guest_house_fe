@@ -44,8 +44,8 @@ export default function VisitorDetails() {
       >
         <img
           src={
-            selectedVisitor.document
-              ? selectedVisitor.document
+            selectedVisitor.documentLocation
+              ? selectedVisitor.documentLocation
               : "/document.png"
           }
           alt=""
@@ -56,15 +56,21 @@ export default function VisitorDetails() {
           <div className="mb-2">
             {selectedVisitor.firstname} {selectedVisitor.lastname}
           </div>
-          <h1 className="text-xl font-semibold">Entered By</h1>
+          <h1 className="text-xl font-semibold">Gender</h1>
+          <div className="mb-2">{selectedVisitor.gender}</div>
+          <h1 className="text-xl font-semibold">Created By</h1>
           <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="mb-2">
             {selectedVisitor.enteredBy.firstname}
           </Link>
           <h1 className="text-xl font-semibold">Document Type</h1>
           <div className="mb-2">{selectedVisitor.documentType}</div>
+          <h1 className="text-xl font-semibold">Document ID</h1>
+          <div className="mb-2">{selectedVisitor.documentId}</div>
+          <h1 className="text-xl font-semibold">Address</h1>
+          <div className="mb-2">{selectedVisitor.address}</div>
           <h1 className="text-xl font-semibold">Phone No</h1>
           <div className="mb-2">{selectedVisitor.phone}</div>
-          <h1 className="text-xl font-semibold">Entered At</h1>
+          <h1 className="text-xl font-semibold">Created At</h1>
           <div className="mb-2">
             {new Date(selectedVisitor.enteredAt).toLocaleString("en-US", {
               year: "numeric",

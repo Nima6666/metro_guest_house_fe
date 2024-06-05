@@ -18,12 +18,13 @@ export default function Login() {
       password,
     });
 
-    console.log(res.data);
+    console.log("Login Data ", res.data);
 
     if (await res.data.token) {
       localStorage.setItem("token", await res.data.token);
       toast("Logged In");
       dispatch(loginActions.login());
+      dispatch(loginActions.setUser(res.data));
     } else {
       toast.error(res.data.message);
     }

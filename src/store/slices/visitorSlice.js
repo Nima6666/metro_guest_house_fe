@@ -63,11 +63,11 @@ export const getVisitorWithNumber = async (number) => {
   }
 };
 
-export const addNewEntry = async (visitorId) => {
+export const addNewEntry = async (visitorId, formData) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_SERVER}/visitor/${visitorId}/addEntry`,
-      {},
+      formData,
       {
         headers: {
           "Content-Type": "application/json",
@@ -81,9 +81,33 @@ export const addNewEntry = async (visitorId) => {
   }
 };
 
+export const getTodaysEntry = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER}/visitor/entriesToday`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log("Visitors Today ", response.data);
+    if (response.data.success) {
+      return response.data.visitorsToday;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const visitorSlice = createSlice({
   name: "visitor",
-  initialState: { visitor: [], selectedVisitor: {}, searchedVisitor: [] },
+  initialState: {
+    visitor: [],
+    selectedVisitor: {},
+    searchedVisitor: [],
+    visitorsToday: [],
+  },
   reducers: {
     setVisitor(state, action) {
       state.visitor = action.payload;
@@ -93,6 +117,9 @@ export const visitorSlice = createSlice({
     },
     setSearchedVisitor(state, action) {
       state.searchedVisitor = action.payload;
+    },
+    setVisitorsToday(state, action) {
+      state.visitorsToday = action.payload;
     },
   },
 });

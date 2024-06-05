@@ -40,12 +40,23 @@ export default function VisitorTable() {
   }, [search, dispatch]);
 
   const COLUMNS = [
+    {
+      Header: "#",
+      Cell: ({ row }) => {
+        return row.index + 1; // Display index starting from 1
+      },
+    },
     { Header: "First Name", accessor: "firstname" },
     { Header: "Last Name", accessor: "lastname" },
+    { Header: "Age", accessor: "age" },
+    { Header: "Gender", accessor: "gender" },
     { Header: "Phone Number", accessor: "phone" },
+    { Header: "Address", accessor: "address" },
+    { Header: "Occupation", accessor: "occupation" },
     { Header: "ID Type", accessor: "documentType" },
+    { Header: "Document ID", accessor: "documentId" },
     {
-      Header: "Entered By",
+      Header: "Created By",
       accessor: "enteredBy",
       Cell: ({ value }) => {
         return <Link to={`/users/${value._id}`}>{value.firstname}</Link>;

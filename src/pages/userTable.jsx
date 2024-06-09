@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import TableComponent from "./components/Table";
+import { Link } from "react-router-dom";
 
 export default function UserTable() {
   const users = useSelector((state) => state.userReducer.users);
@@ -8,13 +9,6 @@ export default function UserTable() {
     {
       Header: "First Name",
       accessor: "firstname",
-      filterFn: (rows, id, filterValue) => {
-        return rows.filter((row) =>
-          row.original.firstname
-            .toLowerCase()
-            .includes(filterValue.toLowerCase())
-        );
-      },
     },
     {
       Header: "Last Name",
@@ -36,6 +30,30 @@ export default function UserTable() {
           minute: "2-digit",
           hour12: true,
         }); // Format date as per locale
+      },
+    },
+    {
+      Header: "Actions",
+      Cell: ({ row }) => {
+        const handleEdit = () => {
+          // Add your edit logic here
+          console.log("Edit row:", row.original);
+        };
+
+        const handleDelete = () => {
+          // Add your delete logic here
+          console.log("Delete row:", row.original);
+        };
+
+        return (
+          <div className="flex flex-row">
+            <Link to={`/users/${row.original._id}`}>
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2">
+                View
+              </button>
+            </Link>
+          </div>
+        );
       },
     },
   ];

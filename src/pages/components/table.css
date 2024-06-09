@@ -29,3 +29,7 @@ tfoot td {
   position: sticky;
   top: 0;
 }
+
+#companion th{
+  background-color: rgb(139, 139, 139);
+}

@@ -36,6 +36,12 @@ export const getSelectedVisitor = async (visitorId) => {
     );
 
     console.log(res.data);
+
+    if (res.data.success == false) {
+      localStorage.removeItem("token");
+      window.location.reload();
+    }
+
     if (res.data.success) {
       console.log(res.data);
       return res.data.selectedVisitor;
@@ -64,6 +70,7 @@ export const getVisitorWithNumber = async (number) => {
 };
 
 export const addNewEntry = async (visitorId, formData) => {
+  console.log(formData);
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_SERVER}/visitor/${visitorId}/addEntry`,

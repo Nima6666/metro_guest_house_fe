@@ -14,6 +14,7 @@ import VisitorTable from "./pages/visitorTable";
 import UserTable from "./pages/userTable";
 import UserDetails from "./pages/userDetails";
 import VisitorDetails from "./pages/visitorDetails";
+import EntryDetails from "./pages/components/entryDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
             <Route path="/visitorForm" element={<VisitorForm />} />
             <Route path="/visitor" element={<VisitorTable />} />
             <Route path="/visitor/:id" element={<VisitorDetails />} />
+            <Route path="/visitor/:id/viewEntry" element={<EntryDetails />} />
             {loggedInUser.role == "admin" && (
               <>
                 <Route path="/register" element={<Register />} />

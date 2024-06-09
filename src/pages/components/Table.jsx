@@ -63,9 +63,9 @@ export default function TableComponent({ COLUMNS, Data }) {
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>
-                      <Link to={`./${row.original._id}`} className="">
-                        {cell.render("Cell")}
-                      </Link>
+                      {/* <Link to={`./${row.original._id}`} className=""> */}
+                      {cell.render("Cell")}
+                      {/* </Link> */}
                     </td>
                   );
                 })}

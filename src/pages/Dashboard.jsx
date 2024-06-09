@@ -22,7 +22,7 @@ export default function Dashboard() {
     if (loggedInUser.role == "admin") {
       getUsersHandler();
     }
-  }, [dispatch, visitors]);
+  }, [dispatch]);
 
   if (!users) {
     localStorage.removeItem("token");

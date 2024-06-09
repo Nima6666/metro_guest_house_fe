@@ -1,14 +1,21 @@
 import { Link } from "react-router-dom";
 import { addNewEntry } from "../../store/slices/visitorSlice";
 import TableComponent from "./Table";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+import CompanionForm from "./companionForm";
+import { toast } from "react-toastify";
 
 export default function EntryTable({ entries, id }) {
   console.log("Entries ", entries);
 
-  const [companionForm, setCompanionForm] = useState(false);
+  const buttonRef = useRef(null);
+
+  const [entryForm, setEntryForm] = useState(false);
 
   const [companions, setCompaions] = useState([]);
+
+  const [companionForm, setCompanionForm] = useState(false);
 
   const [room, setRoom] = useState(null);
   const [lastVisitedAddress, setLastVisitedAddress] = useState("");
@@ -20,6 +27,18 @@ export default function EntryTable({ entries, id }) {
   async function addNewEntryHandler(e) {
     e.preventDefault();
     console.log("adding new entry to ", id);
+
+    if (
+      room === null ||
+      lastVisitedAddress.trim() === "" ||
+      nextDestination.trim() === "" ||
+      purpose.trim() === "" ||
+      vechileNumber.trim() === "" ||
+      remarks.trim() === ""
+    ) {
+      return toast.error("Form fields cannot be empty");
+    }
+
     const formData = {
       room,
       lastVisitedAddress,
@@ -80,25 +99,70 @@ export default function EntryTable({ entries, id }) {
         if (!value || value.length < 1) {
           return "Single";
         }
+
+        if (value.length === 1) {
+          return <div className="text-nowrap">1 Other</div>;
+        } else {
+          return <div className="text-nowrap">{value.length} Others</div>;
+        }
+      },
+    },
+    {
+      Header: "Actions",
+      Cell: ({ row }) => {
+        const handleEdit = () => {
+          // Add your edit logic here
+          console.log("Edit row:", row.original);
+        };
+
+        const handleDelete = () => {
+          // Add your delete logic here
+          console.log("Delete row:", row.original);
+        };
+
         return (
-          <>
-            {value.map((companion, index) => (
-              <span key={index}>
-                {companion}
-                {index < value.length - 1 && <br />}
-              </span>
-            ))}
-          </>
+          <div className="flex flex-row">
+            {/* <button
+              onClick={handleEdit}
+              className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDelete}
+              className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
+            >
+              Delete
+            </button> */}
+            <Link to={`./viewEntry`}>
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2">
+                View
+              </button>
+            </Link>
+          </div>
         );
       },
     },
+    // {
+    //   Header: "Remarks",
+    //   accessor: "remarks",
+    // },
   ];
+
+  function removeCompanion(index) {
+    console.log(index);
+    const companionData = [...companions];
+
+    companionData.splice(index, 1);
+    setCompaions([...companionData]);
+  }
+
   return (
     <>
-      <div className="w-full pb-8">
+      <div className="w-[70vw] pb-8 ">
         <h1 className="text-xl font-semibold text-center">Entries</h1>
         <div className="text-center">
-          {companionForm && (
+          {entryForm && (
             <form className="bg-gray-200 p-2 rounded-lg m-4">
               <div className="p-4 rounded-lg bg-white">
                 <div className="flex justify-center items-center flex-wrap">
@@ -111,6 +175,7 @@ export default function EntryTable({ entries, id }) {
                       id="room"
                       onChange={(e) => setRoom(e.target.value)}
                       value={room}
+                      required
                       onKeyPress={(e) => {
                         const isNumber = /[0-9]/.test(e.key);
                         if (!isNumber) {
@@ -131,6 +196,7 @@ export default function EntryTable({ entries, id }) {
                       id="lastVisitedAddress"
                       onChange={(e) => setLastVisitedAddress(e.target.value)}
                       value={lastVisitedAddress}
+                      required
                     />
                   </label>
                   <label
@@ -145,6 +211,7 @@ export default function EntryTable({ entries, id }) {
                       id="nextDestination"
                       onChange={(e) => setNextDestination(e.target.value)}
                       value={nextDestination}
+                      required
                     />
                   </label>
                   <label htmlFor="purpose" className="flex-1 flex flex-col m-2">
@@ -156,6 +223,7 @@ export default function EntryTable({ entries, id }) {
                       id="purpose"
                       onChange={(e) => setPurpose(e.target.value)}
                       value={purpose}
+                      required
                     />
                   </label>
                   <label
@@ -170,6 +238,7 @@ export default function EntryTable({ entries, id }) {
                       id="vechileNumber"
                       onChange={(e) => setVechileNumber(e.target.value)}
                       value={vechileNumber}
+                      required
                     />
                   </label>
                   <label htmlFor="remarks" className="flex-1 flex flex-col m-2">
@@ -183,22 +252,77 @@ export default function EntryTable({ entries, id }) {
                       value={remarks}
                     />
                   </label>
-                </div>
-                <div>
-                  <button
-                    className="bg-slate-600 p-2 rounded-md text-white"
-                    type="button"
-                  >
-                    Add Companion
-                  </button>
+                  <div className="w-full">
+                    {companions.length > 0 && (
+                      <>
+                        <h1 className="font-semibold text-xl my-2">
+                          Companions
+                        </h1>
+                        <table>
+                          <thead id="companion">
+                            <tr>
+                              <th>Fullname</th>
+                              <th>Relation</th>
+                              <th>Age</th>
+                              <th>Phone</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {companions.map((companion, index) => (
+                              <tr key={index}>
+                                <td>{companion.fullname}</td>
+                                <td>{companion.relation}</td>
+                                <td>{companion.age}</td>
+                                <td>{companion.phone}</td>
+                                <td>
+                                  <button
+                                    className="bg-red-600 p-2 rounded-md text-white font-semibold"
+                                    onClick={(id) => removeCompanion(index)}
+                                    type="button"
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </>
+                    )}
+                    {companionForm ? (
+                      <CompanionForm
+                        companions={companions}
+                        setCompanions={setCompaions}
+                        setCompanionForm={setCompanionForm}
+                      />
+                    ) : (
+                      <button
+                        className="bg-slate-600 p-2 rounded-md text-white my-2"
+                        type="button"
+                        onClick={() => setCompanionForm(true)}
+                      >
+                        Add Companion
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-              <button
-                className="rounded-md bg-black text-white mt-2 p-2 self-center"
-                onClick={addNewEntryHandler}
-              >
-                Add
-              </button>
+              <div>
+                <button
+                  className="rounded-md bg-black text-white mt-2 p-2 self-center m-2"
+                  onClick={addNewEntryHandler}
+                  type="submit"
+                >
+                  Submit
+                </button>
+                <button
+                  className="rounded-md bg-black text-white mt-2 p-2 self-center m-2"
+                  onClick={() => setEntryForm(false)}
+                >
+                  cancel
+                </button>
+              </div>
             </form>
           )}
           {entries.length < 1 ? (
@@ -208,10 +332,10 @@ export default function EntryTable({ entries, id }) {
           ) : (
             <TableComponent COLUMNS={Columns} Data={entries} />
           )}
-          {!companionForm && (
+          {!entryForm && (
             <button
               className="rounded-md bg-black text-white mt-2 p-2 self-center"
-              onClick={() => setCompanionForm(true)}
+              onClick={() => setEntryForm(true)}
             >
               Add New Entry
             </button>

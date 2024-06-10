@@ -55,6 +55,11 @@ export default function EntriesToday() {
     },
   ];
 
+  if (!visitorsToday) {
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
+
   return (
     <div className="">
       <h1>Visitors Today</h1>

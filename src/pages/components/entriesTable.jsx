@@ -110,16 +110,6 @@ export default function EntryTable({ entries, id }) {
     {
       Header: "Actions",
       Cell: ({ row }) => {
-        const handleEdit = () => {
-          // Add your edit logic here
-          console.log("Edit row:", row.original);
-        };
-
-        const handleDelete = () => {
-          // Add your delete logic here
-          console.log("Delete row:", row.original);
-        };
-
         return (
           <div className="flex flex-row">
             {/* <button
@@ -134,7 +124,8 @@ export default function EntryTable({ entries, id }) {
             >
               Delete
             </button> */}
-            <Link to={`./viewEntry`}>
+            {/* <button onClick={() => console.log(row.original)}>view</button> */}
+            <Link to={`./viewEntry/${row.original._id}`}>
               <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2">
                 View
               </button>

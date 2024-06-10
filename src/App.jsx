@@ -59,7 +59,10 @@ function App() {
             <Route path="/visitorForm" element={<VisitorForm />} />
             <Route path="/visitor" element={<VisitorTable />} />
             <Route path="/visitor/:id" element={<VisitorDetails />} />
-            <Route path="/visitor/:id/viewEntry" element={<EntryDetails />} />
+            <Route
+              path="/visitor/:id/viewEntry/:entryId"
+              element={<EntryDetails />}
+            />
             {loggedInUser.role == "admin" && (
               <>
                 <Route path="/register" element={<Register />} />

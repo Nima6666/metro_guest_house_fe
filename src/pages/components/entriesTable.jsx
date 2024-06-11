@@ -9,8 +9,6 @@ import { toast } from "react-toastify";
 export default function EntryTable({ entries, id }) {
   console.log("Entries ", entries);
 
-  const buttonRef = useRef(null);
-
   const [entryForm, setEntryForm] = useState(false);
 
   const [companions, setCompaions] = useState([]);

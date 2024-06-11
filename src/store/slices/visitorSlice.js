@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const getVisitors = async () => {
   try {
@@ -102,6 +103,22 @@ export const getTodaysEntry = async () => {
     if (response.data.success) {
       return response.data.visitorsToday;
     }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteEntry = async (id, entryId) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_SERVER}/visitor/${id}/${entryId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
   } catch (err) {
     console.error(err);
   }

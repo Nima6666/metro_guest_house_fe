@@ -79,16 +79,6 @@ export default function VisitorTable() {
     {
       Header: "Actions",
       Cell: ({ row }) => {
-        const handleEdit = () => {
-          // Add your edit logic here
-          console.log("Edit row:", row.original);
-        };
-
-        const handleDelete = () => {
-          // Add your delete logic here
-          console.log("Delete row:", row.original);
-        };
-
         return (
           <div className="flex flex-row">
             <Link to={`/visitor/${row.original._id}`}>
@@ -136,7 +126,9 @@ export default function VisitorTable() {
       </div>
       <h1 className="text-xl font-semibold text-center p-4">All Visitors</h1>
       {loading ? (
-        <BounceLoader />
+        <div className="min-h-[50vh] flex justify-center items-center">
+          <BounceLoader />
+        </div>
       ) : search && searchedVisitor ? (
         searchedVisitor.length < 1 ? (
           <>

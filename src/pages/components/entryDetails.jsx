@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  deleteEntry,
   getSelectedVisitor,
   visitorActions,
 } from "../../store/slices/visitorSlice";
+import { toast } from "react-toastify";
 
 export default function EntryDetails() {
   const dispatch = useDispatch();
   const { id, entryId } = useParams();
+
+  const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
+
+  const navigate = useNavigate();
 
   const [state, setState] = useState("view");
 
@@ -40,6 +46,16 @@ export default function EntryDetails() {
 
   console.log("entryId ", entryId);
   console.log("entry ", entry);
+
+  async function removeEntry(id, entryId) {
+    const response = await deleteEntry(id, entryId);
+    if (response.success) {
+      toast(response.message);
+      navigate(`/visitor/${id}`);
+    } else {
+      toast.error(response.message);
+    }
+  }
 
   return entry && state == "view" ? (
     <div className="w-full h-full px-4">
@@ -118,25 +134,36 @@ export default function EntryDetails() {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-center mt-4">
-        <button
-          className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
-          // onClick={(id) => removeCompanion(index)}
-          type="button"
-          onClick={() => setState("edit")}
-        >
-          Edit Entry
-        </button>
-        <button
-          className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
-          onClick={(id) => removeEntry(index)}
-          type="button"
-        >
-          Delete Entry
-        </button>
-      </div>
+
+      {loggedInUser.role == "admin" && (
+        <div className="flex items-center justify-center mt-4">
+          <button
+            className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
+            // onClick={(id) => removeCompanion(index)}
+            type="button"
+            onClick={() => setState("edit")}
+          >
+            Edit Entry
+          </button>
+          <button
+            className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
+            onClick={() => removeEntry(id, entryId)}
+            type="button"
+          >
+            Delete Entry
+          </button>
+        </div>
+      )}
     </div>
   ) : (
-    <div>form</div>
+    <>
+      <div>form</div>
+      <button
+        onClick={() => setState("view")}
+        className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
+      >
+        Cancel
+      </button>
+    </>
   );
 }

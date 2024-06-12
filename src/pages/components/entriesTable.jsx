@@ -6,6 +6,8 @@ import { useRef, useState } from "react";
 import CompanionForm from "./companionForm";
 import { toast } from "react-toastify";
 
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+
 export default function EntryTable({ entries, id }) {
   console.log("Entries ", entries);
 
@@ -124,8 +126,11 @@ export default function EntryTable({ entries, id }) {
             </button> */}
             {/* <button onClick={() => console.log(row.original)}>view</button> */}
             <Link to={`./viewEntry/${row.original._id}`}>
-              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2">
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center">
                 View
+                <div className="pl-2">
+                  <MdOutlineRemoveRedEye />
+                </div>
               </button>
             </Link>
           </div>

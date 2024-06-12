@@ -46,7 +46,7 @@ export default function VisitorDetails() {
           src={
             selectedVisitor.documentLocation
               ? selectedVisitor.documentLocation
-              : "/document.png"
+              : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
           }
           alt=""
           className="w-[500px] h-full rounded-md"

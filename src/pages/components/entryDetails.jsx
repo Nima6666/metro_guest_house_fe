@@ -9,6 +9,8 @@ import {
 import { toast } from "react-toastify";
 import EditForm from "./editForm";
 
+import { IoChevronBackOutline } from "react-icons/io5";
+
 export default function EntryDetails() {
   const dispatch = useDispatch();
   const { id, entryId } = useParams();
@@ -65,6 +67,12 @@ export default function EntryDetails() {
     (state === "view" ? (
       <div className="w-full h-full px-4">
         <h1 className="text-2xl font-semibold text-center">Entry Details</h1>
+        <div
+          className="bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
+          onClick={() => navigate(`/visitor/${id}`)}
+        >
+          <IoChevronBackOutline size={30} />
+        </div>
         <div className="flex items-center">
           <div className="text-lg font-semibold mx-2">CheckIn Time</div>
           {new Date(entry.time).toLocaleString("en-US", {
@@ -170,7 +178,7 @@ export default function EntryDetails() {
                     Yes
                   </button>
                   <button
-                    className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 text-xl"
+                    className="bg-green-600 p-3 rounded-md text-white font-semibold mx-2 text-xl"
                     onClick={() => setDeleteConfrimation(false)}
                   >
                     No
@@ -178,7 +186,6 @@ export default function EntryDetails() {
                 </div>
               </div>
             )}
-            ;
           </div>
         )}
       </div>

@@ -11,6 +11,7 @@ import "../pages/components/table.css";
 import { BounceLoader } from "react-spinners";
 import Register from "./register";
 import VisitorForm from "./visitorForm";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 export default function VisitorTable() {
   const visitors = useSelector((state) => state.visitorReducer.visitor);
@@ -82,8 +83,11 @@ export default function VisitorTable() {
         return (
           <div className="flex flex-row">
             <Link to={`/visitor/${row.original._id}`}>
-              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2">
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center">
                 View
+                <div className="pl-2">
+                  <MdOutlineRemoveRedEye />
+                </div>
               </button>
             </Link>
           </div>

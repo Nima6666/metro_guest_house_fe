@@ -184,13 +184,13 @@ export default function EntryDetails() {
       </div>
     ) : (
       <>
-        <EditForm id={id} entry={entry} />
-        <button
-          onClick={() => setState("view")}
-          className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
-        >
-          Cancel
-        </button>
+        <EditForm
+          id={id}
+          entry={entry}
+          setState={setState}
+          entryId={entryId}
+          setEntry={setEntry}
+        />
       </>
     ))
   );

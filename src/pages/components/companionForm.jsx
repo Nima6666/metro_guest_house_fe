@@ -99,7 +99,7 @@ export default function CompanionForm({
           />
         </label>
       </div>
-      <div className="w-full">
+      <div className="w-full flex justify-center items-center">
         <button
           type="button"
           className="bg-green-900 p-2 font-semibold rounded-md text-white"

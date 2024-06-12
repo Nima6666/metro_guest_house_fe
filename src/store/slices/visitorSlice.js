@@ -124,6 +124,23 @@ export const deleteEntry = async (id, entryId) => {
   }
 };
 
+export const editEntry = async (id, entryId, formData) => {
+  try {
+    const response = await axios.patch(
+      `${import.meta.env.VITE_SERVER}/visitor/${id}/${entryId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const visitorSlice = createSlice({
   name: "visitor",
   initialState: {

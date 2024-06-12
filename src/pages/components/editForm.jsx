@@ -1,8 +1,11 @@
 import { useState } from "react";
 import CompanionForm from "./companionForm";
+import { toast } from "react-toastify";
+import { editEntry } from "../../store/slices/visitorSlice";
+import { useNavigate } from "react-router-dom";
 
-export default function EditForm({ id, entry }) {
-  const [entryForm, setEntryForm] = useState(false);
+export default function EditForm({ id, entry, setState, entryId, setEntry }) {
+  const navigate = useNavigate();
 
   const [companions, setCompaions] = useState([...entry.companion]);
 
@@ -13,13 +16,13 @@ export default function EditForm({ id, entry }) {
     entry.lastVisitedAddress
   );
   const [nextDestination, setNextDestination] = useState(entry.nextDestination);
-  const [purpose, setPurpose] = useState(entry.purpose);
+  const [purpose, setPurpose] = useState(entry.purposeOfVisit);
   const [vechileNumber, setVechileNumber] = useState(entry.vechileNumber);
   const [remarks, setRemarks] = useState(entry.remarks);
 
-  async function addNewEntryHandler(e) {
+  async function editHandler(e, id, entryId) {
     e.preventDefault();
-    console.log("adding new entry to ", id);
+    console.log("editing entry ", entryId);
 
     if (
       room === null ||
@@ -41,13 +44,28 @@ export default function EditForm({ id, entry }) {
       companions,
       remarks,
     };
-    await addNewEntry(id, formData);
-    window.location.reload();
+
+    const response = await editEntry(id, entryId, formData);
+    if (response.success) {
+      toast(response.message);
+      setEntry(response.editedEntry);
+      setState("view");
+    } else {
+      toast.error(response.message);
+    }
+  }
+
+  function removeCompanion(index) {
+    console.log(index);
+    const companionData = [...companions];
+
+    companionData.splice(index, 1);
+    setCompaions([...companionData]);
   }
 
   console.log(entry, id);
   return (
-    <div>
+    <div className="w-full">
       <form className="bg-gray-200 p-2 rounded-lg m-4">
         <div className="p-4 rounded-lg bg-white">
           <div className="flex justify-center items-center flex-wrap">
@@ -134,7 +152,7 @@ export default function EditForm({ id, entry }) {
                 value={remarks}
               />
             </label>
-            <div className="w-full">
+            <div className="w-full flex justify-center items-center flex-col">
               {companions.length > 0 && (
                 <>
                   <h1 className="font-semibold text-xl my-2">Companions</h1>
@@ -158,7 +176,7 @@ export default function EditForm({ id, entry }) {
                           <td>
                             <button
                               className="bg-red-600 p-2 rounded-md text-white font-semibold"
-                              onClick={(id) => removeCompanion(index)}
+                              onClick={() => removeCompanion(index)}
                               type="button"
                             >
                               Delete
@@ -188,19 +206,25 @@ export default function EditForm({ id, entry }) {
             </div>
           </div>
         </div>
-        <div>
+        <div className="flex justify-center items-center">
           <button
             className="rounded-md bg-black text-white mt-2 p-2 self-center m-2"
-            onClick={addNewEntryHandler}
+            onClick={(e) => editHandler(e, id, entryId)}
             type="submit"
           >
-            Submit
+            Submit Edit
           </button>
-          <button
+          {/* <button
             className="rounded-md bg-black text-white mt-2 p-2 self-center m-2"
             onClick={() => setEntryForm(false)}
           >
             cancel
+          </button> */}
+          <button
+            onClick={() => setState("view")}
+            className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
+          >
+            Cancel
           </button>
         </div>
       </form>

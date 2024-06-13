@@ -141,6 +141,22 @@ export const editEntry = async (id, entryId, formData) => {
   }
 };
 
+export const deleteVisitor = async (visitorId) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_SERVER}/visitor/${visitorId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const visitorSlice = createSlice({
   name: "visitor",
   initialState: {

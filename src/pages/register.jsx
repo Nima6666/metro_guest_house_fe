@@ -46,84 +46,119 @@ export default function Register() {
   return (
     <div>
       <form
-        className="flex flex-col rounded-md shadow-lg shadow-black justify-center items-center w-fit p-4"
+        className="flex flex-col justify-center items-center w-fit p-4"
         onSubmit={handleUpload}
       >
         <h1 className="text-xl font-semibold">Account Creation Form</h1>
 
-        <label htmlFor="firstname" className="w-full">
-          Firstname
+        <div className="flex flex-wrap justify-center items-center">
+          <label htmlFor="firstname" className="m-2">
+            Firstname
+            <input
+              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+              type="text"
+              name="firstname"
+              id="firstname"
+              value={firstname}
+              onChange={(e) => setFirst(e.target.value)}
+              autoComplete="on"
+            />
+          </label>
+          <label htmlFor="lastname" className="m-2">
+            Lastname
+            <input
+              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+              type="text"
+              name="lastname"
+              id="lastname"
+              onChange={(e) => setLast(e.target.value)}
+              value={lastname}
+              autoComplete="on"
+            />
+          </label>
+          <label htmlFor="email" className="m-2">
+            Email
+            <input
+              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+              type="email"
+              name="email"
+              id="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              autoComplete="on"
+            />
+          </label>
+          <label htmlFor="password" className="m-2">
+            Password
+            <input
+              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+              type="password"
+              name="password"
+              id="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              autoComplete="on"
+            />
+          </label>
+          <label htmlFor="phone" className="m-2">
+            Phone Number
+            <input
+              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+              type="text"
+              name="phone"
+              id="phone"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
+              autoComplete="on"
+            />
+          </label>
           <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-            type="text"
-            name="firstname"
-            id="firstname"
-            value={firstname}
-            onChange={(e) => setFirst(e.target.value)}
-            autoComplete="on"
+            type="file"
+            name="image"
+            id="image"
+            onChange={handleImageChange}
+            className="hidden"
           />
-        </label>
-        <label htmlFor="lastname" className="w-full">
-          Lastname
-          <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-            type="text"
-            name="lastname"
-            id="lastname"
-            onChange={(e) => setLast(e.target.value)}
-            value={lastname}
-            autoComplete="on"
-          />
-        </label>
-        <label htmlFor="email" className="w-full">
-          Email
-          <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-            type="email"
-            name="email"
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            autoComplete="on"
-          />
-        </label>
-        <label htmlFor="password" className="w-full">
-          Password
-          <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-            type="password"
-            name="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            autoComplete="on"
-          />
-        </label>
-        <label htmlFor="phone" className="w-full">
-          Phone Number
-          <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-            type="text"
-            name="phone"
-            id="phone"
-            onChange={(e) => setPhone(e.target.value)}
-            value={phone}
-            autoComplete="on"
-          />
-        </label>
-        <input
-          type="file"
-          name="image"
-          id="image"
-          onChange={handleImageChange}
-        />
-        {image && (
-          <img
-            src={URL.createObjectURL(image)}
-            alt="avatar"
-            className="h-[300px] w-[300px] object-contain"
-          />
-        )}
+          {/* {image ? (
+            <div className=" w-[700px] overflow-hidden h-[400px] flex flex-col justify-center items-center text-center relative rounded-lg my-6">
+              <img
+                src={visitorToEdit ? image : URL.createObjectURL(image)}
+                alt="avatar"
+                className="w-full h-full"
+              />
+              <div
+                className="right-2 z-10 absolute top-2 rounded-full bg-slate-600 text-white p-2 hover:cursor-pointer"
+                onClick={(e) => setImage(null)}
+              >
+                <RxCross2 size={40} />
+              </div>
+            </div>
+          ) : (
+            <label
+              htmlFor="image"
+              className="cursor-pointer w-[700px] overflow-hidden h-[400px] flex flex-col justify-center items-center text-center relative rounded-lg my-6"
+            >
+              <div className="absolute z-10 w-full h-full top-0 left-0 flex flex-col justify-center bg-[#00000097] items-center text-xl text-white">
+                <FaUpload size={50} className="text-4xl mb-2 z-10" />
+                <span>Upload Image</span>
+              </div>
+              <img
+                src={documentImg}
+                className="top-0 left-0 w-full h-full object-contain absolute z-0"
+                alt=""
+              />
+              <div></div>
+            </label>
+          )} */}
+          {image && (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="avatar"
+              className="h-[300px] w-[300px] object-contain"
+            />
+          )}
+        </div>
+
         <button
           type="submit"
           className="rounded-md bg-black text-white p-1 mt-2 w-1/2 self-center"

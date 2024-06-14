@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { FaUpload } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { RxCross2 } from "react-icons/rx";
@@ -10,6 +10,8 @@ import documentImg from "/document.png";
 
 export default function VisitorForm({ visitorToEdit }) {
   console.log("Visitor To Edit ", visitorToEdit);
+
+  const { id } = useParams();
 
   const [firstname, setFirst] = useState(
     visitorToEdit ? visitorToEdit.firstname : ""
@@ -92,6 +94,8 @@ export default function VisitorForm({ visitorToEdit }) {
   const handleEdit = async (e) => {
     e.preventDefault();
 
+    console.log("edit", id);
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("firstname", firstname);
@@ -108,8 +112,8 @@ export default function VisitorForm({ visitorToEdit }) {
     console.log(formData);
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER}/visitor`,
+      const response = await axios.patch(
+        `${import.meta.env.VITE_SERVER}/visitor/${id}`,
         formData,
         {
           headers: {
@@ -118,11 +122,11 @@ export default function VisitorForm({ visitorToEdit }) {
           },
         }
       );
-      console.log("Image uploaded successfully:", response.data);
-      if (response.data.success) {
-        toast(response.data.message);
-        navigate(`/visitor/${response.data.visitorAdded._id}`);
-      }
+      // console.log("Image uploaded successfully:", response.data);
+      // if (response.data.success) {
+      //   toast(response.data.message);
+      //   navigate(`/visitor/${response.data.visitorAdded._id}`);
+      // }
     } catch (error) {
       console.error("Error uploading image:", error);
     }

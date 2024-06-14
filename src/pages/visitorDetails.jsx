@@ -26,6 +26,8 @@ export default function VisitorDetails() {
     (state) => state.visitorReducer.selectedVisitor
   );
 
+  const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
+
   const [state, setState] = useState("view");
 
   const dispatch = useDispatch();
@@ -107,41 +109,45 @@ export default function VisitorDetails() {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center my-4">
-        <button
-          className="bg-green-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
-          onClick={() => setState("edit")}
-        >
-          Edit Visitor <MdEdit size={25} className="ml-1" />
-        </button>
-        <button
-          className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
-          type="button"
-          onClick={() => setDeleteConfrimation(true)}
-        >
-          Delete Visitor <MdDeleteOutline size={25} className="ml-1" />
-        </button>
-      </div>
-      {deletionConfirmation && (
-        <div className="fixed bg-[#000000c7] top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center flex-col">
-          <div className="text-2xl py-2 mb-3 text-white">
-            Are you sure you want to delete this Visitor?
-          </div>
-          <div>
+      {loggedInUser.role === "admin" && (
+        <>
+          <div className="flex items-center justify-center my-4">
             <button
-              className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 text-xl"
-              onClick={() => deleteVisitorHanlder(id)}
+              className="bg-green-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
+              onClick={() => setState("edit")}
             >
-              Yes
+              Edit Visitor <MdEdit size={25} className="ml-1" />
             </button>
             <button
-              className="bg-green-600 p-3 rounded-md text-white font-semibold mx-2 text-xl"
-              onClick={() => setDeleteConfrimation(false)}
+              className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
+              type="button"
+              onClick={() => setDeleteConfrimation(true)}
             >
-              No
+              Delete Visitor <MdDeleteOutline size={25} className="ml-1" />
             </button>
           </div>
-        </div>
+          {deletionConfirmation && (
+            <div className="fixed bg-[#000000c7] top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center flex-col">
+              <div className="text-2xl py-2 mb-3 text-white">
+                Are you sure you want to delete this Visitor?
+              </div>
+              <div>
+                <button
+                  className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 text-xl"
+                  onClick={() => deleteVisitorHanlder(id)}
+                >
+                  Yes
+                </button>
+                <button
+                  className="bg-green-600 p-3 rounded-md text-white font-semibold mx-2 text-xl"
+                  onClick={() => setDeleteConfrimation(false)}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
       <EntryTable entries={selectedVisitor.entries} id={id} />
     </div>

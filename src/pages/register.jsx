@@ -5,10 +5,17 @@ import { FaUpload } from "react-icons/fa";
 
 import avatarImg from "/profile.webp";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 export default function Register({ staff, admin, setServerStat }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  let navigate = null;
+
+  if (!admin) {
+    navigate = useNavigate();
+  }
+
+  const { id } = useParams();
 
   const [firstname, setFirst] = useState(staff ? staff.firstname : "");
   const [lastname, setLast] = useState(staff ? staff.lastname : "");
@@ -79,9 +86,22 @@ export default function Register({ staff, admin, setServerStat }) {
 
     try {
       const response = await axios.patch(
-        `${import.meta.env.VITE_SERVER}/users/`,
-        formData
+        `${import.meta.env.VITE_SERVER}/users/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
+
+      if (response.data.success) {
+        toast(response.data.message);
+        navigate("/users");
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (err) {
       console.error(err);
     }

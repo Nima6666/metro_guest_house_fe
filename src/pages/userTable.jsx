@@ -1,9 +1,26 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "./components/Table";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getUser, userActions } from "../store/slices/usersSlice";
+import { BounceLoader } from "react-spinners";
 
 export default function UserTable() {
+  const dispatch = useDispatch();
+
   const users = useSelector((state) => state.userReducer.users);
+
+  const [loading, setLoading] = useState(users.length ? false : true);
+
+  useEffect(() => {
+    async function getUsersHandler() {
+      dispatch(userActions.setUsers(await getUser()));
+      setLoading(false);
+    }
+    if (!users.length && !loading) {
+      getUsersHandler();
+    }
+  }, [dispatch, loading, users]);
 
   const COLUMNS = [
     {
@@ -60,10 +77,12 @@ export default function UserTable() {
 
   console.log(users);
 
-  return (
+  return loading ? (
+    <BounceLoader />
+  ) : (
     <div className="flex flex-col w-full p-2">
       <h1 className="text-xl font-semibold text-center p-4">My Staff</h1>
-      {users && <TableComponent COLUMNS={COLUMNS} Data={users} />}
+      {users.length && <TableComponent COLUMNS={COLUMNS} Data={users} />}
     </div>
   );
 }

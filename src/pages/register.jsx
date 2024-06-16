@@ -4,8 +4,12 @@ import { RxCross2 } from "react-icons/rx";
 import { FaUpload } from "react-icons/fa";
 
 import avatarImg from "/profile.webp";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-export default function Register({ staff }) {
+export default function Register({ staff, admin, setServerStat }) {
+  const navigate = useNavigate();
+
   const [firstname, setFirst] = useState(staff ? staff.firstname : "");
   const [lastname, setLast] = useState(staff ? staff.lastname : "");
   const [email, setEmail] = useState(staff ? staff.email : "");
@@ -19,7 +23,7 @@ export default function Register({ staff }) {
     setImage(e.target.files[0]);
   };
 
-  const handleUpload = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -38,28 +42,63 @@ export default function Register({ staff }) {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_SERVER}/users/register`,
+        admin
+          ? `${import.meta.env.VITE_SERVER}/users/admin`
+          : `${import.meta.env.VITE_SERVER}/users/register`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log("Image uploaded successfully:", response.data);
+      if (admin && response.data.success) {
+        toast(response.data.message);
+        setServerStat(true);
+      } else if (response.data.success) {
+        toast(response.data.success);
+        navigate("/users");
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
 
+  async function handleEdit(e) {
+    e.preventDefault();
+
+    const formData = {
+      firstname,
+      lastname,
+      email,
+      phone,
+    };
+
+    try {
+      const response = await axios.patch(
+        `${import.meta.env.VITE_SERVER}/users/`,
+        formData
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div>
       <form
         className="flex flex-col justify-center items-center w-fit p-4"
-        onSubmit={handleUpload}
+        onSubmit={staff ? handleEdit : handleRegister}
       >
         <h1 className="text-xl font-semibold">
-          {staff ? "Edit Account Form" : " Account Creation Form"}{" "}
+          {staff
+            ? "Edit Account Form"
+            : admin
+            ? "Admin Account Creation Form"
+            : " Account Creation Form"}
         </h1>
 
         <div className="flex flex-wrap justify-center items-center">
@@ -139,53 +178,50 @@ export default function Register({ staff }) {
               autoComplete="on"
             />
           </label>
-          <input
-            type="file"
-            name="image"
-            id="image"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-          <div className="w-full flex items-center justify-center">
-            {image ? (
-              <div className=" w-[400px] overflow-hidden h-[400px] flex flex-col justify-center items-center text-center relative rounded-lg my-6">
-                <img
-                  src={staff ? image : URL.createObjectURL(image)}
-                  alt="avatar"
-                  className="w-full h-full"
-                />
-                <div
-                  className="right-2 z-10 absolute top-2 rounded-full bg-slate-600 text-white p-2 hover:cursor-pointer"
-                  onClick={(e) => setImage(null)}
-                >
-                  <RxCross2 size={40} />
-                </div>
+          {!staff && (
+            <>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleImageChange}
+                className="hidden"
+              />
+              <div className="w-full flex items-center justify-center">
+                {image ? (
+                  <div className=" w-[400px] overflow-hidden h-[400px] flex flex-col justify-center items-center text-center relative rounded-lg my-6">
+                    <img
+                      src={staff ? image : URL.createObjectURL(image)}
+                      alt="avatar"
+                      className="w-full h-full object-cover"
+                    />
+                    <div
+                      className="right-2 z-10 absolute top-2 rounded-full bg-slate-600 text-white p-2 hover:cursor-pointer"
+                      onClick={(e) => setImage(null)}
+                    >
+                      <RxCross2 size={40} />
+                    </div>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="image"
+                    className="cursor-pointer w-[400px] overflow-hidden h-[400px] flex flex-col justify-center items-center text-center relative rounded-lg my-6"
+                  >
+                    <div className="absolute z-10 w-full h-full top-0 left-0 flex flex-col justify-center bg-[#00000097] items-center text-xl text-white">
+                      <FaUpload size={50} className="text-4xl mb-2 z-10" />
+                      <span>Upload Image</span>
+                    </div>
+                    <img
+                      src={avatarImg}
+                      className="top-0 left-0 w-full h-full object-contain absolute z-0"
+                      alt=""
+                    />
+                    <div></div>
+                  </label>
+                )}
               </div>
-            ) : (
-              <label
-                htmlFor="image"
-                className="cursor-pointer w-[400px] overflow-hidden h-[400px] flex flex-col justify-center items-center text-center relative rounded-lg my-6"
-              >
-                <div className="absolute z-10 w-full h-full top-0 left-0 flex flex-col justify-center bg-[#00000097] items-center text-xl text-white">
-                  <FaUpload size={50} className="text-4xl mb-2 z-10" />
-                  <span>Upload Image</span>
-                </div>
-                <img
-                  src={avatarImg}
-                  className="top-0 left-0 w-full h-full object-contain absolute z-0"
-                  alt=""
-                />
-                <div></div>
-              </label>
-            )}
-          </div>
-          {/* {image && (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="avatar"
-              className="h-[300px] w-[300px] object-contain"
-            />
-          )} */}
+            </>
+          )}
         </div>
 
         <button

@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteStaff,
   getSelectedUser,
   getUser,
   userActions,
 } from "../store/slices/usersSlice";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { DotLoader } from "react-spinners";
 import { MdDeleteOutline, MdEdit } from "react-icons/md";
 import Register from "./register";
 
 import { MdLockReset } from "react-icons/md";
+import { toast } from "react-toastify";
 
 export default function UserDetails() {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
@@ -33,12 +37,15 @@ export default function UserDetails() {
       setFetched(true);
     }
     getUserHandler();
-  }, []);
+  }, [dispatch, id]);
 
   console.log(selectedUser);
 
-  function deleteStaffHanlder(id) {
+  async function deleteStaffHanlder(id) {
     console.log("deleting staff ", id);
+    const res = await deleteStaff(id);
+    toast(res.message);
+    navigate("/users");
   }
 
   if (!fetched) {
@@ -55,11 +62,21 @@ export default function UserDetails() {
         id="userDetails"
         className="flex w-full justify-between items-center flex-row-reverse p-12"
       >
-        <img
-          src={selectedUser.imageURL}
-          alt="avatarImg"
-          className="w-[300px] h-[300px] rounded-full self-end object-cover"
-        />
+        <div className="flex flex-col items-center justify-center ">
+          <img
+            src={selectedUser.imageURL}
+            alt="avatarImg"
+            className="w-[300px] h-[300px] rounded-full self-end object-cover"
+          />
+          {loggedInUser.role === "admin" && (
+            <Link
+              to={`./reuploadAvatar`}
+              className="bg-green-600 p-2 rounded-md text-white font-semibold text-sm mx-2 flex items-center my-2"
+            >
+              Reupload Photo
+            </Link>
+          )}
+        </div>
         <div>
           <h1 className="text-xl font-semibold">Name</h1>
           <div className="mb-2">
@@ -93,7 +110,7 @@ export default function UserDetails() {
               className="bg-green-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
               onClick={() => setState("edit")}
             >
-              Edit Visitor <MdEdit size={25} className="ml-1" />
+              Edit User <MdEdit size={25} className="ml-1" />
             </button>
             <button
               className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"

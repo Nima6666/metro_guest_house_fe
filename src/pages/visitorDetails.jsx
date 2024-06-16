@@ -68,15 +68,25 @@ export default function VisitorDetails() {
         id="userDetails"
         className="flex flex-row-reverse justify-center items-center"
       >
-        <img
-          src={
-            selectedVisitor.documentLocation
-              ? selectedVisitor.documentLocation
-              : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
-          }
-          alt=""
-          className="w-[500px] h-full rounded-md"
-        />
+        <div className="flex flex-col items-center justify-center ">
+          <img
+            src={
+              selectedVisitor.documentLocation
+                ? selectedVisitor.documentLocation
+                : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
+            }
+            alt=""
+            className="w-[500px] h-full rounded-md"
+          />
+          {loggedInUser.role === "admin" && (
+            <Link
+              to={`./reuploadDocument`}
+              className="bg-green-600 p-2 rounded-md text-white font-semibold text-sm mx-2 flex items-center my-2"
+            >
+              Reupload Document
+            </Link>
+          )}
+        </div>
         <div className="mr-8">
           <h1 className="text-xl font-semibold">Name</h1>
           <div className="mb-2">
@@ -84,6 +94,10 @@ export default function VisitorDetails() {
           </div>
           <h1 className="text-xl font-semibold">Gender</h1>
           <div className="mb-2">{selectedVisitor.gender}</div>
+          <h1 className="text-xl font-semibold">Occupation</h1>
+          <div className="mb-2">{selectedVisitor.occupation}</div>
+          <h1 className="text-xl font-semibold">Age</h1>
+          <div className="mb-2">{selectedVisitor.age}</div>
           <h1 className="text-xl font-semibold">Created By</h1>
           <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="mb-2">
             {selectedVisitor.enteredBy.firstname}
@@ -152,6 +166,6 @@ export default function VisitorDetails() {
       <EntryTable entries={selectedVisitor.entries} id={id} />
     </div>
   ) : (
-    <VisitorForm visitorToEdit={selectedVisitor} />
+    <VisitorForm visitorToEdit={selectedVisitor} setState={setState} />
   );
 }

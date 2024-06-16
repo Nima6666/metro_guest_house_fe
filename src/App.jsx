@@ -15,6 +15,7 @@ import UserTable from "./pages/userTable";
 import UserDetails from "./pages/userDetails";
 import VisitorDetails from "./pages/visitorDetails";
 import EntryDetails from "./pages/components/entryDetails";
+import { getServerStatus } from "./store/slices/usersSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,15 @@ function App() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
   const [userResolved, setUserResolved] = useState(false);
+
+  const [serverStat, setServerStat] = useState("pending");
+
+  useEffect(() => {
+    async function serverStatHandler() {
+      setServerStat(await getServerStatus());
+    }
+    serverStatHandler();
+  }, []);
 
   useEffect(() => {
     async function userHandler() {
@@ -46,7 +56,13 @@ function App() {
   }
 
   if (Object.keys(loggedInUser).length === 0) {
-    return <Login />;
+    return serverStat === "pending" ? (
+      <BounceLoader />
+    ) : serverStat === true ? (
+      <Login />
+    ) : (
+      <Register admin={true} setServerStat={setServerStat} />
+    );
   }
 
   return (

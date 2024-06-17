@@ -7,7 +7,7 @@ import avatarImg from "/profile.webp";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-export default function Register({ staff, admin, setServerStat }) {
+export default function Register({ staff, admin, setServerStat, reupload }) {
   // const navigate = useNavigate();
   let navigate = null;
 
@@ -116,88 +116,94 @@ export default function Register({ staff, admin, setServerStat }) {
         <h1 className="text-xl font-semibold">
           {staff
             ? "Edit Account Form"
+            : reupload
+            ? "Reupload Profile Picture"
             : admin
             ? "Admin Account Creation Form"
             : " Account Creation Form"}
         </h1>
 
         <div className="flex flex-wrap justify-center items-center">
-          <label htmlFor="firstname" className="m-2">
-            Firstname
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="firstname"
-              id="firstname"
-              value={firstname}
-              onChange={(e) => setFirst(e.target.value)}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="lastname" className="m-2">
-            Lastname
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="lastname"
-              id="lastname"
-              onChange={(e) => setLast(e.target.value)}
-              value={lastname}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="email" className="m-2">
-            Email
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="email"
-              name="email"
-              id="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              autoComplete="on"
-            />
-          </label>
-          {!staff && (
+          {!reupload && (
             <>
-              <label htmlFor="password" className="m-2">
-                Password
+              <label htmlFor="firstname" className="m-2">
+                Firstname
                 <input
                   className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-                  type="password"
-                  name="password"
-                  id="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
+                  type="text"
+                  name="firstname"
+                  id="firstname"
+                  value={firstname}
+                  onChange={(e) => setFirst(e.target.value)}
                   autoComplete="on"
                 />
               </label>
-              <label htmlFor="confirmPassword" className="m-2">
-                Confirm Password
+              <label htmlFor="lastname" className="m-2">
+                Lastname
                 <input
                   className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-                  type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  value={confirmPassword}
+                  type="text"
+                  name="lastname"
+                  id="lastname"
+                  onChange={(e) => setLast(e.target.value)}
+                  value={lastname}
+                  autoComplete="on"
+                />
+              </label>
+              <label htmlFor="email" className="m-2">
+                Email
+                <input
+                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  autoComplete="on"
+                />
+              </label>
+              {!staff && (
+                <>
+                  <label htmlFor="password" className="m-2">
+                    Password
+                    <input
+                      className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                      type="password"
+                      name="password"
+                      id="password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      autoComplete="on"
+                    />
+                  </label>
+                  <label htmlFor="confirmPassword" className="m-2">
+                    Confirm Password
+                    <input
+                      className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                      type="password"
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      value={confirmPassword}
+                      autoComplete="on"
+                    />
+                  </label>
+                </>
+              )}
+              <label htmlFor="phone" className="m-2">
+                Phone Number
+                <input
+                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
                   autoComplete="on"
                 />
               </label>
             </>
           )}
-          <label htmlFor="phone" className="m-2">
-            Phone Number
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="phone"
-              id="phone"
-              onChange={(e) => setPhone(e.target.value)}
-              value={phone}
-              autoComplete="on"
-            />
-          </label>
           {!staff && (
             <>
               <input

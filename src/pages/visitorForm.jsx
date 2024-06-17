@@ -10,7 +10,7 @@ import documentImg from "/document.png";
 import { useDispatch } from "react-redux";
 import { visitorActions } from "../store/slices/visitorSlice";
 
-export default function VisitorForm({ visitorToEdit, setState }) {
+export default function VisitorForm({ visitorToEdit, setState, reupload }) {
   console.log("Visitor To Edit ", visitorToEdit);
 
   const dispatch = useDispatch();
@@ -157,106 +157,114 @@ export default function VisitorForm({ visitorToEdit, setState }) {
         className="flex flex-col flex-wrap justify-center items-center p-4"
         onSubmit={visitorToEdit ? handleEdit : handleUpload}
       >
-        <h1 className="text-xl font-semibold">Visitor Form</h1>
+        <h1 className="text-xl font-semibold">
+          {visitorToEdit
+            ? "Visitor Edit Form"
+            : reupload
+            ? "Reupload Document"
+            : "Visitor Form"}
+        </h1>
 
-        <div className="flex flex-wrap justify-center items-center">
-          <label htmlFor="firstname" className=" m-2">
-            Firstname
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="firstname"
-              id="firstname"
-              value={firstname}
-              onChange={(e) => setFirst(e.target.value)}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="lastname" className=" m-2">
-            Lastname
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="lastname"
-              id="lastname"
-              onChange={(e) => setLast(e.target.value)}
-              value={lastname}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="age" className="m-2">
-            Age
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="age"
-              name="age"
-              id="age"
-              onChange={(e) => setAge(e.target.value)}
-              value={age}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="gender" className="m-2">
-            Gender
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="gender"
-              name="gender"
-              id="gender"
-              onChange={(e) => setGender(e.target.value)}
-              value={gender}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="email" className=" m-2">
-            Email
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="email"
-              name="email"
-              id="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="phone" className="m-2">
-            Phone Number
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="phone"
-              id="phone"
-              onChange={(e) => setPhone(e.target.value)}
-              value={phone}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="address" className=" m-2">
-            Address
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="address"
-              id="address"
-              onChange={(e) => setAddress(e.target.value)}
-              value={address}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="occupation" className=" m-2">
-            Occupation
-            <input
-              className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-              type="text"
-              name="occupation"
-              id="occupation"
-              onChange={(e) => setOccupation(e.target.value)}
-              value={occupation}
-              autoComplete="on"
-            />
-          </label>
-        </div>
+        {!reupload && (
+          <div className="flex flex-wrap justify-center items-center">
+            <label htmlFor="firstname" className=" m-2">
+              Firstname
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="text"
+                name="firstname"
+                id="firstname"
+                value={firstname}
+                onChange={(e) => setFirst(e.target.value)}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="lastname" className=" m-2">
+              Lastname
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="text"
+                name="lastname"
+                id="lastname"
+                onChange={(e) => setLast(e.target.value)}
+                value={lastname}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="age" className="m-2">
+              Age
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="age"
+                name="age"
+                id="age"
+                onChange={(e) => setAge(e.target.value)}
+                value={age}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="gender" className="m-2">
+              Gender
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="gender"
+                name="gender"
+                id="gender"
+                onChange={(e) => setGender(e.target.value)}
+                value={gender}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="email" className=" m-2">
+              Email
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="email"
+                name="email"
+                id="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="phone" className="m-2">
+              Phone Number
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="text"
+                name="phone"
+                id="phone"
+                onChange={(e) => setPhone(e.target.value)}
+                value={phone}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="address" className=" m-2">
+              Address
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="text"
+                name="address"
+                id="address"
+                onChange={(e) => setAddress(e.target.value)}
+                value={address}
+                autoComplete="on"
+              />
+            </label>
+            <label htmlFor="occupation" className=" m-2">
+              Occupation
+              <input
+                className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                type="text"
+                name="occupation"
+                id="occupation"
+                onChange={(e) => setOccupation(e.target.value)}
+                value={occupation}
+                autoComplete="on"
+              />
+            </label>
+          </div>
+        )}
 
         {!visitorToEdit && (
           <>

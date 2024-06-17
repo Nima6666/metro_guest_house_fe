@@ -16,6 +16,7 @@ import UserDetails from "./pages/userDetails";
 import VisitorDetails from "./pages/visitorDetails";
 import EntryDetails from "./pages/components/entryDetails";
 import { getServerStatus } from "./store/slices/usersSlice";
+import ResetPassword from "./pages/resetPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -84,6 +85,18 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/users" element={<UserTable />} />
                 <Route path="/users/:id" element={<UserDetails />} />
+                <Route
+                  path="/visitor/:id/reuploadDocument"
+                  element={<VisitorForm reupload={true} />}
+                />
+                <Route
+                  path="/users/:id/reuploadAvatar"
+                  element={<Register reupload={true} />}
+                />
+                <Route
+                  path="/users/:id/resetPassword"
+                  element={<ResetPassword />}
+                />
               </>
             )}
             <Route path="/" element={<Dashboard />} />

@@ -107,11 +107,31 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
     }
   }
 
+  async function handleReupload(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const response = await axios.put(
+      `${import.meta.env.VITE_SERVER}/users/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+  }
+
   return (
     <div>
       <form
         className="flex flex-col justify-center items-center w-fit p-4"
-        onSubmit={staff ? handleEdit : handleRegister}
+        onSubmit={
+          staff ? handleEdit : reupload ? handleReupload : handleRegister
+        }
       >
         <h1 className="text-xl font-semibold">
           {staff

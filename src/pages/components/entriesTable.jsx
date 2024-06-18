@@ -7,10 +7,10 @@ import CompanionForm from "./companionForm";
 import { toast } from "react-toastify";
 
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { IoMdExit } from "react-icons/io";
+import axios from "axios";
 
 export default function EntryTable({ entries, id }) {
-  console.log("Entries ", entries);
-
   const [entryForm, setEntryForm] = useState(false);
 
   const [companions, setCompaions] = useState([]);
@@ -59,25 +59,48 @@ export default function EntryTable({ entries, id }) {
         return row.index + 1; // Display index starting from 1
       },
     },
+    // {
+    //   Header: "Entered By",
+    //   accessor: "by",
+    //   Cell: ({ value }) => {
+    //     return <Link to={`/users/${value._id}`}>{value.firstname}</Link>;
+    //   },
+    // },
     {
-      Header: "Entered By",
-      accessor: "by",
-      Cell: ({ value }) => {
-        return <Link to={`/users/${value._id}`}>{value.firstname}</Link>;
-      },
-    },
-    {
-      Header: "At",
+      Header: "Checkin",
       accessor: "time",
-      Cell: ({ value }) => {
-        return new Date(value).toLocaleString("en-US", {
+      Cell: ({ cell }) => {
+        const { value, row } = cell;
+
+        console.log(row.original);
+        return `${new Date(value).toLocaleString("en-US", {
           year: "numeric",
           month: "short",
           day: "2-digit",
           hour: "numeric",
           minute: "2-digit",
           hour12: true,
-        }); // Format date as per locale
+        })} ( ${row.original.by.firstname})`;
+      },
+    },
+    {
+      Header: "Checkout",
+      accessor: "checkoutTime",
+      Cell: ({ cell }) => {
+        const { value, row } = cell;
+
+        if (!value) {
+          return "Vitrai xa";
+        } else {
+          return `${new Date(value).toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })} ( ${row.original.by.firstname})`;
+        }
       },
     },
     {
@@ -110,6 +133,33 @@ export default function EntryTable({ entries, id }) {
     {
       Header: "Actions",
       Cell: ({ row }) => {
+        async function checkoutHandler(entryInfo) {
+          console.log(id, entryInfo._id);
+          try {
+            const response = await axios.put(
+              `${import.meta.env.VITE_SERVER}/visitor/${id}/${entryInfo._id}`,
+              {},
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+
+            if (response.data.success) {
+              toast(response.data.message);
+              navigate("/users");
+            } else {
+              toast.error(response.data.message);
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        console.log(row.original.checkoutTime, "this the row");
+
         return (
           <div className="flex flex-row">
             {/* <button
@@ -126,13 +176,24 @@ export default function EntryTable({ entries, id }) {
             </button> */}
             {/* <button onClick={() => console.log(row.original)}>view</button> */}
             <Link to={`./viewEntry/${row.original._id}`}>
-              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center">
-                View
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
+                View Entry
                 <div className="pl-2">
                   <MdOutlineRemoveRedEye />
                 </div>
               </button>
             </Link>
+            {!row.original.checkoutTIme && (
+              <button
+                className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center"
+                onClick={() => checkoutHandler(row.original)}
+              >
+                Checkout
+                <div className="pl-2">
+                  <IoMdExit />
+                </div>
+              </button>
+            )}
           </div>
         );
       },
@@ -170,12 +231,6 @@ export default function EntryTable({ entries, id }) {
                       onChange={(e) => setRoom(e.target.value)}
                       value={room}
                       required
-                      onKeyPress={(e) => {
-                        const isNumber = /[0-9]/.test(e.key);
-                        if (!isNumber) {
-                          e.preventDefault();
-                        }
-                      }}
                     />
                   </label>
                   <label

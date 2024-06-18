@@ -1,10 +1,43 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { id } = useParams();
+
+  async function handlePasswordChange(e) {
+    if (password !== confirmPassword) {
+      return alert("passwords doesnt match");
+    }
+
+    e.preventDefault();
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER}/users/${id}/resetPassword`,
+      { password },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (response.data.success) {
+      toast(response.data.message);
+      navigate(`/users/${id}`);
+    }
+  }
+
   return (
-    <form className="flex justify-center items-center flex-col">
+    <form
+      className="flex justify-center items-center flex-col"
+      onSubmit={handlePasswordChange}
+    >
       <h1 className="text-xl font-semibold">Reset Password</h1>
       <label htmlFor="password" className="m-2">
         Password

@@ -151,11 +151,37 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     }
   };
 
+  async function handleReupload(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("documentId", documentID);
+    formData.append("documentType", documentType);
+
+    const response = await axios.put(
+      `${import.meta.env.VITE_SERVER}/visitor/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (response.data.success) {
+      toast(response.data.message);
+      navigate(`/visitor/${id}`);
+    }
+  }
+
   return (
     <div>
       <form
         className="flex flex-col flex-wrap justify-center items-center p-4"
-        onSubmit={visitorToEdit ? handleEdit : handleUpload}
+        onSubmit={
+          visitorToEdit ? handleEdit : reupload ? handleReupload : handleUpload
+        }
       >
         <h1 className="text-xl font-semibold">
           {visitorToEdit
@@ -280,7 +306,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 <img
                   src={visitorToEdit ? image : URL.createObjectURL(image)}
                   alt="avatar"
-                  className="w-full h-full"
+                  className="w-full h-full object-contain"
                 />
                 <div
                   className="right-2 z-10 absolute top-2 rounded-full bg-slate-600 text-white p-2 hover:cursor-pointer"

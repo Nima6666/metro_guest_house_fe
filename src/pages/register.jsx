@@ -123,6 +123,10 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
         },
       }
     );
+    if (response.data.success) {
+      toast(response.data.message);
+      navigate(`/users/${id}`);
+    }
   }
 
   return (

@@ -60,7 +60,11 @@ export default function VisitorTable() {
       Header: "Created By",
       accessor: "enteredBy",
       Cell: ({ value }) => {
-        return <Link to={`/users/${value._id}`}>{value.firstname}</Link>;
+        return (
+          <Link to={`/users/${value._id}`}>
+            {value.firstname} {value.role === "admin" ? "(Admin)" : ""}
+          </Link>
+        );
       },
     },
     {

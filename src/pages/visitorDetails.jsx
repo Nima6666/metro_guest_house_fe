@@ -163,7 +163,7 @@ export default function VisitorDetails() {
           )}
         </>
       )}
-      <EntryTable entries={selectedVisitor.entries} id={id} />
+      <EntryTable entris={selectedVisitor.entries} id={id} />
     </div>
   ) : (
     <VisitorForm visitorToEdit={selectedVisitor} setState={setState} />

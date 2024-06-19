@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addNewEntry } from "../../store/slices/visitorSlice";
 import TableComponent from "./Table";
 import { useRef, useState } from "react";
@@ -9,9 +9,16 @@ import { toast } from "react-toastify";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { IoMdExit } from "react-icons/io";
 import axios from "axios";
+import { BounceLoader } from "react-spinners";
 
-export default function EntryTable({ entries, id }) {
+export default function EntryTable({ entris, id }) {
+  const navigate = useNavigate();
+
   const [entryForm, setEntryForm] = useState(false);
+
+  const [entryLoading, setEntryLoading] = useState(false);
+
+  const [entries, setEntries] = useState(entris);
 
   const [companions, setCompaions] = useState([]);
 
@@ -99,7 +106,7 @@ export default function EntryTable({ entries, id }) {
             hour: "numeric",
             minute: "2-digit",
             hour12: true,
-          })} ( ${row.original.by.firstname})`;
+          })} ( ${row.original.checkoutBy.firstname})`;
         }
       },
     },
@@ -134,6 +141,7 @@ export default function EntryTable({ entries, id }) {
       Header: "Actions",
       Cell: ({ row }) => {
         async function checkoutHandler(entryInfo) {
+          setEntryLoading(true);
           console.log(id, entryInfo._id);
           try {
             const response = await axios.put(
@@ -148,33 +156,20 @@ export default function EntryTable({ entries, id }) {
             );
 
             if (response.data.success) {
+              console.log(response.data);
               toast(response.data.message);
-              navigate("/users");
+              setEntries(response.data.editedEntry);
             } else {
               toast.error(response.data.message);
             }
+            setEntryLoading(false);
           } catch (err) {
             console.error(err);
           }
         }
 
-        console.log(row.original.checkoutTime, "this the row");
-
         return (
           <div className="flex flex-row">
-            {/* <button
-              onClick={handleEdit}
-              className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
-            >
-              Edit
-            </button>
-            <button
-              onClick={handleDelete}
-              className="bg-red-600 p-2 rounded-md text-white font-semibold mx-2"
-            >
-              Delete
-            </button> */}
-            {/* <button onClick={() => console.log(row.original)}>view</button> */}
             <Link to={`./viewEntry/${row.original._id}`}>
               <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
                 View Entry
@@ -183,7 +178,7 @@ export default function EntryTable({ entries, id }) {
                 </div>
               </button>
             </Link>
-            {!row.original.checkoutTIme && (
+            {!row.original.checkoutTime && (
               <button
                 className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center"
                 onClick={() => checkoutHandler(row.original)}
@@ -203,6 +198,8 @@ export default function EntryTable({ entries, id }) {
     //   accessor: "remarks",
     // },
   ];
+
+  console.log(entries);
 
   function removeCompanion(index) {
     console.log(index);
@@ -377,6 +374,15 @@ export default function EntryTable({ entries, id }) {
           {entries.length < 1 ? (
             <div>
               <p>No Entries</p>
+            </div>
+          ) : entryLoading ? (
+            <div className="relative pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+                <BounceLoader />
+              </div>
+              <div className="opacity-50">
+                <TableComponent COLUMNS={Columns} Data={entries} />
+              </div>
             </div>
           ) : (
             <TableComponent COLUMNS={Columns} Data={entries} />

@@ -62,7 +62,7 @@ export default function EntriesToday() {
 
   return (
     <div className="">
-      <h1>Visitors Today</h1>
+      <h1 className="text-xl font-semibold text-center my-4">Visitors Today</h1>
       {visitorsToday.length < 1 ? (
         <div>No Visitors Today</div>
       ) : (

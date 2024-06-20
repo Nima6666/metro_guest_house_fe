@@ -32,7 +32,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     visitorToEdit ? visitorToEdit.documentType : "citizenship"
   );
 
-  const [age, setAge] = useState(visitorToEdit ? visitorToEdit.age : null);
+  const [age, setAge] = useState(visitorToEdit ? visitorToEdit.age : "");
 
   const [address, setAddress] = useState(
     visitorToEdit ? visitorToEdit.address : ""

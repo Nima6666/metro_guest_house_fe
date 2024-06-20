@@ -11,7 +11,7 @@ export const getVisitors = async () => {
     });
 
     if (res.data.success) {
-      console.log(res.data.visitors);
+      // console.log(res.data.visitors);
       return res.data.visitors;
     } else return Error;
 
@@ -164,6 +164,8 @@ export const visitorSlice = createSlice({
     selectedVisitor: {},
     searchedVisitor: [],
     visitorsToday: [],
+    currentVisitors: [],
+    checkoutsToday: [],
   },
   reducers: {
     setVisitor(state, action) {
@@ -177,6 +179,12 @@ export const visitorSlice = createSlice({
     },
     setVisitorsToday(state, action) {
       state.visitorsToday = action.payload;
+    },
+    setCurrentVisitors(state, action) {
+      state.currentVisitors = action.payload;
+    },
+    setCheckoutsToday(state, action) {
+      state.checkoutsToday = action.payload;
     },
   },
 });

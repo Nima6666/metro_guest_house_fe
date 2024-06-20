@@ -69,7 +69,7 @@ export default function EntryDetails() {
         <h1 className="text-2xl font-semibold text-center">Entry Details</h1>
         <div
           className="bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
-          onClick={() => navigate(`/visitor/${id}`)}
+          onClick={() => navigate(-1)}
         >
           <IoChevronBackOutline size={30} />
         </div>

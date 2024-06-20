@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { mockData } from "../assets/MOCK_DATA";
 import { getVisitors, visitorActions } from "../store/slices/visitorSlice";
 import EntriesToday from "./components/entriesToday";
+import CurrentVisitors from "./components/currentVisitors";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export default function Dashboard() {
   }, [dispatch, users]);
 
   // console.log(visitors);
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
 
   return (
     <div className="flex flex-col">
@@ -57,6 +58,7 @@ export default function Dashboard() {
         </Link>
       </div>
       <EntriesToday />
+      <CurrentVisitors />
     </div>
   );
 }

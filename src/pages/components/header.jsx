@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 export default function Header() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
 
   const [logout, setLogout] = useState(false);
 

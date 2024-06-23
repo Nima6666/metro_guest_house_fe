@@ -1,11 +1,14 @@
 import { useState } from "react";
 import CompanionForm from "./companionForm";
 import { toast } from "react-toastify";
-import { editEntry } from "../../store/slices/visitorSlice";
+import { editEntry, visitorActions } from "../../store/slices/visitorSlice";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-export default function EditForm({ id, entry, setState, entryId, setEntry }) {
+export default function EditForm({ id, entry, setState, entryId }) {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [companions, setCompaions] = useState([...entry.companion]);
 
@@ -48,7 +51,7 @@ export default function EditForm({ id, entry, setState, entryId, setEntry }) {
     const response = await editEntry(id, entryId, formData);
     if (response.success) {
       toast(response.message);
-      setEntry(response.editedEntry);
+      dispatch(visitorActions.setSelectedEntry(response.editedEntry));
       setState("view");
     } else {
       toast.error(response.message);

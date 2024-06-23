@@ -365,7 +365,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
 
         <button
           type="submit"
-          className="rounded-md bg-black text-white mt-2 self-center w-auto p-3"
+          className="rounded-md bg-black text-white mt-2 self-center w-auto p-3 shadow-lg border border-white hover:shadow-md transition-all duration-200 shadow-black"
         >
           {visitorToEdit ? "Submit Edit" : "Submit"}
         </button>

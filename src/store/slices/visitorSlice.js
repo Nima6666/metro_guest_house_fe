@@ -52,6 +52,24 @@ export const getSelectedVisitor = async (visitorId) => {
   }
 };
 
+export const getEntry = async (visitorId, entryId) => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER}/visitor/${visitorId}/${entryId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    alert("something went wrong");
+    console.error(err);
+  }
+};
+
 export const getVisitorWithNumber = async (number) => {
   try {
     const response = await axios.post(
@@ -183,6 +201,7 @@ export const visitorSlice = createSlice({
     visitorsToday: [],
     currentVisitors: [],
     checkoutsToday: [],
+    selectedEntry: {},
   },
   reducers: {
     setVisitor(state, action) {
@@ -202,6 +221,9 @@ export const visitorSlice = createSlice({
     },
     setCheckoutsToday(state, action) {
       state.checkoutsToday = action.payload;
+    },
+    setSelectedEntry(state, action) {
+      state.selectedEntry = { ...action.payload };
     },
   },
 });

@@ -25,7 +25,7 @@ export default function Dashboard() {
     if (loggedInUser.role == "admin") {
       getUsersHandler();
     }
-  }, [loggedInUser, dispatch]);
+  }, [loggedInUser, dispatch, loading]);
 
   if (!users) {
     localStorage.removeItem("token");
@@ -36,7 +36,7 @@ export default function Dashboard() {
       dispatch(visitorActions.setVisitor(await getVisitors()));
     }
     getVisitorsHandler();
-  }, [dispatch, users]);
+  }, [dispatch, users, loading]);
 
   // console.log(visitors);
   // console.log(loggedInUser);
@@ -66,14 +66,14 @@ export default function Dashboard() {
               <BounceLoader />
             </div>
             <div className="opacity-50">
-              <CurrentVisitors setLoading={setLoading} />
+              <CurrentVisitors setLoading={setLoading} loading={loading} />
               <EntriesToday />
             </div>
           </div>
         </>
       ) : (
         <div className="my-4 pb-4">
-          <CurrentVisitors setLoading={setLoading} />
+          <CurrentVisitors setLoading={setLoading} loading={loading} />
           <EntriesToday />
         </div>
       )}

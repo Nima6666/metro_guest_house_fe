@@ -9,7 +9,7 @@ export default function Navbar() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
   return (
-    <aside className="flex flex-col items-center p-4 h-screen bg-blue-800 text-l text-white pt-2 sticky top-0">
+    <aside className="flex flex-col items-center p-4 h-screen bg-[#0077b6] text-l text-white pt-2 sticky top-0">
       <Link
         to="/"
         className="transition-all duration-300 hover:bg-slate-600 rounded-md m-2 w-full flex items-center p-2"

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { visitorActions } from "../../store/slices/visitorSlice";
 import TableComponent from "./Table";
@@ -7,12 +7,15 @@ import { IoMdExit } from "react-icons/io";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { BounceLoader } from "react-spinners";
 
-export default function CurrentVisitors({ setLoading }) {
+export default function CurrentVisitors() {
   const dispatch = useDispatch();
   const currentVisitors = useSelector(
     (state) => state.visitorReducer.currentVisitors
   );
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getCurrentVisitors() {
@@ -38,7 +41,7 @@ export default function CurrentVisitors({ setLoading }) {
       }
     }
     getCurrentVisitors();
-  }, []);
+  }, [loading]);
 
   console.log(currentVisitors);
 
@@ -56,14 +59,18 @@ export default function CurrentVisitors({ setLoading }) {
       Header: "Checkin",
       accessor: "time",
       Cell: ({ value }) => {
-        return new Date(value).toLocaleString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "2-digit",
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        });
+        return (
+          <div className="text-nowrap">
+            {new Date(value).toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            })}
+          </div>
+        );
       },
     },
     {
@@ -109,6 +116,7 @@ export default function CurrentVisitors({ setLoading }) {
               console.log(response.data);
               toast(response.data.message);
               // setEntries(response.data.editedEntry);
+              window.location.reload();
             } else {
               toast.error(response.data.message);
             }
@@ -159,7 +167,9 @@ export default function CurrentVisitors({ setLoading }) {
       <h1 className="text-xl font-semibold text-center my-4">
         Current Visitors
       </h1>
-      {currentVisitors.length ? (
+      {loading ? (
+        <BounceLoader />
+      ) : currentVisitors.length ? (
         <TableComponent COLUMNS={COLUMNS} Data={currentVisitors} />
       ) : (
         <div className="text-center">No Current Visitors</div>

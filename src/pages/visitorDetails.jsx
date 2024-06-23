@@ -13,6 +13,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import VisitorForm from "./visitorForm";
 import { toast } from "react-toastify";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 export default function VisitorDetails() {
   const navigate = useNavigate();
@@ -66,60 +67,94 @@ export default function VisitorDetails() {
     <div>
       <div
         id="userDetails"
-        className="flex flex-row-reverse justify-center items-center"
+        className="flex flex-col justify-center items-center"
       >
-        <div className="flex flex-col items-center justify-center ">
-          <img
-            src={
-              selectedVisitor.documentLocation
-                ? selectedVisitor.documentLocation
-                : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
-            }
-            alt=""
-            className="w-[500px] h-full rounded-md"
-          />
+        <h1 className="text-2xl font-semibold text-center mb-4 w-full">
+          <div
+            className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
+            onClick={() => navigate(-1)}
+          >
+            <IoChevronBackOutline size={30} />
+          </div>
+          Visitor Details
+        </h1>
+        <div className="flex flex-col items-center justify-center">
+          <div className="w-[500px] h-fit rounded-md">
+            <img
+              src={
+                selectedVisitor.documentLocation
+                  ? selectedVisitor.documentLocation
+                  : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
+              }
+              alt=""
+              className="h-full object-cover"
+            />
+          </div>
           {loggedInUser.role === "admin" && (
             <Link
               to={`./reuploadDocument`}
-              className="bg-green-600 p-2 rounded-md text-white font-semibold text-sm mx-2 flex items-center my-2"
+              className="bg-green-600 p-2 my-4 rounded-md text-white font-semibold text-sm mx-2 flex items-center"
             >
               Reupload Document
             </Link>
           )}
         </div>
-        <div className="mr-8">
-          <h1 className="text-xl font-semibold">Name</h1>
-          <div className="mb-2">
-            {selectedVisitor.firstname} {selectedVisitor.lastname}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-[#358cae] p-2 rounded-md">
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Name</h1>
+            <div className="mb-2">
+              {selectedVisitor.firstname} {selectedVisitor.lastname}
+            </div>
           </div>
-          <h1 className="text-xl font-semibold">Gender</h1>
-          <div className="mb-2">{selectedVisitor.gender}</div>
-          <h1 className="text-xl font-semibold">Occupation</h1>
-          <div className="mb-2">{selectedVisitor.occupation}</div>
-          <h1 className="text-xl font-semibold">Age</h1>
-          <div className="mb-2">{selectedVisitor.age}</div>
-          <h1 className="text-xl font-semibold">Created By</h1>
-          <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="mb-2">
-            {selectedVisitor.enteredBy.firstname}
-          </Link>
-          <h1 className="text-xl font-semibold">Document Type</h1>
-          <div className="mb-2">{selectedVisitor.documentType}</div>
-          <h1 className="text-xl font-semibold">Document ID</h1>
-          <div className="mb-2">{selectedVisitor.documentId}</div>
-          <h1 className="text-xl font-semibold">Address</h1>
-          <div className="mb-2">{selectedVisitor.address}</div>
-          <h1 className="text-xl font-semibold">Phone No</h1>
-          <div className="mb-2">{selectedVisitor.phone}</div>
-          <h1 className="text-xl font-semibold">Created At</h1>
-          <div className="mb-2">
-            {new Date(selectedVisitor.enteredAt).toLocaleString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "2-digit",
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })}
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Gender</h1>
+            <div className="mb-2">{selectedVisitor.gender}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Occupation</h1>
+            <div className="mb-2">{selectedVisitor.occupation}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Age</h1>
+            <div className="mb-2">{selectedVisitor.age}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Created By</h1>
+            <Link
+              to={`/users/${selectedVisitor.enteredBy._id}`}
+              className="mb-2"
+            >
+              {selectedVisitor.enteredBy.firstname}
+            </Link>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Document Type</h1>
+            <div className="mb-2">{selectedVisitor.documentType}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Document ID</h1>
+            <div className="mb-2">{selectedVisitor.documentId}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Address</h1>
+            <div className="mb-2">{selectedVisitor.address}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Phone No</h1>
+            <div className="mb-2">{selectedVisitor.phone}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Created At</h1>
+            <div className="mb-2">
+              {new Date(selectedVisitor.enteredAt).toLocaleString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
+            </div>
           </div>
         </div>
       </div>

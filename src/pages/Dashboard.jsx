@@ -57,8 +57,10 @@ export default function Dashboard() {
           </div>
         </Link>
       </div>
-      <EntriesToday />
-      <CurrentVisitors />
+      <div className="my-4 pb-4">
+        <CurrentVisitors />
+        <EntriesToday />
+      </div>
     </div>
   );
 }

@@ -165,6 +165,13 @@ export default function EntryDetails() {
             >
               Delete Entry
             </button>
+            <button
+              className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
+              type="button"
+              onClick={() => setState("edit")}
+            >
+              Not Checked Out
+            </button>
             {deletionConfirmation && (
               <div className="fixed bg-[#000000c7] top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center flex-col">
                 <div className="text-2xl py-2 mb-3 text-white">

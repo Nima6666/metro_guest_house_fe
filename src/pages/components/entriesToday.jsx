@@ -6,6 +6,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "./Table";
 import { Link } from "react-router-dom";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 export default function EntriesToday() {
   const visitorsToday = useSelector(
@@ -31,17 +32,26 @@ export default function EntriesToday() {
     { Header: "First Name", accessor: "firstname" },
     { Header: "Last Name", accessor: "lastname" },
     { Header: "Phone Number", accessor: "phone" },
-    { Header: "ID Type", accessor: "documentType" },
     {
-      Header: "Entered By",
-      accessor: "enteredBy",
+      Header: "Room No",
+      accessor: "room",
+    },
+    {
+      Header: "With",
+      accessor: "with",
       Cell: ({ value }) => {
-        return <Link to={`/users/${value._id}`}>{value.firstname}</Link>;
+        if (value == 0) {
+          return "Single";
+        } else if (value == 1) {
+          return `${value} Other`;
+        } else {
+          return `${value} Others`;
+        }
       },
     },
     {
-      Header: "Entered At",
-      accessor: "enteredAt",
+      Header: "Checkin",
+      accessor: "time",
       Cell: ({ value }) => {
         return new Date(value).toLocaleString("en-US", {
           year: "numeric",
@@ -53,18 +63,67 @@ export default function EntriesToday() {
         });
       },
     },
+    {
+      Header: "Checkout",
+      accessor: "checkout",
+      Cell: ({ cell }) => {
+        const { value, row } = cell;
+
+        if (!value) {
+          return "Vitrai xa";
+        } else {
+          return `${new Date(value).toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}`;
+        }
+      },
+    },
+    {
+      Header: "Actions",
+      Cell: ({ row }) => {
+        return (
+          <div className="flex flex-row">
+            <Link
+              to={`/visitor/${row.original.visitorId}/viewEntry/${row.original.entryId}`}
+            >
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
+                View Entry
+                <div className="pl-2">
+                  <MdOutlineRemoveRedEye />
+                </div>
+              </button>
+            </Link>
+            <Link to={`/visitor/${row.original.visitorId}`}>
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
+                Visitor Details
+                <div className="pl-2">
+                  <MdOutlineRemoveRedEye />
+                </div>
+              </button>
+            </Link>
+          </div>
+        );
+      },
+    },
   ];
 
-  if (!visitorsToday) {
-    localStorage.removeItem("token");
-    window.location.reload();
-  }
+  // if (!visitorsToday) {
+  //   localStorage.removeItem("token");
+  //   window.location.reload();
+  // }
+
+  console.log(visitorsToday);
 
   return (
     <div className="">
       <h1 className="text-xl font-semibold text-center my-4">Visitors Today</h1>
       {visitorsToday.length < 1 ? (
-        <div>No Visitors Today</div>
+        <div className="text-center">No Visitors Today</div>
       ) : (
         <TableComponent COLUMNS={COLUMNS} Data={visitorsToday} />
       )}

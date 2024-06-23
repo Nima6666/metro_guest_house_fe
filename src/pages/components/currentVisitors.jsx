@@ -128,6 +128,14 @@ export default function CurrentVisitors() {
                 </div>
               </button>
             </Link>
+            <Link to={`/visitor/${row.original.visitorId}`}>
+              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
+                Visitor Details
+                <div className="pl-2">
+                  <MdOutlineRemoveRedEye />
+                </div>
+              </button>
+            </Link>
             <button
               className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center"
               onClick={() => checkoutHandler(row.original)}
@@ -148,8 +156,10 @@ export default function CurrentVisitors() {
       <h1 className="text-xl font-semibold text-center my-4">
         Current Visitors
       </h1>
-      {currentVisitors.length && (
+      {currentVisitors.length ? (
         <TableComponent COLUMNS={COLUMNS} Data={currentVisitors} />
+      ) : (
+        <div className="text-center">No Current Visitors</div>
       )}
     </div>
   );

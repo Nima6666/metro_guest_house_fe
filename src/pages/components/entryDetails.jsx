@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   deleteEntry,
   getSelectedVisitor,
+  notCheckedOut,
   visitorActions,
 } from "../../store/slices/visitorSlice";
 import { toast } from "react-toastify";
@@ -60,6 +61,11 @@ export default function EntryDetails() {
     } else {
       toast.error(response.message);
     }
+  }
+
+  async function notCheckedOutHandler() {
+    const response = await notCheckedOut(id, entryId);
+    console.log(response);
   }
 
   return (
@@ -168,7 +174,7 @@ export default function EntryDetails() {
             <button
               className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
               type="button"
-              onClick={() => setState("edit")}
+              onClick={() => notCheckedOutHandler(id, entryId)}
             >
               Not Checked Out
             </button>

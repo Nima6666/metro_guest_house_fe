@@ -124,6 +124,23 @@ export const deleteEntry = async (id, entryId) => {
   }
 };
 
+export const notCheckedOut = async (id, entryId) => {
+  try {
+    const response = await axios.put(
+      `${import.meta.env.VITE_SERVER}/visitor/${id}/${entryId}/notCheckout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const editEntry = async (id, entryId, formData) => {
   try {
     const response = await axios.patch(

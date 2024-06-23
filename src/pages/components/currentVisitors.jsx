@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
-export default function CurrentVisitors() {
+export default function CurrentVisitors({ setLoading }) {
   const dispatch = useDispatch();
   const currentVisitors = useSelector(
     (state) => state.visitorReducer.currentVisitors
@@ -88,6 +88,8 @@ export default function CurrentVisitors() {
       Cell: ({ row }) => {
         async function checkoutHandler(entryInfo) {
           // setEntryLoading(true);
+          setLoading(true);
+
           console.log(entryInfo);
           try {
             const response = await axios.put(
@@ -111,6 +113,7 @@ export default function CurrentVisitors() {
               toast.error(response.data.message);
             }
             // setEntryLoading(false);
+            setLoading(false);
           } catch (err) {
             console.error(err);
           }

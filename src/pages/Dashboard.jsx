@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUser, userActions } from "../store/slices/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { mockData } from "../assets/MOCK_DATA";
 import { getVisitors, visitorActions } from "../store/slices/visitorSlice";
 import EntriesToday from "./components/entriesToday";
 import CurrentVisitors from "./components/currentVisitors";
+import { BounceLoader } from "react-spinners";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
 
   const users = useSelector((state) => state.userReducer.users);
   const visitors = useSelector((state) => state.visitorReducer.visitor);
@@ -57,10 +59,24 @@ export default function Dashboard() {
           </div>
         </Link>
       </div>
-      <div className="my-4 pb-4">
-        <CurrentVisitors />
-        <EntriesToday />
-      </div>
+      {loading ? (
+        <>
+          <div className="relative pointer-events-none my-4 pb-4">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+              <BounceLoader />
+            </div>
+            <div className="opacity-50">
+              <CurrentVisitors setLoading={setLoading} />
+              <EntriesToday />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="my-4 pb-4">
+          <CurrentVisitors setLoading={setLoading} />
+          <EntriesToday />
+        </div>
+      )}
     </div>
   );
 }

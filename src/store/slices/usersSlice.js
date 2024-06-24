@@ -80,13 +80,16 @@ export const deleteStaff = async (staffId) => {
 
 export const usersSlice = createSlice({
   name: "users",
-  initialState: { users: [], selectedUserDetails: {} },
+  initialState: { users: [], selectedUserDetails: {}, myProfile: {} },
   reducers: {
     setUsers(state, action) {
       state.users = action.payload;
     },
     setSelectedUserDetails(state, action) {
       state.selectedUserDetails = { ...action.payload };
+    },
+    setMyProfile(state, action) {
+      state.myProfile = { ...action.payload };
     },
   },
 });

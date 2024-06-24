@@ -73,7 +73,7 @@ export default function Dashboard() {
         </>
       ) : (
         <div className="my-4 pb-4">
-          <CurrentVisitors setLoading={setLoading} loading={loading} />
+          <CurrentVisitors />
         </div>
       )}
     </div>

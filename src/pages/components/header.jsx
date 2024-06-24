@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import logoImg from "/logo.png";
 
 export default function Header() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
@@ -16,7 +17,7 @@ export default function Header() {
 
   return (
     <header className="flex justify-between items-center px-20 text-2xl p-4 bg-slate-300 shadow-md shadow-black">
-      <h1>Metro Guest House</h1>
+      <img src={logoImg} className="h-[100px]" alt="" />
       <div className="flex items-center justify-center">
         <h1 className="mx-2">
           welcome {loggedInUser.name}{" "}
@@ -40,7 +41,7 @@ export default function Header() {
                 </button>
                 <Link
                   to="/myProfile"
-                  className="text-lg text-nowrap p-2 rounded-md hover:bg-gray-400 m-1 transition-all duration-200"
+                  className="text-lg text-nowrap p-2 rounded-md font-semibold hover:bg-gray-500 hover:text-white m-1 transition-all duration-200"
                 >
                   My Profile
                 </Link>

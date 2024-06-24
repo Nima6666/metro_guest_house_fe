@@ -7,41 +7,41 @@ import { Link } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 import TableComponent from "./Table";
 
-export default function CheckoutsToday() {
+export default function CheckInsToday() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
 
-  const checkoutsToday = useSelector(
-    (state) => state.visitorReducer.checkoutsToday
+  const checkInsToday = useSelector(
+    (state) => state.visitorReducer.checkInsToday
   );
 
   useEffect(() => {
-    async function getCheckoutsToday() {
+    async function getCheckInsToday() {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER}/visitor/checkoutsToday`,
+          `${import.meta.env.VITE_SERVER}/visitor/checkInsToday`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-        console.log(response.data);
+        console.log(response);
         if (response.data.success) {
           dispatch(
-            visitorActions.setCheckoutsToday(await response.data.checkoutsToday)
+            visitorActions.setCheckInsToday(await response.data.checkInsToday)
           );
         }
       } catch (err) {
         console.error(err);
       }
     }
-    getCheckoutsToday();
+    getCheckInsToday();
     setLoading(false);
   }, []);
 
-  console.log(checkoutsToday);
+  console.log(checkInsToday);
 
   const COLUMNS = [
     {
@@ -136,16 +136,16 @@ export default function CheckoutsToday() {
   return (
     <div className="">
       <h1 className="text-xl font-semibold text-center my-4">
-        Visitors Today ({checkoutsToday.length})
+        CheckIns Today ({checkInsToday.length})
       </h1>
       {loading ? (
         <div className="flex justify-center items-center min-h-[50vh]">
           <BounceLoader />
         </div>
-      ) : checkoutsToday.length < 1 ? (
+      ) : checkInsToday.length < 1 ? (
         <div className="text-center">No Visitors Today</div>
       ) : (
-        <TableComponent COLUMNS={COLUMNS} Data={checkoutsToday} />
+        <TableComponent COLUMNS={COLUMNS} Data={checkInsToday} />
       )}
     </div>
   );

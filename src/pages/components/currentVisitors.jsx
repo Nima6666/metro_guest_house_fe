@@ -15,7 +15,7 @@ export default function CurrentVisitors() {
     (state) => state.visitorReducer.currentVisitors
   );
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getCurrentVisitors() {
@@ -28,7 +28,6 @@ export default function CurrentVisitors() {
             },
           }
         );
-        console.log(response.data.success);
         if (response.data.success) {
           dispatch(
             visitorActions.setCurrentVisitors(
@@ -41,9 +40,10 @@ export default function CurrentVisitors() {
       }
     }
     getCurrentVisitors();
-  }, [loading]);
+    setLoading(false);
+  }, []);
 
-  console.log(currentVisitors);
+  // console.log(currentVisitors);
 
   const COLUMNS = [
     {
@@ -94,9 +94,7 @@ export default function CurrentVisitors() {
       Header: "Actions",
       Cell: ({ row }) => {
         async function checkoutHandler(entryInfo) {
-          // setEntryLoading(true);
           setLoading(true);
-
           console.log(entryInfo);
           try {
             const response = await axios.put(
@@ -115,12 +113,12 @@ export default function CurrentVisitors() {
             if (response.data.success) {
               console.log(response.data);
               toast(response.data.message);
-              // setEntries(response.data.editedEntry);
-              window.location.reload();
+              dispatch(
+                visitorActions.setCurrentVisitors(response.data.currentVisitors)
+              );
             } else {
               toast.error(response.data.message);
             }
-            // setEntryLoading(false);
             setLoading(false);
           } catch (err) {
             console.error(err);
@@ -132,7 +130,7 @@ export default function CurrentVisitors() {
             <Link
               to={`/visitor/${row.original.visitorId}/viewEntry/${row.original.entryId}`}
             >
-              <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
+              <button className="bg-yellow-600 rounded-full p-2 text-white font-semibold mx-2 flex items-center text-sm justify-center text-nowrap">
                 View Entry
                 <div className="pl-2">
                   <MdOutlineRemoveRedEye />
@@ -168,9 +166,21 @@ export default function CurrentVisitors() {
         Current Visitors ({currentVisitors.length})
       </h1>
       {loading ? (
-        <BounceLoader />
-      ) : currentVisitors.length ? (
-        <TableComponent COLUMNS={COLUMNS} Data={currentVisitors} />
+        <div className="relative pointer-events-none">
+          <TableComponent
+            COLUMNS={COLUMNS}
+            Data={currentVisitors}
+            className="opacity-45"
+          />
+
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+            <BounceLoader />
+          </div>
+        </div>
+      ) : currentVisitors.length && !loading ? (
+        <div>
+          <TableComponent COLUMNS={COLUMNS} Data={currentVisitors} />
+        </div>
       ) : (
         <div className="text-center">No Current Visitors</div>
       )}

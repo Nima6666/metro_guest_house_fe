@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   getTodaysEntry,
   visitorActions,
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "./Table";
 import { Link } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { BounceLoader } from "react-spinners";
 
 export default function EntriesToday() {
   const visitorsToday = useSelector(
@@ -14,9 +15,12 @@ export default function EntriesToday() {
   );
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function getEntriesToday() {
       dispatch(visitorActions.setVisitorsToday(await getTodaysEntry()));
+      setLoading(false);
     }
 
     getEntriesToday();
@@ -121,8 +125,14 @@ export default function EntriesToday() {
 
   return (
     <div className="">
-      <h1 className="text-xl font-semibold text-center my-4">Visitors Today</h1>
-      {visitorsToday.length < 1 ? (
+      <h1 className="text-xl font-semibold text-center my-4">
+        Visitors Today ({visitorsToday.length})
+      </h1>
+      {loading ? (
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <BounceLoader />
+        </div>
+      ) : visitorsToday.length < 1 ? (
         <div className="text-center">No Visitors Today</div>
       ) : (
         <TableComponent COLUMNS={COLUMNS} Data={visitorsToday} />

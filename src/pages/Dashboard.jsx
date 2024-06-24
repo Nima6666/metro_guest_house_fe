@@ -46,14 +46,14 @@ export default function Dashboard() {
       <div className="flex flex-wrap justify-center items-center">
         {loggedInUser.role == "admin" && (
           <Link to="/users">
-            <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black flex justify-center items-center flex-col m-3">
+            <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black rounded-full flex justify-center items-center flex-col m-3">
               <h2 className="font-bold text-xl">Total Staff</h2>
               <p>{users.length}</p>
             </div>
           </Link>
         )}
         <Link to="/visitor">
-          <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black flex justify-center items-center flex-col m-3">
+          <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black flex rounded-full justify-center items-center flex-col m-3">
             <h2 className="font-bold text-xl">total Visitors</h2>
             <p>{visitors.length}</p>
           </div>
@@ -74,7 +74,6 @@ export default function Dashboard() {
       ) : (
         <div className="my-4 pb-4">
           <CurrentVisitors setLoading={setLoading} loading={loading} />
-          <EntriesToday />
         </div>
       )}
     </div>

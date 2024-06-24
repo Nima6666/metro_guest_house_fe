@@ -5,6 +5,8 @@ import { IoIosPersonAdd } from "react-icons/io";
 import { FaPersonWalkingLuggage } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 
+import { GiEntryDoor } from "react-icons/gi";
+
 export default function Navbar() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
 
@@ -34,6 +36,14 @@ export default function Navbar() {
         <FaPersonWalkingLuggage size={25} />
 
         <p className="text-left p-1">Visitor</p>
+      </Link>
+      <Link
+        to="/entries"
+        className="transition-all duration-300 hover:bg-slate-600 rounded-md m-2 w-full flex items-center p-2"
+      >
+        <GiEntryDoor size={25} />
+
+        <p className="text-left p-1">Entries</p>
       </Link>
     </aside>
   );

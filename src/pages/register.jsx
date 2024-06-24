@@ -150,10 +150,10 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
         <div className="flex flex-wrap justify-center items-center">
           {!reupload && (
             <>
-              <label htmlFor="firstname" className="m-2">
+              <label htmlFor="firstname" className="m-2 flex flex-col">
                 Firstname
                 <input
-                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 min-w-[300px]"
                   type="text"
                   name="firstname"
                   id="firstname"
@@ -162,10 +162,10 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
                   autoComplete="on"
                 />
               </label>
-              <label htmlFor="lastname" className="m-2">
+              <label htmlFor="lastname" className="m-2 flex flex-col">
                 Lastname
                 <input
-                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 min-w-[300px]"
                   type="text"
                   name="lastname"
                   id="lastname"
@@ -174,10 +174,10 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
                   autoComplete="on"
                 />
               </label>
-              <label htmlFor="email" className="m-2">
+              <label htmlFor="email" className="m-2 flex flex-col">
                 Email
                 <input
-                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 min-w-[300px]"
                   type="email"
                   name="email"
                   id="email"
@@ -188,10 +188,10 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
               </label>
               {!staff && (
                 <>
-                  <label htmlFor="password" className="m-2">
+                  <label htmlFor="password" className="m-2 flex flex-col">
                     Password
                     <input
-                      className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                      className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 min-w-[300px]"
                       type="password"
                       name="password"
                       id="password"
@@ -200,10 +200,13 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
                       autoComplete="on"
                     />
                   </label>
-                  <label htmlFor="confirmPassword" className="m-2">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="m-2 flex flex-col"
+                  >
                     Confirm Password
                     <input
-                      className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                      className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 min-w-[300px]"
                       type="password"
                       name="confirmPassword"
                       id="confirmPassword"
@@ -214,10 +217,10 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
                   </label>
                 </>
               )}
-              <label htmlFor="phone" className="m-2">
+              <label htmlFor="phone" className="m-2 flex flex-col">
                 Phone Number
                 <input
-                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+                  className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 min-w-[300px]"
                   type="text"
                   name="phone"
                   id="phone"

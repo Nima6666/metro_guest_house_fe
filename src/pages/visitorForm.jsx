@@ -147,7 +147,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
         setState("view");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error(error);
     }
   };
 

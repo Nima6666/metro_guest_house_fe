@@ -17,6 +17,8 @@ import VisitorDetails from "./pages/visitorDetails";
 import EntryDetails from "./pages/components/entryDetails";
 import { getServerStatus } from "./store/slices/usersSlice";
 import ResetPassword from "./pages/resetPassword";
+import Entries from "./pages/entries";
+import MyProfile from "./pages/myProfile";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,6 +76,8 @@ function App() {
         <div className="flex justify-center items-center w-full h-fit pt-4">
           <Routes>
             <Route path="/visitorForm" element={<VisitorForm />} />
+            <Route path="/entries" element={<Entries />} />
+            <Route path="/myProfile" element={<MyProfile />} />
             <Route path="/visitor" element={<VisitorTable />} />
             <Route path="/visitor/:id" element={<VisitorDetails />} />
             <Route

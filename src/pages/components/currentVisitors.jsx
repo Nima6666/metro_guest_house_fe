@@ -165,7 +165,7 @@ export default function CurrentVisitors() {
   return (
     <div>
       <h1 className="text-xl font-semibold text-center my-4">
-        Current Visitors
+        Current Visitors ({currentVisitors.length})
       </h1>
       {loading ? (
         <BounceLoader />

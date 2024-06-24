@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
@@ -30,13 +31,19 @@ export default function Header() {
               onClick={() => setLogout(!logout)}
             />
             {logout && (
-              <div className="absolute top-[110%] bg-red-700 rounded-md">
+              <div className="absolute top-[110%] bg-white shadow-lg shadow-black p-2 z-50 rounded-md flex flex-col justify-around items-center">
                 <button
-                  className="font-semibold p-3 text-lg text-white"
+                  className="font-semibold p-2 text-lg text-white  bg-red-700 rounded-md w-full m-1"
                   onClick={logoutHandler}
                 >
                   Logout
                 </button>
+                <Link
+                  to="/myProfile"
+                  className="text-lg text-nowrap p-2 rounded-md hover:bg-gray-400 m-1 transition-all duration-200"
+                >
+                  My Profile
+                </Link>
               </div>
             )}
           </div>

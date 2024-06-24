@@ -1,9 +1,10 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function CheckoutsToday() {
   const dispatch = useDispatch();
-  const currentVisitors = useSelector(
+  const checkoutsToday = useSelector(
     (state) => state.visitorReducer.checkoutsToday
   );
 
@@ -11,7 +12,7 @@ export default function CheckoutsToday() {
     async function getCheckoutsToday() {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER}/visitor/currentVisitors`,
+          `${import.meta.env.VITE_SERVER}/visitor/checkoutsToday`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -30,7 +31,7 @@ export default function CheckoutsToday() {
         console.error(err);
       }
     }
-    getCurrentVisitors();
+    getCheckoutsToday();
   }, []);
 
   return (

@@ -60,7 +60,7 @@ export default function UserDetails() {
     <div className="flex flex-col">
       <div
         id="userDetails"
-        className="flex w-full justify-between items-center flex-row-reverse p-12"
+        className="flex w-full justify-between items-center flex-col p-12"
       >
         <div className="flex flex-col items-center justify-center ">
           <img
@@ -77,29 +77,37 @@ export default function UserDetails() {
             </Link>
           )}
         </div>
-        <div>
-          <h1 className="text-xl font-semibold">Name</h1>
-          <div className="mb-2">
-            {selectedUser.firstname} {selectedUser.lastname}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-[#0077b6] p-2 rounded-md">
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Name</h1>
+            <div className="mb-2">
+              {selectedUser.firstname} {selectedUser.lastname}
+            </div>
           </div>
-          <h1 className="text-xl font-semibold">Email</h1>
-          <div className="mb-2">{selectedUser.email}</div>
-          <h1 className="text-xl font-semibold">Phone</h1>
-          <div className="mb-4">{selectedUser.phone}</div>
-          <h1 className="text-xl font-semibold">Creation Date</h1>
-          <div>
-            {new Date(selectedUser.createdUserTimestamp).toLocaleString(
-              "en-US",
-              {
-                year: "numeric",
-                month: "short",
-                day: "2-digit",
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true,
-              }
-            )}
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Email</h1>
+            <div className="mb-2">{selectedUser.email}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Phone</h1>
+            <div className="mb-4">{selectedUser.phone}</div>
+          </div>
+          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+            <h1 className="text-xl font-semibold">Creation Date</h1>
+            <div>
+              {new Date(selectedUser.createdUserTimestamp).toLocaleString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                  hour: "numeric",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: true,
+                }
+              )}
+            </div>
           </div>
         </div>
       </div>

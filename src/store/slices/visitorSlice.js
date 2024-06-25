@@ -203,6 +203,7 @@ export const visitorSlice = createSlice({
     checkoutsToday: [],
     checkInsToday: [],
     selectedEntry: {},
+    allEntries: [],
   },
   reducers: {
     setVisitor(state, action) {
@@ -228,6 +229,9 @@ export const visitorSlice = createSlice({
     },
     setCheckInsToday(state, action) {
       state.checkInsToday = action.payload;
+    },
+    setAllEntries(state, action) {
+      state.allEntries = action.payload;
     },
   },
 });

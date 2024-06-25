@@ -1,49 +1,53 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { visitorActions } from "../../store/slices/visitorSlice";
-import TableComponent from "./Table";
-import { IoMdExit } from "react-icons/io";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { BounceLoader } from "react-spinners";
+import { visitorActions } from "../store/slices/visitorSlice";
+import TableComponent from "./components/Table";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function CurrentVisitors() {
+export default function AllEntries() {
   const dispatch = useDispatch();
-  const currentVisitors = useSelector(
-    (state) => state.visitorReducer.currentVisitors
-  );
+  const allEntries = useSelector((state) => state.visitorReducer.allEntries);
 
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
-    async function getCurrentVisitors() {
+    async function getAllEntries(date) {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER}/visitor/currentVisitors`,
+          `${import.meta.env.VITE_SERVER}/visitor/allEntries`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
+            params: {
+              date: selectedDate ? date.toISOString() : "", // Pass the selected date as a parameter
+            },
           }
         );
         if (response.data.success) {
+          console.log(response.data);
           dispatch(
-            visitorActions.setCurrentVisitors(
-              await response.data.currentVisitors
-            )
+            visitorActions.setAllEntries(await response.data.allEntries)
           );
         }
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
-    getCurrentVisitors();
-    setLoading(false);
-  }, []);
+    setLoading(true);
+    getAllEntries(selectedDate);
+  }, [selectedDate, dispatch]);
 
-  // console.log(currentVisitors);
+  console.log(allEntries);
 
   const COLUMNS = [
     {
@@ -74,6 +78,26 @@ export default function CurrentVisitors() {
       },
     },
     {
+      Header: "Checkout",
+      accessor: "checkout",
+      Cell: ({ cell }) => {
+        const { value } = cell;
+
+        if (!value) {
+          return "Vitrai xa";
+        } else {
+          return `${new Date(value).toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}`;
+        }
+      },
+    },
+    {
       Header: "Room No",
       accessor: "room",
     },
@@ -93,39 +117,6 @@ export default function CurrentVisitors() {
     {
       Header: "Actions",
       Cell: ({ row }) => {
-        async function checkoutHandler(entryInfo) {
-          setLoading(true);
-          console.log(entryInfo);
-          try {
-            const response = await axios.put(
-              `${import.meta.env.VITE_SERVER}/visitor/${entryInfo.visitorId}/${
-                entryInfo.entryId
-              }`,
-              {},
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            );
-
-            if (response.data.success) {
-              toast(response.data.message);
-              dispatch(
-                visitorActions.setCurrentVisitors(
-                  await response.data.currentVisitors
-                )
-              );
-            } else {
-              toast.error(response.data.message);
-            }
-          } catch (err) {
-            console.error(err);
-          }
-          setLoading(false);
-        }
-
         return (
           <div className="flex flex-row">
             <Link
@@ -146,15 +137,6 @@ export default function CurrentVisitors() {
                 </div>
               </button>
             </Link>
-            <button
-              className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center"
-              onClick={() => checkoutHandler(row.original)}
-            >
-              Checkout
-              <div className="pl-2">
-                <IoMdExit />
-              </div>
-            </button>
           </div>
         );
       },
@@ -167,14 +149,32 @@ export default function CurrentVisitors() {
     </div>
   ) : (
     <div>
-      <h1 className="text-xl font-semibold text-center my-4">
-        Current Visitors ({currentVisitors.length})
-      </h1>
+      <div className="text-center my-4">
+        <h1 className="text-xl font-semibold">
+          All Entries ({allEntries.length})
+        </h1>
+        <div className="flex items-center justify-center">
+          Date
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            className="border p-2 rounded m-2"
+          />
+          {selectedDate && (
+            <button
+              className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
+              onClick={() => setSelectedDate(null)}
+            >
+              Clear Date
+            </button>
+          )}
+        </div>
+      </div>
       {loading ? (
         <div className="relative pointer-events-none">
           <TableComponent
             COLUMNS={COLUMNS}
-            Data={currentVisitors}
+            Data={allEntries}
             className="opacity-45"
           />
 
@@ -182,12 +182,12 @@ export default function CurrentVisitors() {
             <BounceLoader />
           </div>
         </div>
-      ) : currentVisitors.length && !loading ? (
+      ) : allEntries && allEntries.length ? (
         <div>
-          <TableComponent COLUMNS={COLUMNS} Data={currentVisitors} />
+          <TableComponent COLUMNS={COLUMNS} Data={allEntries} />
         </div>
       ) : (
-        <div className="text-center">No Current Visitors</div>
+        <div className="text-center">No Entries Yet</div>
       )}
     </div>
   );

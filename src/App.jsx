@@ -19,6 +19,7 @@ import { getServerStatus } from "./store/slices/usersSlice";
 import ResetPassword from "./pages/resetPassword";
 import Entries from "./pages/entries";
 import MyProfile from "./pages/myProfile";
+import AllEntries from "./pages/allEntries";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,7 @@ function App() {
           <Routes>
             <Route path="/visitorForm" element={<VisitorForm />} />
             <Route path="/entries" element={<Entries />} />
+            <Route path="/entries/allEntries" element={<AllEntries />} />
             <Route path="/myProfile" element={<MyProfile />} />
             <Route path="/visitor" element={<VisitorTable />} />
             <Route path="/visitor/:id" element={<VisitorDetails />} />

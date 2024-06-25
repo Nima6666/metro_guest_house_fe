@@ -3,6 +3,8 @@ import EntriesToday from "./components/entriesToday";
 import CurrentVisitors from "./components/currentVisitors";
 import CheckoutsToday from "./components/checkoutToday";
 import CheckInsToday from "./components/checkInsToday";
+import { Link } from "react-router-dom";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 export default function Entries() {
   const [view, setView] = useState("today");
@@ -63,6 +65,14 @@ export default function Entries() {
       ) : (
         <CheckInsToday />
       )}
+      <div className="w-full flex justify-center items-center">
+        <Link
+          to="./allEntries"
+          className="rounded-md bg-black text-white self-center w-auto p-3 shadow-lg border border-white hover:shadow-md transition-all duration-200 shadow-black mt-4 flex justify-center items-center"
+        >
+          View All Entries <MdOutlineRemoveRedEye className="ml-2" />
+        </Link>
+      </div>
     </div>
   );
 }

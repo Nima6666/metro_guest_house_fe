@@ -107,7 +107,11 @@ export default function CheckInsToday() {
     {
       Header: "Actions",
       Cell: ({ row }) => {
-        return (
+        return loading ? (
+          <div>
+            <BounceLoader />
+          </div>
+        ) : (
           <div className="flex flex-row">
             <Link
               to={`/visitor/${row.original.visitorId}/viewEntry/${row.original.entryId}`}
@@ -133,7 +137,11 @@ export default function CheckInsToday() {
     },
   ];
 
-  return (
+  return loading ? (
+    <div>
+      <BounceLoader />
+    </div>
+  ) : (
     <div className="">
       <h1 className="text-xl font-semibold text-center my-4">
         CheckIns Today ({checkInsToday.length})

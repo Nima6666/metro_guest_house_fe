@@ -54,7 +54,7 @@ export default function Dashboard() {
         )}
         <Link to="/visitor">
           <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black flex rounded-full justify-center items-center flex-col m-3">
-            <h2 className="font-bold text-xl">total Visitors</h2>
+            <h2 className="font-bold text-xl">Search Visitor</h2>
             <p>{visitors.length}</p>
           </div>
         </Link>

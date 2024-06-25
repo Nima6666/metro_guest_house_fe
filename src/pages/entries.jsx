@@ -5,9 +5,13 @@ import CheckoutsToday from "./components/checkoutToday";
 import CheckInsToday from "./components/checkInsToday";
 import { Link } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { visitorActions } from "../store/slices/visitorSlice";
 
 export default function Entries() {
-  const [view, setView] = useState("today");
+  // const [view, setView] = useState("today");
+  const dispatch = useDispatch();
+  const view = useSelector((state) => state.visitorReducer.entryView);
 
   return (
     <div>
@@ -21,7 +25,7 @@ export default function Entries() {
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110"
           } `}
-          onClick={() => setView("today")}
+          onClick={() => dispatch(visitorActions.setEntryView("today"))}
         >
           Entries Today
         </div>
@@ -31,7 +35,7 @@ export default function Entries() {
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110"
           } `}
-          onClick={() => setView("current")}
+          onClick={() => dispatch(visitorActions.setEntryView("current"))}
         >
           Current Visitor
         </div>
@@ -41,7 +45,7 @@ export default function Entries() {
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110"
           } `}
-          onClick={() => setView("checkout")}
+          onClick={() => dispatch(visitorActions.setEntryView("checkout"))}
         >
           Checkouts Today
         </div>
@@ -51,7 +55,7 @@ export default function Entries() {
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110 z-20"
           } `}
-          onClick={() => setView("checkins")}
+          onClick={() => dispatch(visitorActions.setEntryView("checkins"))}
         >
           CheckIns Today
         </div>

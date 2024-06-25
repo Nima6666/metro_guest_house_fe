@@ -151,7 +151,14 @@ export default function AllEntries() {
     <div>
       <div className="text-center my-4">
         <h1 className="text-xl font-semibold">
-          All Entries ({allEntries.length})
+          All Entries ({allEntries.length}){" "}
+          {selectedDate
+            ? `on a date ${new Date(selectedDate).toLocaleString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}`
+            : ""}
         </h1>
         <div className="flex items-center justify-center">
           Date

@@ -16,6 +16,8 @@ export default function CheckoutsToday() {
     (state) => state.visitorReducer.checkoutsToday
   );
 
+  const view = useSelector((state) => state.visitorReducer.entryView);
+
   useEffect(() => {
     async function getCheckoutsToday() {
       try {
@@ -39,7 +41,7 @@ export default function CheckoutsToday() {
     }
     getCheckoutsToday();
     setLoading(false);
-  }, []);
+  }, [view, dispatch]);
 
   console.log(checkoutsToday);
 
@@ -133,10 +135,14 @@ export default function CheckoutsToday() {
     },
   ];
 
-  return (
+  return loading ? (
+    <div>
+      <BounceLoader />
+    </div>
+  ) : (
     <div className="">
       <h1 className="text-xl font-semibold text-center my-4">
-        Visitors Today ({checkoutsToday.length})
+        Checkouts Today ({checkoutsToday.length})
       </h1>
       {loading ? (
         <div className="flex justify-center items-center min-h-[50vh]">

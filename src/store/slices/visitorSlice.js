@@ -204,6 +204,7 @@ export const visitorSlice = createSlice({
     checkInsToday: [],
     selectedEntry: {},
     allEntries: [],
+    entryView: "today",
   },
   reducers: {
     setVisitor(state, action) {
@@ -232,6 +233,9 @@ export const visitorSlice = createSlice({
     },
     setAllEntries(state, action) {
       state.allEntries = action.payload;
+    },
+    setEntryView(state, action) {
+      state.entryView = action.payload;
     },
   },
 });

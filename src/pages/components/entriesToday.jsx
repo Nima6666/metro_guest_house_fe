@@ -123,10 +123,14 @@ export default function EntriesToday() {
 
   console.log(visitorsToday);
 
-  return (
+  return loading ? (
+    <div>
+      <BounceLoader />
+    </div>
+  ) : (
     <div className="">
       <h1 className="text-xl font-semibold text-center my-4">
-        Visitors Today ({visitorsToday.length})
+        Entries Today ({visitorsToday.length})
       </h1>
       {loading ? (
         <div className="flex justify-center items-center min-h-[50vh]">

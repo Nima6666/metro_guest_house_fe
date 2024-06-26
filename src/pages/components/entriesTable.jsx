@@ -79,7 +79,6 @@ export default function EntryTable({ entris, id }) {
       Cell: ({ cell }) => {
         const { value, row } = cell;
 
-        console.log(row.original);
         return `${new Date(value).toLocaleString("en-US", {
           year: "numeric",
           month: "short",
@@ -199,8 +198,6 @@ export default function EntryTable({ entris, id }) {
     // },
   ];
 
-  console.log(entries);
-
   function removeCompanion(index) {
     console.log(index);
     const companionData = [...companions];
@@ -211,8 +208,8 @@ export default function EntryTable({ entris, id }) {
 
   return (
     <>
-      <div className="w-[70vw] pb-8 ">
-        <h1 className="text-xl font-semibold text-center">Entries</h1>
+      <div className="w-[70vw] pb-8 my-2">
+        <h1 className="text-xl font-semibold text-center mb-2">Entries</h1>
         <div className="text-center">
           {entryForm && (
             <form className="bg-gray-200 p-2 rounded-lg m-4">

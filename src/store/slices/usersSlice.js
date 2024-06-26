@@ -10,8 +10,6 @@ export const getUser = async () => {
       },
     });
 
-    console.log(res.data.allusers);
-
     return res.data.allusers;
   } catch (err) {
     console.log(err);
@@ -23,7 +21,6 @@ export const getServerStatus = async () => {
     const res = await axios.get(
       `${import.meta.env.VITE_SERVER}/users/serverStat`
     );
-    console.log("serverStat ", res.data);
     if (res.data.success) {
       return res.data.stat;
     } else {

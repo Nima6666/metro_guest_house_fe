@@ -3,7 +3,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const getVisitors = async (params) => {
-  console.log(params);
   try {
     const res = await axios.get(`${import.meta.env.VITE_SERVER}/visitor`, {
       headers: {

@@ -38,9 +38,6 @@ export default function Dashboard() {
     getVisitorsHandler();
   }, [dispatch, users, loading]);
 
-  console.log(visitors);
-  console.log(loggedInUser);
-
   return (
     <div className="flex flex-col">
       <div className="flex flex-wrap justify-center items-center">

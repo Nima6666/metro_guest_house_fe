@@ -51,7 +51,6 @@ function App() {
   }, [loggedIn]);
 
   if (token && !userResolved) {
-    console.log("loading");
     return (
       <div className="w-[100vw] h-[100vh] flex justify-center items-center">
         <BounceLoader />

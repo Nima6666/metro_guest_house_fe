@@ -64,10 +64,10 @@ export default function VisitorDetails() {
   return loading ? (
     <BounceLoader />
   ) : state === "view" ? (
-    <div>
+    <div className="w-full p-2 flex flex-col justify-center items-center">
       <div
         id="userDetails"
-        className="flex flex-col justify-center items-center"
+        className="flex flex-col justify-center items-center w-full"
       >
         <h1 className="text-2xl font-semibold text-center mb-4 w-full">
           <div
@@ -87,7 +87,7 @@ export default function VisitorDetails() {
                   : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
               }
               alt=""
-              className="h-full object-cover"
+              className="h-full object-cover my-2"
             />
           </div>
           {loggedInUser.role === "admin" && (
@@ -99,7 +99,7 @@ export default function VisitorDetails() {
             </Link>
           )}
         </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-[#0077b6] p-2 rounded-md">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-[#0077b6] p-2 rounded-md my-2">
           <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
             <h1 className="text-xl font-semibold">Name</h1>
             <div className="mb-2">
@@ -198,7 +198,7 @@ export default function VisitorDetails() {
           )}
         </>
       )}
-      <EntryTable entris={selectedVisitor.entries} id={id} />
+      <EntryTable entris={selectedVisitor.entries} id={id} className="my-2" />
     </div>
   ) : (
     <VisitorForm visitorToEdit={selectedVisitor} setState={setState} />

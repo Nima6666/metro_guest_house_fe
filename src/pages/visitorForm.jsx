@@ -142,7 +142,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
       if (response.data.success) {
         toast(response.data.message);
         dispatch(
-          visitorActions.setSelectorVisitor(response.data.editedVisitor)
+          visitorActions.setSelectedVisitor(response.data.editedVisitor)
         );
         setState("view");
       }

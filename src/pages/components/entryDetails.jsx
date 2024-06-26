@@ -127,7 +127,7 @@ export default function EntryDetails() {
             >
               <IoChevronBackOutline size={30} />
             </div>
-            <div>
+            <div className="my-4">
               <h1 className="text-2xl font-semibold text-center mb-4">
                 {/* <div
               className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
@@ -152,6 +152,12 @@ export default function EntryDetails() {
                   })}
                 </div>
                 <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <div className="text-lg font-semibold mx-2">CheckedIn By</div>
+                  <Link to={`/users/${selectedEntry.by._id}`}>
+                    <div>{selectedEntry.by.firstname}</div>
+                  </Link>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
                   <div className="text-lg font-semibold mx-2">
                     Checkout Time
                   </div>
@@ -174,6 +180,16 @@ export default function EntryDetails() {
                     <div>Vitrai xa</div>
                   )}
                 </div>
+                {selectedEntry.checkoutTime && (
+                  <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                    <div className="text-lg font-semibold mx-2">
+                      Checkout By
+                    </div>
+                    <Link to={`/users/${selectedEntry.checkoutBy._id}`}>
+                      <div>{selectedEntry.checkoutBy.firstname}</div>
+                    </Link>
+                  </div>
+                )}
                 <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
                   <div className="text-lg font-semibold mx-2">Room No</div>
                   <div>{selectedEntry.room}</div>
@@ -206,12 +222,7 @@ export default function EntryDetails() {
                   <div className="text-lg font-semibold mx-2">Remarks</div>
                   <div>{selectedEntry.remarks}</div>
                 </div>
-                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-                  <div className="text-lg font-semibold mx-2">Entered By</div>
-                  <Link to={`/users/${selectedEntry.by._id}`}>
-                    <div>{selectedEntry.by.firstname}</div>
-                  </Link>
-                </div>
+
                 {selectedEntry.companion.length === 0 && (
                   <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
                     <div className="text-lg font-semibold mx-2">With</div>

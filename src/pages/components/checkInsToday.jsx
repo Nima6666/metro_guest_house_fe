@@ -123,14 +123,14 @@ export default function CheckInsToday() {
                 </div>
               </button>
             </Link>
-            <Link to={`/visitor/${row.original.visitorId}`}>
+            {/* <Link to={`/visitor/${row.original.visitorId}`}>
               <button className="bg-gray-600 p-2 rounded-md text-white font-semibold mx-2 flex items-center justify-center text-nowrap">
                 Visitor Details
                 <div className="pl-2">
                   <MdOutlineRemoveRedEye />
                 </div>
               </button>
-            </Link>
+            </Link> */}
           </div>
         );
       },

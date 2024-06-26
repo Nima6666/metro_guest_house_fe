@@ -7,8 +7,10 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { BounceLoader } from "react-spinners";
 import { visitorActions } from "../store/slices/visitorSlice";
 import TableComponent from "./components/Table";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import NepaliDate from "nepali-date-converter";
+import { NepaliDatePicker } from "nepali-datepicker-reactjs";
+
+import "nepali-datepicker-reactjs/dist/index.css";
 
 export default function AllEntries() {
   const dispatch = useDispatch();
@@ -16,6 +18,29 @@ export default function AllEntries() {
 
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(null);
+
+  // const getNepaliDateString = (date) => {
+  //   if (!date) return "";
+  //   try {
+  //     const nepaliDate = new NepaliDate(new Date(date));
+  //     return nepaliDate.format("YYYY-MM-DD");
+  //   } catch (error) {
+  //     console.error("Invalid date:", error);
+  //     return "";
+  //   }
+  // };
+
+  async function handleDateChange(date) {
+    console.log(date);
+    const dateArr = date.split("-");
+    console.log(dateArr);
+    const jsDate = new NepaliDate(
+      parseInt(dateArr[0]),
+      parseInt(dateArr[1]),
+      parseInt(dateArr[2])
+    ).toJsDate();
+    console.log(jsDate);
+  }
 
   useEffect(() => {
     async function getAllEntries(date) {
@@ -46,8 +71,6 @@ export default function AllEntries() {
     setLoading(true);
     getAllEntries(selectedDate);
   }, [selectedDate, dispatch]);
-
-  console.log(allEntries);
 
   const COLUMNS = [
     {
@@ -152,20 +175,15 @@ export default function AllEntries() {
       <div className="text-center my-4">
         <h1 className="text-xl font-semibold">
           All Entries ({allEntries.length}){" "}
-          {selectedDate
-            ? `on a date ${new Date(selectedDate).toLocaleString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "2-digit",
-              })}`
-            : ""}
+          {selectedDate ? `on a date ${selectedDate}` : ""}
         </h1>
         <div className="flex items-center justify-center">
           Date
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
+          <NepaliDatePicker
+            value={selectedDate}
+            onChange={(date) => handleDateChange(date)}
             className="border p-2 rounded m-2"
+            options={{ calendarLocale: "en", valueLocale: "en" }}
           />
           {selectedDate && (
             <button

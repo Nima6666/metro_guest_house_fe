@@ -34,22 +34,22 @@ export default function VisitorDetails() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getUserHandler() {
+    async function getVisitorHandler() {
       const visitor = await getSelectedVisitor(id);
-      dispatch(visitorActions.setSelectorVisitor(visitor));
+      dispatch(visitorActions.setSelectedVisitor(visitor));
       setLoading(false);
     }
-    getUserHandler();
+    getVisitorHandler();
   }, [dispatch, id]);
 
-  let date = "";
-  if (selectedVisitor?.enteredAt?.length > 0) {
-    const enteredAtDate = new Date(selectedVisitor.enteredAt[0].time);
-    date =
-      enteredAtDate.toLocaleDateString() +
-      " " +
-      enteredAtDate.toLocaleTimeString();
-  }
+  // let date = "";
+  // if (selectedVisitor?.enteredAt?.length > 0) {
+  //   const enteredAtDate = new Date(selectedVisitor.enteredAt[0].time);
+  //   date =
+  //     enteredAtDate.toLocaleDateString() +
+  //     " " +
+  //     enteredAtDate.toLocaleTimeString();
+  // }
 
   async function deleteVisitorHanlder(id) {
     const response = await deleteVisitor(id);

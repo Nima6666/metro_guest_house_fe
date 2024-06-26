@@ -23,6 +23,9 @@ export default function EntryDetails() {
   const [loading, setLoading] = useState(true);
 
   const loggedInUser = useSelector((state) => state.loginReducer.loggedInUser);
+  const selectedVisitor = useSelector(
+    (state) => state.visitorReducer.selectedVisitor
+  );
 
   const [deletionConfirmation, setDeleteConfrimation] = useState(false);
 
@@ -41,11 +44,20 @@ export default function EntryDetails() {
       if (entry.success) {
         dispatch(visitorActions.setSelectedEntry(entry.selectedEntry));
       }
-
-      setLoading(false);
     }
+
+    async function getVisitorHandler() {
+      const visitor = await getSelectedVisitor(id);
+      console.log(visitor);
+      dispatch(visitorActions.setSelectedVisitor(visitor));
+    }
+    getVisitorHandler();
+
     getEntryHandler();
+    setLoading(false);
   }, [dispatch, id, entryId]);
+
+  console.log("Selected Visitor ", selectedVisitor);
 
   async function removeEntry(id, entryId) {
     const response = await deleteEntry(id, entryId);
@@ -93,7 +105,6 @@ export default function EntryDetails() {
       } else {
         toast.error(response.data.message);
       }
-      // setEntryLoading(false);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -109,13 +120,103 @@ export default function EntryDetails() {
       !loading &&
       (state === "view" ? (
         <div className="w-full h-full px-4">
-          <h1 className="text-2xl font-semibold text-center mb-4">
+          <div>
             <div
+              id="userDetails"
+              className="flex flex-col justify-center items-center"
+            >
+              <h1 className="text-2xl font-semibold text-center mb-4 w-full">
+                <div
+                  className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
+                  onClick={() => navigate(-1)}
+                >
+                  <IoChevronBackOutline size={30} />
+                </div>
+                Visitor Details
+              </h1>
+              <div className="flex flex-col items-center justify-center">
+                <div className="w-[500px] h-fit rounded-md">
+                  <img
+                    src={
+                      selectedVisitor.documentLocation
+                        ? selectedVisitor.documentLocation
+                        : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
+                    }
+                    alt=""
+                    className="h-full object-cover my-4"
+                  />
+                </div>
+              </div>
+              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-[#0077b6] p-2 rounded-md my-4">
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Name</h1>
+                  <div className="mb-2">
+                    {selectedVisitor.firstname} {selectedVisitor.lastname}
+                  </div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Gender</h1>
+                  <div className="mb-2">{selectedVisitor.gender}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Occupation</h1>
+                  <div className="mb-2">{selectedVisitor.occupation}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Age</h1>
+                  <div className="mb-2">{selectedVisitor.age}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Created By</h1>
+                  {/* <Link
+                    to={`/users/${selectedVisitor.enteredBy._id}`}
+                    className="mb-2"
+                  >
+                    {selectedVisitor.enteredBy.firstname}
+                  </Link> */}
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Document Type</h1>
+                  <div className="mb-2">{selectedVisitor.documentType}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Document ID</h1>
+                  <div className="mb-2">{selectedVisitor.documentId}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Address</h1>
+                  <div className="mb-2">{selectedVisitor.address}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Phone No</h1>
+                  <div className="mb-2">{selectedVisitor.phone}</div>
+                </div>
+                <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
+                  <h1 className="text-xl font-semibold">Created At</h1>
+                  <div className="mb-2">
+                    {new Date(selectedVisitor.enteredAt).toLocaleString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      }
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h1 className="text-2xl font-semibold text-center mb-4">
+            {/* <div
               className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
               onClick={() => navigate(-1)}
             >
               <IoChevronBackOutline size={30} />
-            </div>
+            </div> */}
             Entry Details
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-gray-200 p-2 rounded-md">
@@ -221,7 +322,7 @@ export default function EntryDetails() {
           </div>
 
           {loggedInUser.role == "admin" && (
-            <div className="flex items-center justify-center mt-4">
+            <div className="flex items-center justify-center mt-4 pb-4">
               <button
                 className="bg-green-600 p-2 rounded-md text-white font-semibold mx-2"
                 // onClick={(id) => removeCompanion(index)}

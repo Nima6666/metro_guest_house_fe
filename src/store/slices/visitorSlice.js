@@ -13,7 +13,10 @@ export const getVisitors = async () => {
     if (res.data.success) {
       // console.log(res.data.visitors);
       return res.data.visitors;
-    } else return Error;
+    } else {
+      localStorage.removeItem("token");
+      window.location.reload();
+    }
 
     // return res.data.allusers;
   } catch (err) {
@@ -36,15 +39,12 @@ export const getSelectedVisitor = async (visitorId) => {
       }
     );
 
-    console.log(res.data);
-
-    if (res.data.success == false) {
+    if (res.status == 401) {
       localStorage.removeItem("token");
       window.location.reload();
     }
 
     if (res.data.success) {
-      console.log(res.data);
       return res.data.selectedVisitor;
     }
   } catch (err) {
@@ -210,7 +210,7 @@ export const visitorSlice = createSlice({
     setVisitor(state, action) {
       state.visitor = action.payload;
     },
-    setSelectorVisitor(state, action) {
+    setSelectedVisitor(state, action) {
       state.selectedVisitor = { ...action.payload };
     },
     setSearchedVisitor(state, action) {

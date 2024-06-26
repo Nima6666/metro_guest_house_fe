@@ -38,8 +38,8 @@ export default function Dashboard() {
     getVisitorsHandler();
   }, [dispatch, users, loading]);
 
-  // console.log(visitors);
-  // console.log(loggedInUser);
+  console.log(visitors);
+  console.log(loggedInUser);
 
   return (
     <div className="flex flex-col">

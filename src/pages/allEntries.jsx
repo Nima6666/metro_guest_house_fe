@@ -30,17 +30,56 @@ export default function AllEntries() {
   //   }
   // };
 
+  function nepaliDate(selDate) {
+    if (!selDate) {
+      return;
+    }
+
+    const date = new NepaliDate(selDate);
+
+    const year = date.getYear();
+    const month = date.getMonth();
+    const calculatedMonth = month.toString().length < 2 ? `0${month}` : month;
+    const day = date.getDay();
+    const calculatedDay = day.toString().length < 2 ? `0${day}` : day;
+
+    console.log(
+      `${year}-${
+        parseInt(calculatedMonth) > 12
+          ? parseInt(calculatedMonth) - 12
+          : parseInt(calculatedMonth) < 1
+          ? 12 - parseInt(calculatedMonth)
+          : calculatedMonth
+      }-${calculatedDay}`
+    );
+
+    return `${year}-${
+      parseInt(calculatedMonth) > 12
+        ? parseInt(calculatedMonth) - 12
+        : parseInt(calculatedMonth) < 1
+        ? 12 - parseInt(calculatedMonth)
+        : calculatedMonth
+    }-${calculatedDay}`;
+  }
+
   async function handleDateChange(date) {
-    console.log(date);
+    console.log(typeof date);
     const dateArr = date.split("-");
     console.log(dateArr);
     const jsDate = new NepaliDate(
       parseInt(dateArr[0]),
-      parseInt(dateArr[1]),
+      12 < parseInt(dateArr[1] - 1)
+        ? parseInt(dateArr[1] - 1) - 12
+        : 1 > parseInt(dateArr[1] - 1)
+        ? 12 - parseInt(dateArr[1] - 1)
+        : parseInt(dateArr[1] - 1),
       parseInt(dateArr[2])
     ).toJsDate();
     console.log(jsDate);
+    setSelectedDate(jsDate);
   }
+
+  console.log("selected Date ", selectedDate);
 
   useEffect(() => {
     async function getAllEntries(date) {
@@ -52,7 +91,7 @@ export default function AllEntries() {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             params: {
-              date: selectedDate ? date.toISOString() : "", // Pass the selected date as a parameter
+              date: selectedDate,
             },
           }
         );
@@ -175,12 +214,16 @@ export default function AllEntries() {
       <div className="text-center my-4">
         <h1 className="text-xl font-semibold">
           All Entries ({allEntries.length}){" "}
-          {selectedDate ? `on a date ${selectedDate}` : ""}
+          {selectedDate
+            ? `on a date ${new NepaliDate(selectedDate).format(
+                "dddd, MMMM Do YYYY"
+              )}`
+            : ""}
         </h1>
         <div className="flex items-center justify-center">
           Date
           <NepaliDatePicker
-            value={selectedDate}
+            value={selectedDate ? nepaliDate(selectedDate) : ""}
             onChange={(date) => handleDateChange(date)}
             className="border p-2 rounded m-2"
             options={{ calendarLocale: "en", valueLocale: "en" }}

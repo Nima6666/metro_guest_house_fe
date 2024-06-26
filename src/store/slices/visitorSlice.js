@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getVisitors = async () => {
+export const getVisitors = async (params) => {
+  console.log(params);
   try {
     const res = await axios.get(`${import.meta.env.VITE_SERVER}/visitor`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      params: { ...params },
     });
 
     if (res.data.success) {

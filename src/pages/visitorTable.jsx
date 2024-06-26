@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import TableComponent from "./components/Table";
@@ -12,33 +12,62 @@ import { BounceLoader } from "react-spinners";
 import Register from "./register";
 import VisitorForm from "./visitorForm";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { useDebounce } from "use-debounce";
 
 export default function VisitorTable() {
   const visitors = useSelector((state) => state.visitorReducer.visitor);
 
-  const searchedVisitor = useSelector(
-    (state) => state.visitorReducer.searchedVisitor
-  );
-
-  const [search, setSearch] = useState(false);
-
   const [loading, setLoading] = useState(true);
 
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [number, setNumber] = useState("");
+  const [documentId, setDocumentId] = useState("");
+
+  const [debouncedFirstname] = useDebounce(firstname, 500);
+  const [debouncedLastname] = useDebounce(lastname, 500);
+  const [debouncedNumber] = useDebounce(number, 500);
+  const [debouncedDocumentId] = useDebounce(documentId, 500);
+
+  const queryParameters = useMemo(
+    () => ({
+      firstname: debouncedFirstname,
+      lastname: debouncedLastname,
+      number: debouncedNumber,
+      documentId: debouncedDocumentId,
+    }),
+    [
+      debouncedFirstname,
+      debouncedLastname,
+      debouncedNumber,
+      debouncedDocumentId,
+    ]
+  );
 
   const [addVisitorForm, setAddVisitorForm] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setLoading(true);
+  }, [firstname, lastname, number, documentId]);
+
+  useEffect(() => {
     async function getVisitorsHandler() {
-      const visitorsData = await getVisitors();
+      const params = {
+        firstname,
+        lastname,
+        number,
+        documentId,
+      };
+
+      const visitorsData = await getVisitors(queryParameters);
       dispatch(visitorActions.setVisitor(visitorsData));
       setLoading(false);
     }
 
     getVisitorsHandler();
-  }, [search, dispatch]);
+  }, [dispatch, queryParameters]);
 
   const COLUMNS = [
     {
@@ -100,63 +129,59 @@ export default function VisitorTable() {
     },
   ];
 
-  async function checkNumberInDatabase(e) {
-    const inputNumber = e.target.value;
-    setAddVisitorForm(false);
-    setSearch(true);
-    setLoading(true);
-    setNumber(inputNumber);
-
-    console.log("found visitors", searchedVisitor);
-
-    if (inputNumber) {
-      const visitorsData = await getVisitorWithNumber(inputNumber);
-      dispatch(visitorActions.setSearchedVisitor(visitorsData));
-      setLoading(false);
-    } else {
-      setSearch(false);
-    }
-
-    console.log(inputNumber);
-  }
   return (
     <div className="flex flex-col w-full p-2">
-      <div className="self-center flex flex-col">
-        <label htmlFor="phone">Phone Number</label>
-        <input
-          type="number"
-          name="phone"
-          id="phone"
-          className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
-          onChange={checkNumberInDatabase}
-          value={number}
-        />
+      <div className="self-center flex w-full items-center justify-center">
+        <div className="flex flex-col m-2">
+          <label htmlFor="firstname">Firstname</label>
+          <input
+            type="text"
+            name="firstname"
+            id="phone"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setFirstname(e.target.value)}
+            value={firstname}
+          />
+        </div>
+        <div className="flex flex-col m-2">
+          <label htmlFor="phone">Lastname</label>
+          <input
+            type="text"
+            name="lastname"
+            id="lastname"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setLastname(e.target.value)}
+            value={lastname}
+          />
+        </div>
+        <div className="flex flex-col m-2">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="number"
+            name="phone"
+            id="phone"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setNumber(e.target.value)}
+            value={number}
+          />
+        </div>
+        <div className="flex flex-col m-2">
+          <label htmlFor="phone">DocumentId</label>
+          <input
+            type="text"
+            name="documentId"
+            id="documentId"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setDocumentId(e.target.value)}
+            value={documentId}
+          />
+        </div>
       </div>
       <h1 className="text-xl font-semibold text-center p-4">All Visitors</h1>
       {loading ? (
         <div className="min-h-[50vh] flex justify-center items-center">
           <BounceLoader />
         </div>
-      ) : search && searchedVisitor ? (
-        searchedVisitor.length < 1 ? (
-          <>
-            <p className="self-center">
-              No visitors found with provided number
-            </p>
-            <button
-              className="rounded-md bg-black text-white mt-2 p-2 self-center"
-              onClick={() => setAddVisitorForm(true)}
-            >
-              Add New
-            </button>
-            {addVisitorForm && <VisitorForm number={number} />}
-          </>
-        ) : (
-          <>
-            <TableComponent COLUMNS={COLUMNS} Data={searchedVisitor} />
-            {addVisitorForm && <Register />}
-          </>
-        )
       ) : visitors && visitors.length > 0 ? (
         <TableComponent COLUMNS={COLUMNS} Data={visitors} />
       ) : (

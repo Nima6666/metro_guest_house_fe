@@ -20,7 +20,7 @@ export default function Entries() {
         className="flex flex-wrap items-center justify-center"
       >
         <div
-          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer shadow-black transition-all duration-300 m-2 bg-white ${
+          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer border-[2px] border-[#0077b6] shadow-gray-400 transition-all duration-300 m-2 bg-white ${
             view === "today"
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110"
@@ -30,7 +30,7 @@ export default function Entries() {
           Entries Today
         </div>
         <div
-          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer shadow-black transition-all duration-300 m-2 bg-white ${
+          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer border-[2px] border-[#0077b6] shadow-gray-400 transition-all duration-300 m-2 bg-white ${
             view === "current"
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110"
@@ -40,7 +40,7 @@ export default function Entries() {
           Current Visitor
         </div>
         <div
-          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer shadow-black transition-all duration-300 m-2 bg-white ${
+          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer border-[2px] border-[#0077b6] shadow-gray-400 transition-all duration-300 m-2 bg-white ${
             view === "checkout"
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110"
@@ -50,7 +50,7 @@ export default function Entries() {
           Checkouts Today
         </div>
         <div
-          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer shadow-black transition-all duration-300 m-2 bg-white ${
+          className={`h-[200px] w-[200px] rounded-full flex items-center justify-center cursor-pointer border-[2px] border-[#0077b6] shadow-gray-400 transition-all duration-300 m-2 bg-white ${
             view === "checkins"
               ? "shadow-lg scale-110 z-100 bg-white"
               : "shadow-sm hover:scale-110 z-20"

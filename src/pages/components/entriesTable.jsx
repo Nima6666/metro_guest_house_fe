@@ -24,7 +24,7 @@ export default function EntryTable({ entris, id }) {
 
   const [companionForm, setCompanionForm] = useState(false);
 
-  const [room, setRoom] = useState(null);
+  const [room, setRoom] = useState("");
   const [lastVisitedAddress, setLastVisitedAddress] = useState("");
   const [nextDestination, setNextDestination] = useState("");
   const [purpose, setPurpose] = useState("");
@@ -36,7 +36,7 @@ export default function EntryTable({ entris, id }) {
     console.log("adding new entry to ", id);
 
     if (
-      room === null ||
+      room === "" ||
       lastVisitedAddress.trim() === "" ||
       nextDestination.trim() === "" ||
       purpose.trim() === ""

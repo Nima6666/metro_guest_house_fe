@@ -20,7 +20,6 @@ export const getLoggedInUser = async () => {
       //   localStorage.removeItem("token");
       //   window.location.reload();
       // }
-
       return res.data;
     } catch (err) {
       console.log(err);

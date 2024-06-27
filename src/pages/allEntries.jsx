@@ -11,6 +11,9 @@ import NepaliDate from "nepali-date-converter";
 import { NepaliDatePicker } from "nepali-datepicker-reactjs";
 
 import "nepali-datepicker-reactjs/dist/index.css";
+import "react-datepicker/dist/react-datepicker.css";
+
+import DatePicker from "react-datepicker";
 
 export default function AllEntries() {
   const dispatch = useDispatch();
@@ -222,11 +225,16 @@ export default function AllEntries() {
         </h1>
         <div className="flex items-center justify-center">
           Date
-          <NepaliDatePicker
+          {/* <NepaliDatePicker
             value={selectedDate ? nepaliDate(selectedDate) : ""}
             onChange={(date) => handleDateChange(date)}
             className="border p-2 rounded m-2"
             options={{ calendarLocale: "en", valueLocale: "en" }}
+          /> */}
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            className="border p-2 rounded m-2"
           />
           {selectedDate && (
             <button

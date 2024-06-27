@@ -66,18 +66,19 @@ export default function VisitorDetails() {
   ) : state === "view" ? (
     <div className="w-full p-2 flex flex-col justify-center items-center">
       <div
-        id="userDetails"
-        className="flex flex-col justify-center items-center w-full"
+        className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
+        onClick={() => navigate(-1)}
       >
-        <h1 className="text-2xl font-semibold text-center mb-4 w-full">
-          <div
-            className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
-            onClick={() => navigate(-1)}
-          >
-            <IoChevronBackOutline size={30} />
-          </div>
-          Visitor Details
-        </h1>
+        <IoChevronBackOutline size={30} />
+      </div>
+      <h1 className="text-2xl font-semibold text-center mb-4 px-4 py-2 relative flex justify-center items-center text-white w-fit">
+        Visitor Details
+        <span className="absolute w-full h-full bg-[#17469E] top-0 left-0 -z-10 skew-x-[15deg]"></span>
+      </h1>
+      <div
+        id="userDetails"
+        className="flex justify-center flex-col mb-6 items-center  bg-gray-200 overflow-hidden rounded-md shadow-lg shadow-gray-400"
+      >
         <div className="flex flex-col items-center justify-center">
           <div className="w-[500px] h-fit rounded-md">
             <img
@@ -99,53 +100,70 @@ export default function VisitorDetails() {
             </Link>
           )}
         </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-[#0077b6] p-2 rounded-md my-2">
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Name</h1>
-            <div className="mb-2">
+        <div className="grid grid-cols-1 gap-2 p-2  w-full ">
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Name
+            </h1>
+            <div className="">
               {selectedVisitor.firstname} {selectedVisitor.lastname}
             </div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Gender</h1>
-            <div className="mb-2">{selectedVisitor.gender}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Gender
+            </h1>
+            <div className="">{selectedVisitor.gender}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Occupation</h1>
-            <div className="mb-2">{selectedVisitor.occupation}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Occupation
+            </h1>
+            <div className="">{selectedVisitor.occupation}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Age</h1>
-            <div className="mb-2">{selectedVisitor.age}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Age
+            </h1>
+            <div className="">{selectedVisitor.age}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Created By</h1>
-            <Link
-              to={`/users/${selectedVisitor.enteredBy._id}`}
-              className="mb-2"
-            >
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Created By
+            </h1>
+            <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="">
               {selectedVisitor.enteredBy.firstname}
             </Link>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Document Type</h1>
-            <div className="mb-2">{selectedVisitor.documentType}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Document Type
+            </h1>
+            <div className="">{selectedVisitor.documentType}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Document ID</h1>
-            <div className="mb-2">{selectedVisitor.documentId}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Document ID
+            </h1>
+            <div className="">{selectedVisitor.documentId}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Address</h1>
-            <div className="mb-2">{selectedVisitor.address}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Address
+            </h1>
+            <div className="">{selectedVisitor.address}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Phone No</h1>
-            <div className="mb-2">{selectedVisitor.phone}</div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Phone No
+            </h1>
+            <div className="">{selectedVisitor.phone}</div>
           </div>
-          <div className="flex items-center bg-white rounded-md p-2 flex-col justify-center">
-            <h1 className="text-xl font-semibold">Created At</h1>
-            <div className="mb-2">
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Created At
+            </h1>
+            <div className="">
               {new Date(selectedVisitor.enteredAt).toLocaleString("en-US", {
                 year: "numeric",
                 month: "short",

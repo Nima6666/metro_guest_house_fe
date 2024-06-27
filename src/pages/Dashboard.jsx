@@ -7,11 +7,15 @@ import { getVisitors, visitorActions } from "../store/slices/visitorSlice";
 import EntriesToday from "./components/entriesToday";
 import CurrentVisitors from "./components/currentVisitors";
 import { BounceLoader } from "react-spinners";
+import { PulseLoader } from "react-spinners";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
+
+  const [userLoading, setUserLoading] = useState(true);
+  const [visitorLoading, setVisitorLoading] = useState(true);
 
   const users = useSelector((state) => state.userReducer.users);
   const visitors = useSelector((state) => state.visitorReducer.visitor);
@@ -21,6 +25,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function getUsersHandler() {
       dispatch(userActions.setUsers(await getUser()));
+      setUserLoading(false);
     }
     if (loggedInUser.role == "admin") {
       getUsersHandler();
@@ -34,6 +39,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function getVisitorsHandler() {
       dispatch(visitorActions.setVisitor(await getVisitors()));
+      setVisitorLoading(false);
     }
     getVisitorsHandler();
   }, [dispatch, users, loading]);
@@ -45,14 +51,14 @@ export default function Dashboard() {
           <Link to="/users">
             <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black rounded-full flex justify-center items-center flex-col m-3">
               <h2 className="font-bold text-xl">Total Staff</h2>
-              <p>{users.length}</p>
+              {userLoading ? <PulseLoader /> : <p>{users.length}</p>}
             </div>
           </Link>
         )}
         <Link to="/visitor">
           <div className="h-[250px] w-[250px] border border-black shadow-md shadow-black flex rounded-full justify-center items-center flex-col m-3">
             <h2 className="font-bold text-xl">Search Visitor</h2>
-            <p>{visitors.length}</p>
+            {visitorLoading ? <PulseLoader /> : <p>{visitors.length}</p>}
           </div>
         </Link>
       </div>

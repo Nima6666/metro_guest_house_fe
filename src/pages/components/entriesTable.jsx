@@ -39,9 +39,7 @@ export default function EntryTable({ entris, id }) {
       room === null ||
       lastVisitedAddress.trim() === "" ||
       nextDestination.trim() === "" ||
-      purpose.trim() === "" ||
-      vechileNumber.trim() === "" ||
-      remarks.trim() === ""
+      purpose.trim() === ""
     ) {
       return toast.error("Form fields cannot be empty");
     }
@@ -224,7 +222,7 @@ export default function EntryTable({ entris, id }) {
                       id="room"
                       onChange={(e) => setRoom(e.target.value)}
                       value={room}
-                      required
+                      autoComplete="off"
                     />
                   </label>
                   <label
@@ -239,7 +237,7 @@ export default function EntryTable({ entris, id }) {
                       id="lastVisitedAddress"
                       onChange={(e) => setLastVisitedAddress(e.target.value)}
                       value={lastVisitedAddress}
-                      required
+                      autoComplete="off"
                     />
                   </label>
                   <label
@@ -254,7 +252,7 @@ export default function EntryTable({ entris, id }) {
                       id="nextDestination"
                       onChange={(e) => setNextDestination(e.target.value)}
                       value={nextDestination}
-                      required
+                      autoComplete="off"
                     />
                   </label>
                   <label htmlFor="purpose" className="flex-1 flex flex-col m-2">
@@ -266,7 +264,7 @@ export default function EntryTable({ entris, id }) {
                       id="purpose"
                       onChange={(e) => setPurpose(e.target.value)}
                       value={purpose}
-                      required
+                      autoComplete="off"
                     />
                   </label>
                   <label
@@ -281,7 +279,7 @@ export default function EntryTable({ entris, id }) {
                       id="vechileNumber"
                       onChange={(e) => setVechileNumber(e.target.value)}
                       value={vechileNumber}
-                      required
+                      autoComplete="off"
                     />
                   </label>
                   <label htmlFor="remarks" className="flex-1 flex flex-col m-2">
@@ -293,6 +291,7 @@ export default function EntryTable({ entris, id }) {
                       id="remarks"
                       onChange={(e) => setRemarks(e.target.value)}
                       value={remarks}
+                      autoComplete="off"
                     />
                   </label>
                   <div className="w-full">

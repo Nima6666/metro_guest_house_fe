@@ -38,12 +38,17 @@ export default function CompanionForm({
 
   return (
     <>
-      <h1 className="font-semibold text-xl">Companion Form</h1>
-      <div className="flex items-center justify-center">
-        <label htmlFor="fullname" className="flex-1 flex flex-col m-2">
-          Full Name
+      <h1 className="font-semibold text-xl mt-4">Companion Form</h1>
+      <div className="grid grid-cols-2 gap-2 p-2  w-full ">
+        <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+          <label
+            htmlFor="fullname"
+            className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+          >
+            Full Name
+          </label>
           <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1"
+            className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
             type="text"
             name="fullname"
             id="fullname"
@@ -51,11 +56,16 @@ export default function CompanionForm({
             value={fullname}
             required
           />
-        </label>
-        <label htmlFor="relation" className="flex-1 flex flex-col m-2">
-          Relation
+        </div>
+        <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+          <label
+            htmlFor="relation"
+            className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+          >
+            Relation
+          </label>
           <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1"
+            className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
             type="text"
             name="relation"
             id="relation"
@@ -63,11 +73,16 @@ export default function CompanionForm({
             value={relation}
             required
           />
-        </label>
-        <label htmlFor="phone" className="flex-1 flex flex-col m-2">
-          Phone
+        </div>
+        <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+          <label
+            htmlFor="phone"
+            className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+          >
+            Phone
+          </label>
           <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1"
+            className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
             type="text"
             name="phone"
             id="phone"
@@ -83,11 +98,17 @@ export default function CompanionForm({
             value={phone}
             required
           />
-        </label>
-        <label htmlFor="age" className="flex-1 flex flex-col m-2">
-          Age
+        </div>
+
+        <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+          <label
+            htmlFor="age"
+            className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+          >
+            Age
+          </label>
           <input
-            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1"
+            className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
             type="text"
             name="age"
             id="age"
@@ -97,7 +118,7 @@ export default function CompanionForm({
             value={age}
             required
           />
-        </label>
+        </div>
       </div>
       <div className="w-full flex justify-center items-center">
         <button

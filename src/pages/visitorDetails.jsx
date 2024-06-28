@@ -76,7 +76,7 @@ export default function VisitorDetails() {
         <span className="absolute w-full h-full bg-[#17469E] top-0 left-0 -z-10 skew-x-[15deg]"></span>
       </h1>
       <div
-        id="userDetails"
+        id="visitorDetails"
         className="flex justify-center flex-col mb-6 items-center  bg-gray-200 overflow-hidden rounded-md shadow-lg shadow-gray-400"
       >
         <div className="flex flex-col items-center justify-center">

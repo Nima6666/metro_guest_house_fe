@@ -109,17 +109,19 @@ export default function VisitorDetails() {
               {selectedVisitor.firstname} {selectedVisitor.lastname}
             </div>
           </div>
+          {selectedVisitor.religion && (
+            <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+              <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                Religion
+              </h1>
+              <div className="">{selectedVisitor.religion}</div>
+            </div>
+          )}
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-              Gender
+              Address
             </h1>
-            <div className="">{selectedVisitor.gender}</div>
-          </div>
-          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
-            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-              Occupation
-            </h1>
-            <div className="">{selectedVisitor.occupation}</div>
+            <div className="">{selectedVisitor.address}</div>
           </div>
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
@@ -129,12 +131,32 @@ export default function VisitorDetails() {
           </div>
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-              Created By
+              Occupation
             </h1>
-            <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="">
-              {selectedVisitor.enteredBy.firstname}
-            </Link>
+            <div className="">{selectedVisitor.occupation}</div>
           </div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Gender
+            </h1>
+            <div className="">{selectedVisitor.gender}</div>
+          </div>
+          {selectedVisitor.email && (
+            <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+              <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                Email
+              </h1>
+              <div className="">{selectedVisitor.email}</div>
+            </div>
+          )}
+
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+              Phone No
+            </h1>
+            <div className="">{selectedVisitor.phone}</div>
+          </div>
+
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
               Document Type
@@ -149,15 +171,11 @@ export default function VisitorDetails() {
           </div>
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-              Address
+              Created By
             </h1>
-            <div className="">{selectedVisitor.address}</div>
-          </div>
-          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
-            <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-              Phone No
-            </h1>
-            <div className="">{selectedVisitor.phone}</div>
+            <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="">
+              {selectedVisitor.enteredBy.firstname}
+            </Link>
           </div>
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">

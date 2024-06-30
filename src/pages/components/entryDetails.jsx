@@ -138,6 +138,12 @@ export default function EntryDetails() {
                 </h1>
                 <div className="grid grid-cols-1 gap-2 bg-gray-200 p-2 rounded-md w-full shadow-lg shadow-gray-400">
                   <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                    <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
+                      Room No
+                    </div>
+                    <div>{selectedEntry.room}</div>
+                  </div>
+                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
                     <div className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
                       CheckIn Time
                     </div>
@@ -160,6 +166,32 @@ export default function EntryDetails() {
                       <div>{selectedEntry.by.firstname}</div>
                     </Link>
                   </div>
+                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                    <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
+                      Last Visited Address
+                    </div>
+                    <div>{selectedEntry.lastVisitedAddress}</div>
+                  </div>
+                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                    <div className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                      Next Destination
+                    </div>
+                    <div>{selectedEntry.nextDestination}</div>
+                  </div>
+                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                    <div className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                      Purpose Of Visit
+                    </div>
+                    <div>{selectedEntry.purposeOfVisit}</div>
+                  </div>
+                  {selectedEntry.vechileNumber && (
+                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                      <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
+                        Vechile Number
+                      </div>
+                      <div>{selectedEntry.vechileNumber}</div>
+                    </div>
+                  )}
                   <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
                     <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
                       Checkout Time
@@ -193,38 +225,7 @@ export default function EntryDetails() {
                       </Link>
                     </div>
                   )}
-                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                    <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
-                      Room No
-                    </div>
-                    <div>{selectedEntry.room}</div>
-                  </div>
-                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                    <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
-                      Last Visited Address
-                    </div>
-                    <div>{selectedEntry.lastVisitedAddress}</div>
-                  </div>
-                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                    <div className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                      Next Destination
-                    </div>
-                    <div>{selectedEntry.nextDestination}</div>
-                  </div>
-                  <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                    <div className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                      Purpose Of Visit
-                    </div>
-                    <div>{selectedEntry.purposeOfVisit}</div>
-                  </div>
-                  {selectedEntry.vechileNumber && (
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
-                        Vechile Number
-                      </div>
-                      <div>{selectedEntry.vechileNumber}</div>
-                    </div>
-                  )}
+
                   {selectedEntry.remarks && (
                     <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
                       <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
@@ -357,65 +358,86 @@ export default function EntryDetails() {
                   </div>
                   <div className="grid grid-cols-1 gap-2 p-2  w-full ">
                     <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
-                      <div className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
                         Name
-                      </div>
+                      </h1>
                       <div className="">
                         {selectedVisitor.firstname} {selectedVisitor.lastname}
                       </div>
                     </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                        Gender
-                      </h1>
-                      <div className="">{selectedVisitor.gender}</div>
-                    </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                        Occupation
-                      </h1>
-                      <div className="">{selectedVisitor.occupation}</div>
-                    </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                        Age
-                      </h1>
-                      <div className="">{selectedVisitor.age}</div>
-                    </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                        Created By
-                      </h1>
-                      <Link to={`/users/${selectedVisitor.enteredBy._id}`}>
-                        {selectedVisitor.enteredBy.firstname}
-                      </Link>
-                    </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                        Document Type
-                      </h1>
-                      <div className="">{selectedVisitor.documentType}</div>
-                    </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
-                        Document ID
-                      </h1>
-                      <div className="">{selectedVisitor.documentId}</div>
-                    </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                    {selectedVisitor.religion && (
+                      <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                        <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                          Religion
+                        </h1>
+                        <div className="">{selectedVisitor.religion}</div>
+                      </div>
+                    )}
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
                       <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
                         Address
                       </h1>
                       <div className="">{selectedVisitor.address}</div>
                     </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                        Age
+                      </h1>
+                      <div className="">{selectedVisitor.age}</div>
+                    </div>
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                        Occupation
+                      </h1>
+                      <div className="">{selectedVisitor.occupation}</div>
+                    </div>
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                        Gender
+                      </h1>
+                      <div className="">{selectedVisitor.gender}</div>
+                    </div>
+                    {selectedVisitor.email && (
+                      <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                        <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                          Email
+                        </h1>
+                        <div className="">{selectedVisitor.email}</div>
+                      </div>
+                    )}
+
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
                       <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
                         Phone No
                       </h1>
                       <div className="">{selectedVisitor.phone}</div>
                     </div>
-                    <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
-                      <h1 className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
+
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                        Document Type
+                      </h1>
+                      <div className="">{selectedVisitor.documentType}</div>
+                    </div>
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                        Document ID
+                      </h1>
+                      <div className="">{selectedVisitor.documentId}</div>
+                    </div>
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
+                        Created By
+                      </h1>
+                      <Link
+                        to={`/users/${selectedVisitor.enteredBy._id}`}
+                        className=""
+                      >
+                        {selectedVisitor.enteredBy.firstname}
+                      </Link>
+                    </div>
+                    <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+                      <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
                         Created At
                       </h1>
                       <div className="">

@@ -29,8 +29,18 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     visitorToEdit ? visitorToEdit.lastname : ""
   );
   const [email, setEmail] = useState(visitorToEdit ? visitorToEdit.email : "");
-  const [username, setUsername] = useState("");
   const [phone, setPhone] = useState(visitorToEdit ? visitorToEdit.phone : "");
+  const [religion, setReligion] = useState(
+    visitorToEdit ? visitorToEdit.religion : ""
+  );
+
+  const [room, setRoom] = useState("");
+  const [lastVisitedAddress, setLastVisitedAddress] = useState("");
+  const [nextDestination, setNextDestination] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [vechileNumber, setVechileNumber] = useState("");
+  const [remarks, setRemarks] = useState("");
+
   const [image, setImage] = useState(
     visitorToEdit ? visitorToEdit.documentLocation : null
   );
@@ -77,6 +87,14 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     formData.append("gender", gender);
     formData.append("age", age);
     formData.append("occupation", occupation);
+    formData.append("room", room);
+    formData.append("religion", religion);
+    formData.append("lastVisited", lastVisitedAddress);
+    formData.append("nextDestination", nextDestination);
+    formData.append("purpose", purpose);
+    formData.append("vechileNumber", vechileNumber);
+    formData.append("remarks", remarks);
+    formData.append("companions", JSON.stringify(companions));
 
     console.log(formData);
 
@@ -248,8 +266,8 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 type="text"
                 name="room"
                 id="room"
-                // onChange={(e) => setAge(e.target.value)}
-                // value={age}
+                onChange={(e) => setRoom(e.target.value)}
+                value={room}
                 placeholder="Room Number"
                 autoComplete="off"
               />
@@ -266,9 +284,10 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 type="text"
                 name="religion"
                 id="religion"
-                // onChange={(e) => setAge(e.target.value)}
-                // value={age}
+                onChange={(e) => setReligion(e.target.value)}
+                value={religion}
                 autoComplete="off"
+                placeholder="Religion"
               />
             </div>
 
@@ -287,6 +306,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 onChange={(e) => setAddress(e.target.value)}
                 value={address}
                 autoComplete="off"
+                placeholder="address"
               />
             </div>
 
@@ -305,6 +325,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 onChange={(e) => setAge(e.target.value)}
                 value={age}
                 autoComplete="off"
+                placeholder="age"
               />
             </div>
             <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
@@ -319,9 +340,10 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 type="text"
                 name="lastVisitedAddress"
                 id="lastVisitedAddress"
-                // onChange={(e) => setAge(e.target.value)}
-                // value={age}
+                onChange={(e) => setLastVisitedAddress(e.target.value)}
+                value={lastVisitedAddress}
                 autoComplete="off"
+                placeholder="last visited place"
               />
             </div>
             <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
@@ -336,9 +358,10 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 type="text"
                 name="nextDestination"
                 id="nextDestination"
-                // onChange={(e) => setAge(e.target.value)}
-                // value={age}
+                onChange={(e) => setNextDestination(e.target.value)}
+                value={nextDestination}
                 autoComplete="off"
+                placeholder="next destination"
               />
             </div>
 
@@ -357,6 +380,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 onChange={(e) => setOccupation(e.target.value)}
                 value={occupation}
                 autoComplete="off"
+                placeholder="occupation"
               />
             </div>
 
@@ -372,9 +396,10 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 type="text"
                 name="purpose"
                 id="purpose"
-                // onChange={(e) => setAge(e.target.value)}
-                // value={age}
+                onChange={(e) => setPurpose(e.target.value)}
+                value={purpose}
                 autoComplete="off"
+                placeholder="purpose"
               />
             </div>
 
@@ -393,6 +418,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 onChange={(e) => setGender(e.target.value)}
                 value={gender}
                 autoComplete="off"
+                placeholder="Male, Female"
               />
             </div>
 
@@ -411,6 +437,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 autoComplete="off"
+                placeholder="email"
               />
             </div>
 
@@ -429,6 +456,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 onChange={(e) => setPhone(e.target.value)}
                 value={phone}
                 autoComplete="off"
+                placeholder="phone number"
               />
             </div>
           </div>
@@ -474,43 +502,84 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 <div></div>
               </label>
             )}
-            <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-              <label
-                htmlFor="docType"
-                className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-              >
-                Document Type
-              </label>
-              <select
-                name="docType"
-                id="docType"
-                value={documentType}
-                onChange={(e) => setDocumentType(e.target.value)}
-                className="text-xl p-2 rounded-lg ml-4"
-              >
-                <option value="citizenship">Citizenship</option>
-                <option value="liscence">Liscence</option>
-                <option value="passport">Passport</option>
-              </select>
+
+            <div className="grid grid-cols-2 gap-2 p-2  w-full ">
+              <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                <label
+                  htmlFor="docType"
+                  className="text-lg font-semibold mx-2 w-[200px] border-gray-200"
+                >
+                  Document Type
+                </label>
+                <select
+                  name="docType"
+                  id="docType"
+                  value={documentType}
+                  onChange={(e) => setDocumentType(e.target.value)}
+                  className="text-xl p-2 rounded-lg ml-4"
+                >
+                  <option value="citizenship">Citizenship</option>
+                  <option value="liscence">Liscence</option>
+                  <option value="passport">Passport</option>
+                </select>
+              </div>
+
+              <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                <label
+                  htmlFor="ID"
+                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                >
+                  Document ID
+                </label>
+                <input
+                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                  type="text"
+                  name="ID"
+                  id="ID"
+                  onChange={(e) => setDocumentID(e.target.value)}
+                  value={documentID}
+                  autoComplete="off"
+                  placeholder="ID Number"
+                />
+              </div>
+              <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                <label
+                  htmlFor="vechileNumber"
+                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                >
+                  Vechile Number
+                </label>
+                <input
+                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                  type="text"
+                  name="vechileNumber"
+                  id="vechileNumber"
+                  onChange={(e) => setVechileNumber(e.target.value)}
+                  value={vechileNumber}
+                  autoComplete="off"
+                  placeholder="Vechile Number"
+                />
+              </div>
+              <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                <label
+                  htmlFor="remarks"
+                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                >
+                  Remarks
+                </label>
+                <input
+                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                  type="text"
+                  name="remarks"
+                  id="remarks"
+                  onChange={(e) => setRemarks(e.target.value)}
+                  value={remarks}
+                  autoComplete="off"
+                  placeholder="remarks"
+                />
+              </div>
             </div>
 
-            <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-              <label
-                htmlFor="ID"
-                className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-              >
-                Document ID
-              </label>
-              <input
-                className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                type="text"
-                name="ID"
-                id="ID"
-                onChange={(e) => setDocumentID(e.target.value)}
-                value={documentID}
-                autoComplete="off"
-              />
-            </div>
             <div className="w-full flex flex-col items-center justify-center my-3">
               {companions.length > 0 && (
                 <>

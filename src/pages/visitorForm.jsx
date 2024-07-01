@@ -72,8 +72,27 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     setImage(e.target.files[0]);
   };
 
-  const handleUpload = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (
+      !image?.trim() ||
+      !firstname?.trim() ||
+      !lastname?.trim() ||
+      !phone?.trim() ||
+      !address?.trim() ||
+      !documentID?.trim() ||
+      !gender?.trim() ||
+      !age?.trim() ||
+      !occupation?.trim() ||
+      !room?.trim() ||
+      !lastVisitedAddress?.trim() ||
+      !nextDestination?.trim() ||
+      !purpose?.trim()
+    ) {
+      toast.info("fields marked with * are required");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("image", image);
@@ -122,18 +141,16 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
   const handleEdit = async (e) => {
     e.preventDefault();
 
-    console.log("edit", id);
-
     if (
-      !firstname ||
-      !lastname ||
-      !phone ||
-      !address ||
-      !gender ||
-      !age ||
-      !occupation
+      !firstname?.trim() ||
+      !lastname?.trim() ||
+      !phone?.trim() ||
+      !address?.trim() ||
+      !gender?.trim() ||
+      !age?.trim() ||
+      !occupation?.trim()
     ) {
-      alert("All fields are required");
+      toast.info("fields marked with * are required");
       return;
     }
 
@@ -203,7 +220,11 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
       <form
         className="flex flex-col flex-wrap z-10 justify-center items-center p-4 mb-6 bg-gray-200 overflow-hidden rounded-md shadow-lg shadow-gray-400"
         onSubmit={
-          visitorToEdit ? handleEdit : reupload ? handleReupload : handleUpload
+          visitorToEdit
+            ? handleEdit
+            : reupload
+            ? handleReupload
+            : handleRegister
         }
       >
         <h1 className="text-2xl font-semibold text-center mb-4 px-4 z-10 py-2 relative flex justify-center items-center text-white w-fit">
@@ -222,7 +243,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="firstname"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Firstname
+                Firstname*
               </label>
               <input
                 type="text"
@@ -240,7 +261,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="lastname"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Lastname
+                Lastname*
               </label>
               <input
                 className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -259,7 +280,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                   htmlFor="room"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Room No
+                  Room No*
                 </label>
                 <input
                   className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -297,7 +318,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="address"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Address
+                Address*
               </label>
               <input
                 className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -316,7 +337,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="age"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Age
+                Age*
               </label>
               <input
                 className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -336,7 +357,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                     htmlFor="lastVisitedAddress"
                     className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                   >
-                    Last Visited Address
+                    Last Visited Address*
                   </label>
                   <input
                     className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -354,7 +375,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                     htmlFor="nextDestination"
                     className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                   >
-                    Next Destination
+                    Next Destination*
                   </label>
                   <input
                     className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -375,7 +396,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="occupation"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Occupation
+                Occupation*
               </label>
               <input
                 className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -395,7 +416,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                   htmlFor="purpose"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Purpose Of Visit
+                  Purpose Of Visit*
                 </label>
                 <input
                   className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -415,7 +436,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="gender"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Gender
+                Gender*
               </label>
               <input
                 className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -453,7 +474,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 htmlFor="phone"
                 className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
               >
-                Phone
+                Phone*
               </label>
               <input
                 className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -499,7 +520,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
               >
                 <div className="absolute z-10 w-full h-full top-0 left-0 flex flex-col justify-center bg-[#00000097] items-center text-xl text-white">
                   <FaUpload size={50} className="text-4xl mb-2 z-10" />
-                  <span>Upload Document</span>
+                  <span>Upload Document*</span>
                 </div>
                 <img
                   src={documentImg}
@@ -536,7 +557,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                   htmlFor="ID"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Document ID
+                  Document ID*
                 </label>
                 <input
                   className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"

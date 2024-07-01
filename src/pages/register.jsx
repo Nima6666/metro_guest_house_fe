@@ -35,6 +35,18 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    if (
+      !image ||
+      !firstname?.trim() ||
+      !lastname?.trim() ||
+      !phone?.trim() ||
+      !username ||
+      !password.trim()
+    ) {
+      toast.info("fields marked with * are required");
+      return;
+    }
+
     if (password !== confirmPassword) {
       return alert("passwords doesnot match");
     }

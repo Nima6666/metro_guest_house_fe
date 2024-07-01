@@ -15,6 +15,8 @@ export default function Header() {
     window.location.reload();
   }
 
+  console.log(loggedInUser);
+
   return (
     <header className="flex justify-between items-center px-20 text-2xl p-4 bg-slate-300 shadow-md shadow-black">
       <img src={logoImg} className="h-[100px]" alt="" />
@@ -26,7 +28,7 @@ export default function Header() {
         <div className="h-[60px] w-[60px] mx-2 cursor-pointer relative">
           <div>
             <img
-              src={loggedInUser.image}
+              src={loggedInUser.imageURL}
               alt="AvatarImg"
               className="absolute h-full w-full top-0 left-0 rounded-full object-cover"
               onClick={() => setLogout(!logout)}

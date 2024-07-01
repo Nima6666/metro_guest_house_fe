@@ -125,10 +125,8 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     console.log("edit", id);
 
     if (
-      !id ||
       !firstname ||
       !lastname ||
-      !email ||
       !phone ||
       !address ||
       !gender ||
@@ -148,6 +146,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
       gender,
       age,
       occupation,
+      religion,
     };
 
     try {
@@ -254,24 +253,26 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 autoComplete="off"
               />
             </div>
-            <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-              <label
-                htmlFor="room"
-                className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-              >
-                Room No
-              </label>
-              <input
-                className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                type="text"
-                name="room"
-                id="room"
-                onChange={(e) => setRoom(e.target.value)}
-                value={room}
-                placeholder="Room Number"
-                autoComplete="off"
-              />
-            </div>
+            {!visitorToEdit && (
+              <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                <label
+                  htmlFor="room"
+                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                >
+                  Room No
+                </label>
+                <input
+                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                  type="text"
+                  name="room"
+                  id="room"
+                  onChange={(e) => setRoom(e.target.value)}
+                  value={room}
+                  placeholder="Room Number"
+                  autoComplete="off"
+                />
+              </div>
+            )}
             <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
               <label
                 htmlFor="religion"
@@ -328,42 +329,46 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 placeholder="age"
               />
             </div>
-            <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-              <label
-                htmlFor="lastVisitedAddress"
-                className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-              >
-                Last Visited Address
-              </label>
-              <input
-                className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                type="text"
-                name="lastVisitedAddress"
-                id="lastVisitedAddress"
-                onChange={(e) => setLastVisitedAddress(e.target.value)}
-                value={lastVisitedAddress}
-                autoComplete="off"
-                placeholder="last visited place"
-              />
-            </div>
-            <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-              <label
-                htmlFor="nextDestination"
-                className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-              >
-                Next Destination
-              </label>
-              <input
-                className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                type="text"
-                name="nextDestination"
-                id="nextDestination"
-                onChange={(e) => setNextDestination(e.target.value)}
-                value={nextDestination}
-                autoComplete="off"
-                placeholder="next destination"
-              />
-            </div>
+            {!visitorToEdit && (
+              <>
+                <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                  <label
+                    htmlFor="lastVisitedAddress"
+                    className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                  >
+                    Last Visited Address
+                  </label>
+                  <input
+                    className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                    type="text"
+                    name="lastVisitedAddress"
+                    id="lastVisitedAddress"
+                    onChange={(e) => setLastVisitedAddress(e.target.value)}
+                    value={lastVisitedAddress}
+                    autoComplete="off"
+                    placeholder="last visited place"
+                  />
+                </div>
+                <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                  <label
+                    htmlFor="nextDestination"
+                    className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                  >
+                    Next Destination
+                  </label>
+                  <input
+                    className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                    type="text"
+                    name="nextDestination"
+                    id="nextDestination"
+                    onChange={(e) => setNextDestination(e.target.value)}
+                    value={nextDestination}
+                    autoComplete="off"
+                    placeholder="next destination"
+                  />
+                </div>
+              </>
+            )}
 
             <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
               <label
@@ -384,24 +389,26 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
               />
             </div>
 
-            <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-              <label
-                htmlFor="purpose"
-                className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-              >
-                Purpose Of Visit
-              </label>
-              <input
-                className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                type="text"
-                name="purpose"
-                id="purpose"
-                onChange={(e) => setPurpose(e.target.value)}
-                value={purpose}
-                autoComplete="off"
-                placeholder="purpose"
-              />
-            </div>
+            {!visitorToEdit && (
+              <div className="flex py-2 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                <label
+                  htmlFor="purpose"
+                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                >
+                  Purpose Of Visit
+                </label>
+                <input
+                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                  type="text"
+                  name="purpose"
+                  id="purpose"
+                  onChange={(e) => setPurpose(e.target.value)}
+                  value={purpose}
+                  autoComplete="off"
+                  placeholder="purpose"
+                />
+              </div>
+            )}
 
             <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
               <label
@@ -542,105 +549,121 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                   placeholder="ID Number"
                 />
               </div>
-              <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-                <label
-                  htmlFor="vechileNumber"
-                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-                >
-                  Vechile Number
-                </label>
-                <input
-                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                  type="text"
-                  name="vechileNumber"
-                  id="vechileNumber"
-                  onChange={(e) => setVechileNumber(e.target.value)}
-                  value={vechileNumber}
-                  autoComplete="off"
-                  placeholder="Vechile Number"
-                />
-              </div>
-              <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-                <label
-                  htmlFor="remarks"
-                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-                >
-                  Remarks
-                </label>
-                <input
-                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                  type="text"
-                  name="remarks"
-                  id="remarks"
-                  onChange={(e) => setRemarks(e.target.value)}
-                  value={remarks}
-                  autoComplete="off"
-                  placeholder="remarks"
-                />
-              </div>
-            </div>
-
-            <div className="w-full flex flex-col items-center justify-center my-3">
-              {companions.length > 0 && (
+              {!reupload && (
                 <>
-                  <h1 className="font-semibold text-xl my-2">Companions</h1>
-                  <table>
-                    <thead id="companion">
-                      <tr>
-                        <th>Fullname</th>
-                        <th>Relation</th>
-                        <th>Age</th>
-                        <th>Phone</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {companions.map((companion, index) => (
-                        <tr key={index}>
-                          <td>{companion.fullname}</td>
-                          <td>{companion.relation}</td>
-                          <td>{companion.age}</td>
-                          <td>{companion.phone}</td>
-                          <td>
-                            <button
-                              className="bg-red-600 p-2 rounded-md text-white font-semibold"
-                              onClick={(id) => removeCompanion(index)}
-                              type="button"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                    <label
+                      htmlFor="vechileNumber"
+                      className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                    >
+                      Vechile Number
+                    </label>
+                    <input
+                      className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                      type="text"
+                      name="vechileNumber"
+                      id="vechileNumber"
+                      onChange={(e) => setVechileNumber(e.target.value)}
+                      value={vechileNumber}
+                      autoComplete="off"
+                      placeholder="Vechile Number"
+                    />
+                  </div>
+                  <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                    <label
+                      htmlFor="remarks"
+                      className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                    >
+                      Remarks
+                    </label>
+                    <input
+                      className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                      type="text"
+                      name="remarks"
+                      id="remarks"
+                      onChange={(e) => setRemarks(e.target.value)}
+                      value={remarks}
+                      autoComplete="off"
+                      placeholder="remarks"
+                    />
+                  </div>
                 </>
               )}
-              {companionForm ? (
-                <CompanionForm
-                  companions={companions}
-                  setCompanions={setCompaions}
-                  setCompanionForm={setCompanionForm}
-                />
-              ) : (
-                <button
-                  className="bg-slate-600 p-2 rounded-md text-white my-2"
-                  type="button"
-                  onClick={() => setCompanionForm(true)}
-                >
-                  Add Companion
-                </button>
-              )}
             </div>
+            {!reupload && (
+              <div className="w-full flex flex-col items-center justify-center my-3">
+                {companions.length > 0 && (
+                  <>
+                    <h1 className="font-semibold text-xl my-2">Companions</h1>
+                    <table>
+                      <thead id="companion">
+                        <tr>
+                          <th>Fullname</th>
+                          <th>Relation</th>
+                          <th>Age</th>
+                          <th>Phone</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {companions.map((companion, index) => (
+                          <tr key={index}>
+                            <td>{companion.fullname}</td>
+                            <td>{companion.relation}</td>
+                            <td>{companion.age}</td>
+                            <td>{companion.phone}</td>
+                            <td>
+                              <button
+                                className="bg-red-600 p-2 rounded-md text-white font-semibold"
+                                onClick={(id) => removeCompanion(index)}
+                                type="button"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </>
+                )}
+                {companionForm ? (
+                  <CompanionForm
+                    companions={companions}
+                    setCompanions={setCompaions}
+                    setCompanionForm={setCompanionForm}
+                  />
+                ) : (
+                  <button
+                    className="bg-slate-600 p-2 rounded-md text-white my-2"
+                    type="button"
+                    onClick={() => setCompanionForm(true)}
+                  >
+                    Add Companion
+                  </button>
+                )}
+              </div>
+            )}
           </>
         )}
 
-        <button
-          type="submit"
-          className="rounded-md bg-black text-white mt-2 self-center w-auto p-3 shadow-lg border border-white hover:shadow-md transition-all duration-200 shadow-black"
-        >
-          {visitorToEdit ? "Submit Edit" : "Submit"}
-        </button>
+        <div className="flex justify-center items-center">
+          <button
+            type="submit"
+            className="rounded-md bg-black text-white mt-2 self-center w-auto p-3 shadow-lg border border-white hover:shadow-md transition-all duration-200 shadow-black"
+          >
+            {visitorToEdit ? "Submit Edit" : "Submit"}
+          </button>
+          {visitorToEdit && (
+            <button
+              type="button"
+              className="bg-red-600 p-2 rounded-md text-white font-semibold"
+              onClick={() => setState("view")}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

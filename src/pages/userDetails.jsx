@@ -99,6 +99,12 @@ export default function UserDetails() {
           </div>
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[150px] border-r-2 border-gray-200">
+              Username
+            </h1>
+            <div className="">{selectedUser.username}</div>
+          </div>
+          <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
+            <h1 className="text-lg font-semibold mx-2 w-[150px] border-r-2 border-gray-200">
               Email
             </h1>
             <div className="">{selectedUser.email}</div>

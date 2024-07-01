@@ -43,6 +43,7 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
     formData.append("image", image);
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
+    formData.append("username", username);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("phone", phone);

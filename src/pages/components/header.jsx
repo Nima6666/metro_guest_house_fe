@@ -20,7 +20,7 @@ export default function Header() {
       <img src={logoImg} className="h-[100px]" alt="" />
       <div className="flex items-center justify-center">
         <h1 className="mx-2">
-          welcome {loggedInUser.name}{" "}
+          welcome {loggedInUser.username}{" "}
           {loggedInUser.role === "admin" && "(Admin)"}
         </h1>
         <div className="h-[60px] w-[60px] mx-2 cursor-pointer relative">

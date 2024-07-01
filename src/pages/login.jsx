@@ -7,14 +7,14 @@ import { toast } from "react-toastify";
 
 export default function Login() {
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    console.log(username, password);
     const res = await axios.post(`${import.meta.env.VITE_SERVER}/users/login`, {
-      email,
+      username,
       password,
     });
 
@@ -38,16 +38,16 @@ export default function Login() {
       >
         <h1 className="text-center text-l font-semibold">Login Form</h1>
         <div className="flex flex-col">
-          <label htmlFor="email" className="mt-2">
-            Email
+          <label htmlFor="username" className="mt-2">
+            Username
           </label>
           <input
-            type="email"
-            name="email"
-            id="email"
+            type="text"
+            name="username"
+            id="username"
             className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
             required
           />
           <label htmlFor="password" className="mt-2">

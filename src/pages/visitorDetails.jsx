@@ -14,6 +14,7 @@ import { MdEdit } from "react-icons/md";
 import VisitorForm from "./visitorForm";
 import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { userActions } from "../store/slices/usersSlice";
 
 export default function VisitorDetails() {
   const navigate = useNavigate();
@@ -61,6 +62,10 @@ export default function VisitorDetails() {
     }
   }
 
+  function setFullScreen(image) {
+    dispatch(userActions.setClickedImg(image));
+  }
+
   return loading ? (
     <BounceLoader />
   ) : state === "view" ? (
@@ -89,6 +94,7 @@ export default function VisitorDetails() {
               }
               alt=""
               className="h-full object-cover my-2"
+              onClick={() => setFullScreen(selectedVisitor.documentLocation)}
             />
           </div>
           {loggedInUser.role === "admin" && (

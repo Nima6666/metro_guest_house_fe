@@ -49,6 +49,10 @@ export default function UserDetails() {
     navigate("/users");
   }
 
+  function setFullScreen(image) {
+    dispatch(userActions.setClickedImg(image));
+  }
+
   if (!fetched) {
     return (
       <div className="w-full h-full mt-12 flex justify-center items-center">
@@ -78,6 +82,7 @@ export default function UserDetails() {
             src={selectedUser.imageURL}
             alt="avatarImg"
             className="w-[300px] h-[300px] object-cover"
+            onClick={() => setFullScreen(selectedUser.imageURL)}
           />
           {loggedInUser.role === "admin" && (
             <Link

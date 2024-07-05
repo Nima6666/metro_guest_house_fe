@@ -76,7 +76,7 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     e.preventDefault();
 
     if (
-      !image?.trim() ||
+      !image ||
       !firstname?.trim() ||
       !lastname?.trim() ||
       !phone?.trim() ||

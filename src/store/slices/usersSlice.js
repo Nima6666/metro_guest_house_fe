@@ -77,7 +77,15 @@ export const deleteStaff = async (staffId) => {
 
 export const usersSlice = createSlice({
   name: "users",
-  initialState: { users: [], selectedUserDetails: {}, myProfile: {} },
+  initialState: {
+    users: [],
+    selectedUserDetails: {},
+    myProfile: {},
+    clickedImg: {
+      clicked: false,
+      img: "",
+    },
+  },
   reducers: {
     setUsers(state, action) {
       state.users = action.payload;
@@ -87,6 +95,14 @@ export const usersSlice = createSlice({
     },
     setMyProfile(state, action) {
       state.myProfile = { ...action.payload };
+    },
+    setClickedImg(state, action) {
+      state.clickedImg.clicked = true;
+      state.clickedImg.img = action.payload;
+    },
+    setUnclicked(state, action) {
+      state.clickedImg.clicked = false;
+      state.clickedImg.img = "";
     },
   },
 });

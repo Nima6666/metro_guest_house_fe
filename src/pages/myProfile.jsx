@@ -1,11 +1,17 @@
 import { IoChevronBackOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { userActions } from "../store/slices/usersSlice";
 
 export default function MyProfile() {
   const myProfile = useSelector((state) => state.loginReducer.loggedInUser);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  function setFullScreen(image) {
+    dispatch(userActions.setClickedImg(image));
+  }
 
   return (
     Object.keys(myProfile).length && (
@@ -29,6 +35,7 @@ export default function MyProfile() {
               src={myProfile.imageURL}
               alt="avatarImg"
               className="w-[300px] h-[300px] object-cover"
+              onClick={() => setFullScreen(myProfile.imageURL)}
             />
           </div>
           <div className="grid grid-cols-1 gap-2 p-2  w-full ">

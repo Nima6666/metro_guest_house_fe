@@ -15,6 +15,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { BounceLoader } from "react-spinners";
 import { IoMdExit } from "react-icons/io";
 import axios from "axios";
+import { userActions } from "../../store/slices/usersSlice";
 
 export default function EntryDetails() {
   const dispatch = useDispatch();
@@ -112,6 +113,10 @@ export default function EntryDetails() {
   }
 
   console.log("selectedVisitor ", selectedVisitor);
+
+  function setFullScreen(image) {
+    dispatch(userActions.setClickedImg(image));
+  }
 
   return loading
     ? !Object.keys(selectedVisitor).length &&
@@ -353,6 +358,9 @@ export default function EntryDetails() {
                         }
                         alt=""
                         className="h-full object-cover"
+                        onClick={() =>
+                          setFullScreen(selectedVisitor.documentLocation)
+                        }
                       />
                     </div>
                   </div>

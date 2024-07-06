@@ -6,8 +6,15 @@ import { FaUpload } from "react-icons/fa";
 import avatarImg from "/profile.webp";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { IoChevronBackOutline } from "react-icons/io5";
 
-export default function Register({ staff, admin, setServerStat, reupload }) {
+export default function Register({
+  staff,
+  admin,
+  setServerStat,
+  reupload,
+  setState,
+}) {
   // const navigate = useNavigate();
   let navigate = null;
 
@@ -19,7 +26,7 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
 
   const [firstname, setFirst] = useState(staff ? staff.firstname : "");
   const [lastname, setLast] = useState(staff ? staff.lastname : "");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(staff ? staff.username : "");
 
   const [email, setEmail] = useState(staff ? staff.email : "");
   const [password, setPassword] = useState("");
@@ -152,6 +159,12 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
           staff ? handleEdit : reupload ? handleReupload : handleRegister
         }
       >
+        <div
+          className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
+          onClick={() => navigate(-1)}
+        >
+          <IoChevronBackOutline size={30} />
+        </div>
         <h1 className="text-2xl font-semibold text-center mb-4 px-4 z-10 py-2 relative flex justify-center items-center text-white w-fit">
           {staff
             ? "Edit Account Form"
@@ -340,13 +353,30 @@ export default function Register({ staff, admin, setServerStat, reupload }) {
             </div>
           </>
         )}
-
-        <button
-          type="submit"
-          className="rounded-md bg-black text-white p-3 mt-2 self-center"
-        >
-          Submit
-        </button>
+        <div className="flex justify-center items-center">
+          <button
+            type="submit"
+            className="rounded-md bg-black text-white p-3 mt-2 self-center"
+          >
+            Submit
+          </button>
+          {reupload && (
+            <button
+              className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
+              onClick={() => navigate(-1)}
+            >
+              cancel
+            </button>
+          )}
+          {staff && (
+            <button
+              className="bg-red-600 p-3 rounded-md text-white font-semibold mx-2 flex items-center"
+              onClick={() => setState("view")}
+            >
+              cancel
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

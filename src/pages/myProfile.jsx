@@ -1,10 +1,11 @@
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userActions } from "../store/slices/usersSlice";
 
 export default function MyProfile() {
   const myProfile = useSelector((state) => state.loginReducer.loggedInUser);
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -37,6 +38,14 @@ export default function MyProfile() {
               className="w-[300px] h-[300px] object-cover"
               onClick={() => setFullScreen(myProfile.imageURL)}
             />
+            {myProfile.role === "admin" && (
+              <Link
+                to={`/users/${myProfile._id}/reuploadAvatar`}
+                className="bg-green-600 p-2 rounded-md text-white font-semibold text-sm mx-2 flex items-center my-2"
+              >
+                Reupload Photo
+              </Link>
+            )}
           </div>
           <div className="grid grid-cols-1 gap-2 p-2  w-full ">
             <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">

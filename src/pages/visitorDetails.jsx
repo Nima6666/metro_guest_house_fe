@@ -94,7 +94,13 @@ export default function VisitorDetails() {
               }
               alt=""
               className="h-full object-cover my-2"
-              onClick={() => setFullScreen(selectedVisitor.documentLocation)}
+              onClick={() =>
+                setFullScreen(
+                  selectedVisitor.documentLocation
+                    ? selectedVisitor.documentLocation
+                    : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
+                )
+              }
             />
           </div>
           {loggedInUser.role === "admin" && (
@@ -179,9 +185,13 @@ export default function VisitorDetails() {
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
               Created By
             </h1>
-            <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="">
-              {selectedVisitor.enteredBy.firstname}
-            </Link>
+            {selectedVisitor.enteredBy === null ? (
+              "Deleted Staff"
+            ) : (
+              <Link to={`/users/${selectedVisitor.enteredBy._id}`} className="">
+                {selectedVisitor.enteredBy.firstname}
+              </Link>
+            )}
           </div>
           <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
             <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">

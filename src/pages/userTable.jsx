@@ -10,17 +10,16 @@ export default function UserTable() {
 
   const users = useSelector((state) => state.userReducer.users);
 
-  const [loading, setLoading] = useState(users.length ? false : true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getUsersHandler() {
       dispatch(userActions.setUsers(await getUser()));
+      console.log("got user");
       setLoading(false);
     }
-    if (!users.length && !loading) {
-      getUsersHandler();
-    }
-  }, [dispatch, loading, users]);
+    getUsersHandler();
+  }, [dispatch, loading]);
 
   const COLUMNS = [
     {
@@ -75,14 +74,16 @@ export default function UserTable() {
     },
   ];
 
-  console.log(users);
-
   return loading ? (
     <BounceLoader />
   ) : (
     <div className="flex flex-col w-full p-2">
       <h1 className="text-xl font-semibold text-center p-4">My Staff</h1>
-      {users.length && <TableComponent COLUMNS={COLUMNS} Data={users} />}
+      {users.length ? (
+        <TableComponent COLUMNS={COLUMNS} Data={users} />
+      ) : (
+        <div className="text-center">No Staffs</div>
+      )}
     </div>
   );
 }

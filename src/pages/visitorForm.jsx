@@ -48,6 +48,8 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     visitorToEdit ? visitorToEdit.documentType : "citizenship"
   );
 
+  const [otherDocumentType, setOtherDocumentType] = useState("");
+
   const [age, setAge] = useState(visitorToEdit ? visitorToEdit.age : "");
 
   const [address, setAddress] = useState(
@@ -549,8 +551,28 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                   <option value="citizenship">Citizenship</option>
                   <option value="liscence">Liscence</option>
                   <option value="passport">Passport</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
+
+              {documentType === "other" && (
+                <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden p-4 mt-4">
+                  <label
+                    htmlFor="otherDocType"
+                    className="text-lg font-semibold mx-2 w-[200px] border-gray-200"
+                  >
+                    Specify Document Type
+                  </label>
+                  <input
+                    type="text"
+                    name="otherDocType"
+                    id="otherDocType"
+                    value={otherDocumentType}
+                    onChange={(e) => setOtherDocumentType(e.target.value)}
+                    className="text-xl p-2 rounded-lg ml-4 w-full"
+                  />
+                </div>
+              )}
 
               <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
                 <label

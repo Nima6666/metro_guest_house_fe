@@ -167,9 +167,13 @@ export default function EntryDetails() {
                     <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
                       CheckedIn By
                     </div>
-                    <Link to={`/users/${selectedEntry.by._id}`}>
-                      <div>{selectedEntry.by.firstname}</div>
-                    </Link>
+                    {selectedEntry.by === null ? (
+                      "Deleted Staff"
+                    ) : (
+                      <Link to={`/users/${selectedEntry.by._id}`}>
+                        <div>{selectedEntry.by.firstname}</div>
+                      </Link>
+                    )}
                   </div>
                   <div className="flex items-center bg-white rounded-md p-2 justify-start shadow-md shadow-gray-400">
                     <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
@@ -225,9 +229,13 @@ export default function EntryDetails() {
                       <div className="text-lg font-semibold mx-2  w-[180px] border-r-2 border-gray-200">
                         Checkout By
                       </div>
-                      <Link to={`/users/${selectedEntry.checkoutBy._id}`}>
-                        <div>{selectedEntry.checkoutBy.firstname}</div>
-                      </Link>
+                      {selectedEntry.checkoutBy === null ? (
+                        "Deleted Staff"
+                      ) : (
+                        <Link to={`/users/${selectedEntry.checkoutBy._id}`}>
+                          <div>{selectedEntry.checkoutBy.firstname}</div>
+                        </Link>
+                      )}
                     </div>
                   )}
 
@@ -251,7 +259,7 @@ export default function EntryDetails() {
                 </div>
                 <div>
                   {selectedEntry.companion.length > 0 && (
-                    <>
+                    <div className="w-full">
                       <h1 className="font-semibold text-xl my-2 text-center">
                         With
                       </h1>
@@ -275,7 +283,7 @@ export default function EntryDetails() {
                           ))}
                         </tbody>
                       </table>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
@@ -359,7 +367,11 @@ export default function EntryDetails() {
                         alt=""
                         className="h-full object-cover"
                         onClick={() =>
-                          setFullScreen(selectedVisitor.documentLocation)
+                          setFullScreen(
+                            selectedVisitor.documentLocation
+                              ? selectedVisitor.documentLocation
+                              : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
+                          )
                         }
                       />
                     </div>
@@ -437,12 +449,16 @@ export default function EntryDetails() {
                       <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">
                         Created By
                       </h1>
-                      <Link
-                        to={`/users/${selectedVisitor.enteredBy._id}`}
-                        className=""
-                      >
-                        {selectedVisitor.enteredBy.firstname}
-                      </Link>
+                      {selectedVisitor.enteredBy === null ? (
+                        "Deleted Staff"
+                      ) : (
+                        <Link
+                          to={`/users/${selectedVisitor.enteredBy._id}`}
+                          className=""
+                        >
+                          {selectedVisitor.enteredBy.firstname}
+                        </Link>
+                      )}
                     </div>
                     <div className="flex bg-white rounded-md p-2 justify-start items-center shadow-md shadow-gray-400">
                       <h1 className="text-lg font-semibold mx-2 w-[180px] border-r-2 border-gray-200">

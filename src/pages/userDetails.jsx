@@ -191,6 +191,6 @@ export default function UserDetails() {
       )}
     </div>
   ) : (
-    <Register staff={selectedUser} />
+    <Register staff={selectedUser} setState={setState} />
   );
 }

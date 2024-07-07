@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { BounceLoader } from "react-spinners";
-import { visitorActions } from "../store/slices/visitorSlice";
+import { getVisitors, visitorActions } from "../store/slices/visitorSlice";
 import TableComponent from "./components/Table";
 import NepaliDate from "nepali-date-converter";
 import { NepaliDatePicker } from "nepali-datepicker-reactjs";
@@ -14,6 +14,7 @@ import "nepali-datepicker-reactjs/dist/index.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import DatePicker from "react-datepicker";
+import { useDebounce } from "use-debounce";
 
 export default function AllEntries() {
   const dispatch = useDispatch();
@@ -32,6 +33,47 @@ export default function AllEntries() {
   //     return "";
   //   }
   // };
+
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [number, setNumber] = useState("");
+  const [documentId, setDocumentId] = useState("");
+
+  const [debouncedFirstname] = useDebounce(firstname, 500);
+  const [debouncedLastname] = useDebounce(lastname, 500);
+  const [debouncedNumber] = useDebounce(number, 500);
+  const [debouncedDocumentId] = useDebounce(documentId, 500);
+
+  const queryParameters = useMemo(
+    () => ({
+      firstname: debouncedFirstname,
+      lastname: debouncedLastname,
+      number: debouncedNumber,
+      documentId: debouncedDocumentId,
+    }),
+    [
+      debouncedFirstname,
+      debouncedLastname,
+      debouncedNumber,
+      debouncedDocumentId,
+    ]
+  );
+
+  useEffect(() => {
+    setLoading(true);
+    async function getVisitorsHandler() {
+      try {
+        const searchedEntry = await getVisitors(queryParameters);
+        dispatch(visitorActions.setAllEntries(searchedEntry));
+      } catch (error) {
+        console.error("Error fetching visitors:", error);
+        // Handle error state or display error message
+      } finally {
+        setLoading(false);
+      }
+    }
+    getVisitorsHandler();
+  }, [dispatch, queryParameters]);
 
   function nepaliDate(selDate) {
     if (!selDate) {
@@ -149,7 +191,7 @@ export default function AllEntries() {
         const { value } = cell;
 
         if (!value) {
-          return "Vitrai xa";
+          return "In-Room";
         } else {
           return `${new Date(value).toLocaleString("en-US", {
             year: "numeric",

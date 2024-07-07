@@ -131,8 +131,6 @@ export default function VisitorTable() {
     documentId: highlightMatchedWords(visitor.documentId, documentId),
   }));
 
-  console.log(visitors, "visitors ");
-
   return (
     <div className="flex flex-col w-full p-2">
       <div className="self-center flex w-full items-center justify-center">

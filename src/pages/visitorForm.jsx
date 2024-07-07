@@ -96,6 +96,11 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
       return;
     }
 
+    if (documentType == "other" && otherDocumentType.trim() === "") {
+      toast.info("please specify document type");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("firstname", firstname);
@@ -104,7 +109,10 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
     formData.append("phone", phone);
     formData.append("address", address);
     formData.append("documentId", documentID);
-    formData.append("documentType", documentType);
+    formData.append(
+      "documentType",
+      documentType === "other" ? otherDocumentType : documentType
+    );
     formData.append("gender", gender);
     formData.append("age", age);
     formData.append("occupation", occupation);
@@ -196,10 +204,18 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
   async function handleReupload(e) {
     e.preventDefault();
 
+    if (documentType == "other" && otherDocumentType.trim() === "") {
+      toast.info("please specify document type");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", image);
     formData.append("documentId", documentID);
-    formData.append("documentType", documentType);
+    formData.append(
+      "documentType",
+      documentType == "other" ? otherDocumentType : documentType
+    );
 
     const response = await axios.put(
       `${import.meta.env.VITE_SERVER}/visitor/${id}`,
@@ -559,9 +575,9 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden p-4 mt-4">
                   <label
                     htmlFor="otherDocType"
-                    className="text-lg font-semibold mx-2 w-[200px] border-gray-200"
+                    className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                   >
-                    Specify Document Type
+                    Specify
                   </label>
                   <input
                     type="text"
@@ -569,7 +585,8 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                     id="otherDocType"
                     value={otherDocumentType}
                     onChange={(e) => setOtherDocumentType(e.target.value)}
-                    className="text-xl p-2 rounded-lg ml-4 w-full"
+                    className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                    placeholder="Specify Document Type"
                   />
                 </div>
               )}

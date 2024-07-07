@@ -93,7 +93,7 @@ export default function CheckoutsToday() {
         const { value, row } = cell;
 
         if (!value) {
-          return "Vitrai xa";
+          return "In-Room";
         } else {
           return `${new Date(value).toLocaleString("en-US", {
             year: "numeric",

@@ -72,7 +72,7 @@ export default function VisitorDetails() {
     <div className="w-full p-2 flex flex-col justify-center items-center">
       <div
         className="self-start bg-slate-300 h-fit w-fit rounded-full flex items-center justify-center p-2 hover:text-white hover:bg-slate-600 hover:cursor-pointer transition-all duration-200"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/visitor")}
       >
         <IoChevronBackOutline size={30} />
       </div>

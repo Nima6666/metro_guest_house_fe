@@ -184,7 +184,7 @@ export default function Register({
                   htmlFor="firstname"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Firstname
+                  Firstname*
                 </label>
                 <input
                   className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -202,7 +202,7 @@ export default function Register({
                   htmlFor="lastname"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Lastname
+                  Lastname*
                 </label>
                 <input
                   className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -219,7 +219,7 @@ export default function Register({
                   htmlFor="username"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Username
+                  Username*
                 </label>
                 <input
                   className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -257,7 +257,7 @@ export default function Register({
                       htmlFor="password"
                       className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                     >
-                      Password
+                      Password*
                     </label>
                     <input
                       className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -275,7 +275,7 @@ export default function Register({
                       htmlFor="confirmPassword"
                       className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                     >
-                      Confirm Password
+                      Confirm Password*
                     </label>
                     <input
                       className="outline-none w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -294,7 +294,7 @@ export default function Register({
                   htmlFor="phone"
                   className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
                 >
-                  Phone Number
+                  Phone Number*
                 </label>
                 <input
                   className="outline-none w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
@@ -340,7 +340,7 @@ export default function Register({
                 >
                   <div className="absolute z-10 w-full h-full top-0 left-0 flex flex-col justify-center bg-[#00000097] items-center text-xl text-white">
                     <FaUpload size={50} className="text-4xl mb-2 z-10" />
-                    <span>Upload Image</span>
+                    <span>Upload Image*</span>
                   </div>
                   <img
                     src={avatarImg}

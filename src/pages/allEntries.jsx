@@ -63,7 +63,10 @@ export default function AllEntries() {
     setLoading(true);
     async function getVisitorsHandler() {
       try {
-        const searchedEntry = await getVisitors(queryParameters);
+        const searchedEntry = await getVisitors({
+          ...queryParameters,
+          entry: true,
+        });
         dispatch(visitorActions.setAllEntries(searchedEntry));
       } catch (error) {
         console.error("Error fetching visitors:", error);
@@ -72,8 +75,15 @@ export default function AllEntries() {
         setLoading(false);
       }
     }
-    getVisitorsHandler();
-  }, [dispatch, queryParameters]);
+    if (
+      queryParameters.firstname.trim() !== "" ||
+      queryParameters.lastname.trim() !== "" ||
+      queryParameters.documentId.trim() !== "" ||
+      queryParameters.number.trim() !== ""
+    ) {
+      getVisitorsHandler();
+    }
+  }, [queryParameters]);
 
   function nepaliDate(selDate) {
     if (!selDate) {
@@ -286,6 +296,52 @@ export default function AllEntries() {
               Clear Date
             </button>
           )}
+        </div>
+      </div>
+      <div className="self-center flex w-full items-center justify-center">
+        <div className="flex flex-col m-2">
+          <label htmlFor="firstname">Firstname</label>
+          <input
+            type="text"
+            name="firstname"
+            id="firstname"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setFirstname(e.target.value)}
+            value={firstname}
+          />
+        </div>
+        <div className="flex flex-col m-2">
+          <label htmlFor="lastname">Lastname</label>
+          <input
+            type="text"
+            name="lastname"
+            id="lastname"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setLastname(e.target.value)}
+            value={lastname}
+          />
+        </div>
+        <div className="flex flex-col m-2">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setNumber(e.target.value)}
+            value={number}
+          />
+        </div>
+        <div className="flex flex-col m-2">
+          <label htmlFor="documentId">DocumentId</label>
+          <input
+            type="text"
+            name="documentId"
+            id="documentId"
+            className="border border-yellow-700 rounded-md transition-all duration-200 focus:outline-none focus:border-green-500 p-1 w-full"
+            onChange={(e) => setDocumentId(e.target.value)}
+            value={documentId}
+          />
         </div>
       </div>
       {loading ? (

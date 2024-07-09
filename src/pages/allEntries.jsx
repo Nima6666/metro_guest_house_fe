@@ -59,31 +59,7 @@ export default function AllEntries() {
     ]
   );
 
-  useEffect(() => {
-    setLoading(true);
-    async function getVisitorsHandler() {
-      try {
-        const searchedEntry = await getVisitors({
-          ...queryParameters,
-          entry: true,
-        });
-        dispatch(visitorActions.setAllEntries(searchedEntry));
-      } catch (error) {
-        console.error("Error fetching visitors:", error);
-        // Handle error state or display error message
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (
-      queryParameters.firstname.trim() !== "" ||
-      queryParameters.lastname.trim() !== "" ||
-      queryParameters.documentId.trim() !== "" ||
-      queryParameters.number.trim() !== ""
-    ) {
-      getVisitorsHandler();
-    }
-  }, [queryParameters]);
+  useEffect(() => {}, [queryParameters]);
 
   function nepaliDate(selDate) {
     if (!selDate) {
@@ -137,6 +113,8 @@ export default function AllEntries() {
   console.log("selected Date ", selectedDate);
 
   useEffect(() => {
+    setLoading(true);
+
     async function getAllEntries(date) {
       try {
         const response = await axios.get(
@@ -162,9 +140,31 @@ export default function AllEntries() {
         setLoading(false);
       }
     }
-    setLoading(true);
-    getAllEntries(selectedDate);
-  }, [selectedDate, dispatch]);
+    async function getVisitorsHandler() {
+      try {
+        const searchedEntry = await getVisitors({
+          ...queryParameters,
+          entry: true,
+        });
+        console.log("Searched Entry ", searchedEntry);
+        dispatch(visitorActions.setAllEntries(searchedEntry));
+      } catch (error) {
+        console.error("Error fetching visitors:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (
+      queryParameters.firstname.trim() !== "" ||
+      queryParameters.lastname.trim() !== "" ||
+      queryParameters.documentId.trim() !== "" ||
+      queryParameters.number.trim() !== ""
+    ) {
+      getVisitorsHandler();
+    } else {
+      getAllEntries(selectedDate);
+    }
+  }, [selectedDate, dispatch, queryParameters]);
 
   const COLUMNS = [
     {
@@ -260,29 +260,37 @@ export default function AllEntries() {
     },
   ];
 
-  return loading ? (
-    <div>
-      <BounceLoader />
-    </div>
-  ) : (
-    <div>
+  // Function to highlight matched words in a given text
+  const highlightMatchedWords = (text, search) => {
+    if (!search) return text;
+    const regex = new RegExp(`(${search})`, "gi");
+    return text
+      .split(regex)
+      .map((word, index) =>
+        regex.test(word) ? <mark key={index}>{word}</mark> : word
+      );
+  };
+
+  // Prepare visitors data with highlighted search terms
+  const entriesWithHighlighting = allEntries.map((visitor) => ({
+    ...visitor,
+    firstname: highlightMatchedWords(visitor.firstname, firstname),
+    lastname: highlightMatchedWords(visitor.lastname, lastname),
+    phone: highlightMatchedWords(visitor.phone, number),
+    documentId: highlightMatchedWords(visitor.documentId, documentId),
+  }));
+
+  return (
+    <div className="w-full flex flex-col">
       <div className="text-center my-4">
         <h1 className="text-xl font-semibold">
           All Entries ({allEntries.length}){" "}
           {selectedDate
-            ? `on a date ${new NepaliDate(selectedDate).format(
-                "dddd, MMMM Do YYYY"
-              )}`
+            ? `on ${new NepaliDate(selectedDate).format("dddd, MMMM Do YYYY")}`
             : ""}
         </h1>
         <div className="flex items-center justify-center">
           Date
-          {/* <NepaliDatePicker
-            value={selectedDate ? nepaliDate(selectedDate) : ""}
-            onChange={(date) => handleDateChange(date)}
-            className="border p-2 rounded m-2"
-            options={{ calendarLocale: "en", valueLocale: "en" }}
-          /> */}
           <DatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
@@ -332,7 +340,7 @@ export default function AllEntries() {
             value={number}
           />
         </div>
-        <div className="flex flex-col m-2">
+        {/* <div className="flex flex-col m-2">
           <label htmlFor="documentId">DocumentId</label>
           <input
             type="text"
@@ -342,26 +350,36 @@ export default function AllEntries() {
             onChange={(e) => setDocumentId(e.target.value)}
             value={documentId}
           />
-        </div>
+        </div> */}
       </div>
       {loading ? (
-        <div className="relative pointer-events-none">
-          <TableComponent
-            COLUMNS={COLUMNS}
-            Data={allEntries}
-            className="opacity-45"
-          />
-
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
-            <BounceLoader />
-          </div>
-        </div>
-      ) : allEntries && allEntries.length ? (
         <div>
-          <TableComponent COLUMNS={COLUMNS} Data={allEntries} />
+          <BounceLoader />
         </div>
       ) : (
-        <div className="text-center">No Entries Yet</div>
+        <div>
+          {loading ? (
+            <div className="relative pointer-events-none">
+              <TableComponent
+                COLUMNS={COLUMNS}
+                Data={entriesWithHighlighting}
+                className="opacity-45"
+              />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+                <BounceLoader />
+              </div>
+            </div>
+          ) : allEntries && allEntries.length ? (
+            <div>
+              <TableComponent
+                COLUMNS={COLUMNS}
+                Data={entriesWithHighlighting}
+              />
+            </div>
+          ) : (
+            <div className="text-center">No Entries Yet</div>
+          )}
+        </div>
       )}
     </div>
   );

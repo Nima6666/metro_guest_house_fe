@@ -41,6 +41,8 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
   const [vechileNumber, setVechileNumber] = useState("");
   const [remarks, setRemarks] = useState("");
 
+  const [haveDocument, setHaveDocument] = useState(true);
+
   const [image, setImage] = useState(
     visitorToEdit ? visitorToEdit.documentLocation : null
   );
@@ -77,23 +79,40 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (
-      !image ||
-      !firstname?.trim() ||
-      !lastname?.trim() ||
-      !phone?.trim() ||
-      !address?.trim() ||
-      !documentID?.trim() ||
-      !gender?.trim() ||
-      !age?.trim() ||
-      !occupation?.trim() ||
-      !room?.trim() ||
-      !lastVisitedAddress?.trim() ||
-      !nextDestination?.trim() ||
-      !purpose?.trim()
-    ) {
-      toast.info("fields marked with * are required");
-      return;
+    if (haveDocument) {
+      if (
+        !image ||
+        !firstname?.trim() ||
+        !lastname?.trim() ||
+        !phone?.trim() ||
+        !address?.trim() ||
+        !gender?.trim() ||
+        !age?.trim() ||
+        !occupation?.trim() ||
+        !room?.trim() ||
+        !lastVisitedAddress?.trim() ||
+        !nextDestination?.trim() ||
+        !purpose?.trim() ||
+        !documentID?.trim()
+      ) {
+        toast.info("fields marked with * are required");
+        return;
+      } else if (
+        !firstname?.trim() ||
+        !lastname?.trim() ||
+        !phone?.trim() ||
+        !address?.trim() ||
+        !gender?.trim() ||
+        !age?.trim() ||
+        !occupation?.trim() ||
+        !room?.trim() ||
+        !lastVisitedAddress?.trim() ||
+        !nextDestination?.trim() ||
+        !purpose?.trim()
+      ) {
+        toast.info("fields marked with * are required");
+        return;
+      }
     }
 
     if (documentType == "other" && otherDocumentType.trim() === "") {
@@ -309,6 +328,12 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                   value={room}
                   placeholder="Room Number"
                   autoComplete="off"
+                  onKeyPress={(e) => {
+                    const isNumber = /[0-9]/.test(e.key);
+                    if (!isNumber) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
             )}
@@ -366,6 +391,12 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 value={age}
                 autoComplete="off"
                 placeholder="age"
+                onKeyPress={(e) => {
+                  const isNumber = /[0-9]/.test(e.key);
+                  if (!isNumber) {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
             {!visitorToEdit && (
@@ -503,12 +534,18 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 value={phone}
                 autoComplete="off"
                 placeholder="phone number"
+                onKeyPress={(e) => {
+                  const isNumber = /[0-9]/.test(e.key);
+                  if (!isNumber) {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
           </div>
         )}
 
-        {!visitorToEdit && (
+        {!visitorToEdit && haveDocument && (
           <>
             <input
               type="file"
@@ -538,78 +575,90 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
               >
                 <div className="absolute z-10 w-full h-full top-0 left-0 flex flex-col justify-center bg-[#00000097] items-center text-xl text-white">
                   <FaUpload size={50} className="text-4xl mb-2 z-10" />
-                  <span>Upload Document*</span>
+                  <span>Upload Document</span>
                 </div>
                 <img
                   src={documentImg}
                   className="top-0 left-0 w-full h-full object-contain absolute z-0"
                   alt=""
                 />
-                <div></div>
               </label>
             )}
-
+            <button
+              className="bg-red-600 p-2 rounded-md text-white font-semibold"
+              onClick={() => setHaveDocument(false)}
+            >
+              Don't have Document
+            </button>
+          </>
+        )}
+        {!reupload && (
+          <>
             <div className="grid grid-cols-2 gap-2 p-2  w-full ">
-              <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-                <label
-                  htmlFor="docType"
-                  className="text-lg font-semibold mx-2 w-[200px] border-gray-200"
-                >
-                  Document Type
-                </label>
-                <select
-                  name="docType"
-                  id="docType"
-                  value={documentType}
-                  onChange={(e) => setDocumentType(e.target.value)}
-                  className="text-xl p-2 rounded-lg ml-4"
-                >
-                  <option value="citizenship">Citizenship</option>
-                  <option value="liscence">Liscence</option>
-                  <option value="passport">Passport</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
+              {haveDocument && (
+                <>
+                  <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                    <label
+                      htmlFor="docType"
+                      className="text-lg font-semibold mx-2 w-[200px] border-gray-200"
+                    >
+                      Document Type
+                    </label>
+                    <select
+                      name="docType"
+                      id="docType"
+                      value={documentType}
+                      onChange={(e) => setDocumentType(e.target.value)}
+                      className="text-xl p-2 rounded-lg ml-4"
+                    >
+                      <option value="citizenship">Citizenship</option>
+                      <option value="liscence">Liscence</option>
+                      <option value="passport">Passport</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
 
-              {documentType === "other" && (
-                <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden p-4 mt-4">
-                  <label
-                    htmlFor="otherDocType"
-                    className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-                  >
-                    Specify
-                  </label>
-                  <input
-                    type="text"
-                    name="otherDocType"
-                    id="otherDocType"
-                    value={otherDocumentType}
-                    onChange={(e) => setOtherDocumentType(e.target.value)}
-                    className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                    placeholder="Specify Document Type"
-                  />
-                </div>
+                  {documentType === "other" && (
+                    <div className="flex bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden p-4 mt-4">
+                      <label
+                        htmlFor="otherDocType"
+                        className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                      >
+                        Specify
+                      </label>
+                      <input
+                        type="text"
+                        name="otherDocType"
+                        id="otherDocType"
+                        value={otherDocumentType}
+                        onChange={(e) => setOtherDocumentType(e.target.value)}
+                        className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                        placeholder="Specify Document Type"
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
+                    <label
+                      htmlFor="ID"
+                      className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
+                    >
+                      Document ID*
+                    </label>
+                    <input
+                      className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
+                      type="text"
+                      name="ID"
+                      id="ID"
+                      onChange={(e) => setDocumentID(e.target.value)}
+                      value={documentID}
+                      autoComplete="off"
+                      placeholder="ID Number"
+                    />
+                  </div>
+                </>
               )}
-
-              <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
-                <label
-                  htmlFor="ID"
-                  className="text-lg font-semibold mx-2 w-[200px] border-r-2 border-gray-200"
-                >
-                  Document ID*
-                </label>
-                <input
-                  className="outline-none py-3 w-full h-full transition-all border-white duration-200 border-r-[3px] focus:border-blue-800"
-                  type="text"
-                  name="ID"
-                  id="ID"
-                  onChange={(e) => setDocumentID(e.target.value)}
-                  value={documentID}
-                  autoComplete="off"
-                  placeholder="ID Number"
-                />
-              </div>
-              {!reupload && (
+              {!reupload && !visitorToEdit && (
                 <>
                   <div className="flex mt-4 bg-white rounded-md justify-start items-center shadow-md shadow-gray-400 overflow-hidden">
                     <label
@@ -650,60 +699,58 @@ export default function VisitorForm({ visitorToEdit, setState, reupload }) {
                 </>
               )}
             </div>
-            {!reupload && (
-              <div className="w-full flex flex-col items-center justify-center my-3">
-                {companions.length > 0 && (
-                  <>
-                    <h1 className="font-semibold text-xl my-2">Companions</h1>
-                    <table>
-                      <thead id="companion">
-                        <tr>
-                          <th>Fullname</th>
-                          <th>Relation</th>
-                          <th>Age</th>
-                          <th>Phone</th>
-                          <th>Action</th>
+            <div className="w-full flex flex-col items-center justify-center my-3">
+              {companions.length > 0 && (
+                <>
+                  <h1 className="font-semibold text-xl my-2">Companions</h1>
+                  <table>
+                    <thead id="companion">
+                      <tr>
+                        <th>Fullname</th>
+                        <th>Relation</th>
+                        <th>Age</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {companions.map((companion, index) => (
+                        <tr key={index}>
+                          <td>{companion.fullname}</td>
+                          <td>{companion.relation}</td>
+                          <td>{companion.age}</td>
+                          <td>{companion.phone}</td>
+                          <td>
+                            <button
+                              className="bg-red-600 p-2 rounded-md text-white font-semibold"
+                              onClick={(id) => removeCompanion(index)}
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {companions.map((companion, index) => (
-                          <tr key={index}>
-                            <td>{companion.fullname}</td>
-                            <td>{companion.relation}</td>
-                            <td>{companion.age}</td>
-                            <td>{companion.phone}</td>
-                            <td>
-                              <button
-                                className="bg-red-600 p-2 rounded-md text-white font-semibold"
-                                onClick={(id) => removeCompanion(index)}
-                                type="button"
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </>
-                )}
-                {companionForm ? (
-                  <CompanionForm
-                    companions={companions}
-                    setCompanions={setCompaions}
-                    setCompanionForm={setCompanionForm}
-                  />
-                ) : (
-                  <button
-                    className="bg-slate-600 p-2 rounded-md text-white my-2"
-                    type="button"
-                    onClick={() => setCompanionForm(true)}
-                  >
-                    Add Companion
-                  </button>
-                )}
-              </div>
-            )}
+                      ))}
+                    </tbody>
+                  </table>
+                </>
+              )}
+              {companionForm ? (
+                <CompanionForm
+                  companions={companions}
+                  setCompanions={setCompaions}
+                  setCompanionForm={setCompanionForm}
+                />
+              ) : (
+                <button
+                  className="bg-slate-600 p-2 rounded-md text-white my-2"
+                  type="button"
+                  onClick={() => setCompanionForm(true)}
+                >
+                  Add Companion
+                </button>
+              )}
+            </div>
           </>
         )}
 

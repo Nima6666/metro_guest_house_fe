@@ -85,21 +85,15 @@ export default function VisitorDetails() {
         className="flex justify-center flex-col mb-6 items-center  bg-gray-200 overflow-hidden rounded-md shadow-lg shadow-gray-400"
       >
         <div className="flex flex-col items-center justify-center">
-          <div className="w-[500px] h-fit rounded-md">
+          <div className="w-[500px] h-fit rounded-md text-center font-semibold">
             <img
-              src={
-                selectedVisitor.documentLocation
-                  ? selectedVisitor.documentLocation
-                  : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
-              }
-              alt=""
+              src={selectedVisitor.documentLocation}
+              alt="No Document Selected"
               className="h-full object-cover my-2"
               onClick={() =>
-                setFullScreen(
-                  selectedVisitor.documentLocation
-                    ? selectedVisitor.documentLocation
-                    : "https://thehimalayantimes.com/uploads/imported_images/wp-content/uploads/2018/11/Citizenship.jpg"
-                )
+                selectedVisitor.documentLocation
+                  ? setFullScreen(selectedVisitor.documentLocation)
+                  : ""
               }
             />
           </div>
@@ -108,7 +102,9 @@ export default function VisitorDetails() {
               to={`./reuploadDocument`}
               className="bg-green-600 p-2 my-4 rounded-md text-white font-semibold text-sm mx-2 flex items-center"
             >
-              Reupload Document
+              {selectedVisitor.documentLocation
+                ? "Reupload Document"
+                : "Upload Document"}
             </Link>
           )}
         </div>
